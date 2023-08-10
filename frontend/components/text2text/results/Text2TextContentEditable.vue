@@ -21,7 +21,9 @@
           @keydown.enter.exact.stop=""
         />
       </transition>
-      <span v-if="isShortcutToSave"><strong>shift Enter</strong> to save</span>
+      <span v-if="isShortcutToSave"
+        ><strong>shift Enter</strong> {{ $t("common.toSave") }}
+      </span>
     </div>
   </span>
 </template>

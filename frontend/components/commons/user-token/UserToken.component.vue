@@ -12,13 +12,13 @@
     <span class="user-token-value --body1" v-text="'**** **** **** ****'" />
 
     <div class="user-token-button">
-      <base-action-tooltip tooltip="Copied">
+      <base-action-tooltip :tooltip="$t('common.copied')">
         <BaseButton
-          title="Copy to clipboard"
+          :title="$t('common.copyToClipboard')"
           class="secondary small"
           @click.prevent="$copyToClipboard(userToken)"
         >
-          Copy key
+          {{ $t("common.copyKey") }}
         </BaseButton>
       </base-action-tooltip>
     </div>
@@ -35,8 +35,8 @@ export default {
     },
   },
   created() {
-    this.title = "API key";
-    this.description = `API key tokens allow you to manage datasets using the Python SDK.`;
+    this.title = this.$t("common.apiKey");
+    this.description = this.$t("common.apiKeyDescription");
   },
 };
 </script>

@@ -1,25 +1,30 @@
 <template>
   <div v-if="!$fetchState.pending && !$fetchState.error" class="wrapper">
-    <template v-if="!!record">
+    <template v-if="recordId">
       <RecordFeedbackTaskComponent
-        :recordStatus="record.status"
-        :fields="record.fields"
+        v-if="fieldsWithRecordFieldText"
+        :recordStatus="record.record_status"
+        :fields="fieldsWithRecordFieldText"
       />
       <QuestionsFormComponent
-        :key="record.id"
+        :key="questionFormKey"
         class="question-form"
         :class="statusClass"
+        v-if="questionsWithRecordAnswers && questionsWithRecordAnswers.length"
         :datasetId="datasetId"
-        :record="record"
-        @on-submit-responses="goToNext"
-        @on-discard-responses="goToNext"
+        :recordId="recordId"
+        :recordStatus="record.record_status"
+        :initialInputs="questionsWithRecordAnswers"
+        @on-submit-responses="goToNextPageAndRefreshMetrics"
+        @on-discard-responses="goToNextPageAndRefreshMetrics"
+        @on-clear-responses="refreshMetrics"
         @on-question-form-touched="onQuestionFormTouched"
       />
     </template>
 
     <div v-else class="wrapper--empty">
       <p
-        v-if="!records.hasRecordsToAnnotate"
+        v-if="!hasRecords"
         class="wrapper__text --heading3"
         v-text="noRecordsMessage"
       />
@@ -32,11 +37,29 @@
 import { isNil } from "lodash";
 import { Notification } from "@/models/Notifications";
 import {
+  getQuestionsByDatasetId,
+  getComponentTypeOfQuestionByDatasetIdAndQuestionName,
+  getOptionsOfQuestionByDatasetIdAndQuestionName,
+} from "@/models/feedback-task-model/dataset-question/datasetQuestion.queries";
+import { getFieldsByDatasetId } from "@/models/feedback-task-model/dataset-field/datasetField.queries";
+import {
   RECORD_STATUS,
   RESPONSE_STATUS_FOR_API,
+  upsertRecords,
+  deleteAllRecords,
+  getRecordWithFieldsAndResponsesByUserId,
+  isRecordWithRecordIndexByDatasetIdExists,
+  isAnyRecordByDatasetId,
 } from "@/models/feedback-task-model/record/record.queries";
+import { upsertDatasetMetrics } from "@/models/feedback-task-model/dataset-metric/datasetMetric.queries.js";
+import { deleteRecordResponsesByUserIdAndResponseId } from "@/models/feedback-task-model/record-response/recordResponse.queries";
+import { deleteAllRecordFields } from "@/models/feedback-task-model/record-field/recordField.queries";
+import { COMPONENT_TYPE } from "@/components/feedback-task/feedbackTask.properties";
 import { LABEL_PROPERTIES } from "../../feedback-task/feedbackTask.properties";
-import { useRecordFeedbackTaskViewModel } from "./useRecordFeedbackTaskViewModel";
+
+const TYPE_OF_FEEDBACK = Object.freeze({
+  ERROR_FETCHING_RECORDS: "ERROR_FETCHING_RECORDS",
+});
 
 export default {
   name: "RecordFeedbackTaskAndQuestionnaireComponent",
@@ -45,16 +68,28 @@ export default {
       type: String,
       required: true,
     },
+    orderQuestions: {
+      type: Object,
+      default: () => {
+        return { orderQuestionsBy: "order", ascendent: true };
+      },
+    },
+    orderFields: {
+      type: Object,
+      default: () => {
+        return { orderFieldsBy: "order", ascendent: true };
+      },
+    },
   },
   data() {
     return {
+      reRenderQuestionForm: 1,
       questionFormTouched: false,
       recordStatusToFilterWith: null,
       searchTextToFilterWith: null,
       currentPage: null,
       totalRecords: null,
       numberOfFetch: 0,
-      fetching: false,
     };
   },
   computed: {
@@ -65,8 +100,13 @@ export default {
         _status: this.recordStatusToFilterWith,
       };
     },
+    userId() {
+      return this.$auth.user.id;
+    },
     noMoreDataMessage() {
-      return `You've reached the end of the data for the ${this.recordStatusToFilterWith} queue.`;
+      return this.$t("datasets.youHaveReached", {
+        recordStatusToFilterWith: this.recordStatusToFilterWith,
+      });
     },
     recordStatusFilterValueForGetRecords() {
       // NOTE - this is only used to fetch record, this is why the return value is in lowercase
@@ -88,18 +128,102 @@ export default {
       return paramForUrl;
     },
     record() {
-      return this.records.getRecordOn(this.currentPage);
+      return getRecordWithFieldsAndResponsesByUserId(
+        this.datasetId,
+        this.userId,
+        this.currentPage - 1
+      );
+    },
+    hasRecords() {
+      return isAnyRecordByDatasetId(this.datasetId);
+    },
+    recordId() {
+      return this.record?.id;
+    },
+    questions() {
+      return getQuestionsByDatasetId(
+        this.datasetId,
+        this.orderQuestions?.orderQuestionsBy,
+        this.orderQuestions?.ascendent
+      );
+    },
+    fields() {
+      return getFieldsByDatasetId(
+        this.datasetId,
+        this.orderFields?.orderFieldsBy,
+        this.orderFields?.ascendent
+      );
+    },
+    recordResponsesFromCurrentUser() {
+      return this.record?.record_responses ?? [];
+    },
+    recordFields() {
+      return this.record?.record_fields ?? [];
+    },
+    questionsWithRecordAnswers() {
+      // TODO - do this in a hook instead of computed => it's expensive
+      return this.questions?.map((question) => {
+        const correspondingResponseToQuestion =
+          this.recordResponsesFromCurrentUser.find(
+            (recordResponse) => question.name === recordResponse.question_name
+          );
+
+        if (correspondingResponseToQuestion) {
+          const formattedOptions = correspondingResponseToQuestion.options.map(
+            (option) => {
+              return { ...option, is_selected: option.is_selected || false };
+            }
+          );
+          return {
+            ...question,
+            response_id: correspondingResponseToQuestion.id,
+            options: formattedOptions,
+          };
+        }
+        if (
+          question.component_type === COMPONENT_TYPE.RATING ||
+          question.component_type === COMPONENT_TYPE.SINGLE_LABEL ||
+          question.component_type === COMPONENT_TYPE.MULTI_LABEL
+        ) {
+          const formattedOptions = question.options.map((option) => {
+            return { ...option, is_selected: false };
+          });
+          return { ...question, options: formattedOptions, response_id: null };
+        }
+        return { ...question, response_id: null };
+      });
+    },
+    fieldsWithRecordFieldText() {
+      return this.fields?.map((field) => {
+        const correspondingRecordFieldToField = this.recordFields.find(
+          (recordField) => field.name === recordField.field_name
+        );
+
+        if (correspondingRecordFieldToField) {
+          return {
+            ...field,
+            field_text: correspondingRecordFieldToField.text,
+          };
+        }
+      });
     },
     noRecordsMessage() {
       if (
         isNil(this.searchTextToFilterWith) ||
         this.searchTextToFilterWith.length === 0
       )
-        return `You have no ${this.recordStatusToFilterWith} records`;
-      return `You have no ${this.recordStatusToFilterWith} records matching the search input`;
+        return this.$t("datasets.youHaveNoRecords", {
+          recordStatusToFilterWith: this.recordStatusToFilterWith,
+        });
+      return this.$t("datasets.youHaveNoRecordsMatchingSearch", {
+        recordStatusToFilterWith: this.recordStatusToFilterWith,
+      });
     },
     statusClass() {
-      return `--${this.record.status.toLowerCase()}`;
+      return `--${this.record.record_status.toLowerCase()}`;
+    },
+    questionFormKey() {
+      return `${this.currentPage}-${this.reRenderQuestionForm}`;
     },
     statusFilterFromQuery() {
       return this.$route.query?._status ?? RECORD_STATUS.PENDING.toLowerCase();
@@ -113,35 +237,20 @@ export default {
     },
   },
   async fetch() {
-    if (this.fetching) return Promise.resolve();
+    await this.cleanRecordOrm();
 
-    this.fetching = true;
-    this.clearRecords();
+    await this.initRecordsInDatabase(this.currentPage - 1);
 
-    await this.loadRecords(
-      this.datasetId,
-      this.currentPage,
-      this.recordStatusFilterValueForGetRecords,
-      this.searchTextToFilterWith
-    );
+    const offset = this.currentPage - 1;
+    const isRecordExistForCurrentPage =
+      isRecordWithRecordIndexByDatasetIdExists(this.datasetId, offset);
 
-    const isRecordExistForCurrentPage = this.records.existsRecordOn(
-      this.currentPage
-    );
-
-    if (!isRecordExistForCurrentPage && this.currentPage !== 1) {
+    if (!isRecordExistForCurrentPage) {
+      await this.initRecordsInDatabase(0);
       this.currentPage = 1;
-
-      await this.loadRecords(
-        this.datasetId,
-        this.currentPage,
-        this.recordStatusFilterValueForGetRecords,
-        this.searchTextToFilterWith
-      );
     }
 
     this.numberOfFetch++;
-    this.fetching = false;
   },
   watch: {
     async currentPage(newValue) {
@@ -179,13 +288,23 @@ export default {
         },
       });
     },
+    numberOfFetch(newValue) {
+      const isFetchCalledForTheFirstTime = newValue === 1;
+
+      if (isFetchCalledForTheFirstTime) {
+        this.checkAndEmitTotalRecords({
+          searchFilter: this.searchTextToFilterWith,
+          value: this.totalRecords,
+        });
+      }
+    },
   },
-  created() {
+  async created() {
     this.recordStatusToFilterWith = this.statusFilterFromQuery;
     this.searchTextToFilterWith = this.searchFilterFromQuery;
     this.currentPage = this.pageFromQuery;
 
-    this.loadMetrics(this.datasetId);
+    await this.refreshMetrics();
   },
   mounted() {
     this.$root.$on("go-to-next-page", () => {
@@ -198,27 +317,63 @@ export default {
     this.$root.$on("search-filter-changed", this.onSearchFilterChanged);
   },
   methods: {
+    async refreshMetrics() {
+      const datasetMetrics = await this.fetchMetrics();
+
+      const formattedMetrics = this.factoryDatasetMetricsForOrm(datasetMetrics);
+
+      await upsertDatasetMetrics(formattedMetrics);
+    },
+    async fetchMetrics() {
+      try {
+        const { data } = await this.$axios.get(
+          `/v1/me/datasets/${this.datasetId}/metrics`
+        );
+
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    factoryDatasetMetricsForOrm({ records, responses, user_id }) {
+      const {
+        count: responsesCount,
+        submitted: responsesSubmitted,
+        discarded: responsesDiscarded,
+      } = responses;
+
+      return {
+        dataset_id: this.datasetId,
+        user_id: user_id ?? this.userId,
+        total_record: records?.count ?? 0,
+        responses_count: responsesCount,
+        responses_submitted: responsesSubmitted,
+        responses_discarded: responsesDiscarded,
+      };
+    },
     async applyStatusFilter(status) {
-      this.currentPage = 1;
       this.recordStatusToFilterWith = status;
+      this.currentPage = 1;
 
       await this.$fetch();
 
       this.checkAndEmitTotalRecords({
         searchFilter: this.searchTextToFilterWith,
-        value: this.records.total,
+        value: this.totalRecords,
       });
+
+      this.reRenderQuestionForm++;
     },
     async applySearchFilter(searchFilter) {
+      // NOTE - the order of both next line is important because of the watcher update
       this.currentPage = 1;
       this.searchTextToFilterWith = searchFilter;
 
       await this.$fetch();
 
-      this.checkAndEmitTotalRecords({
-        searchFilter,
-        value: this.records.total,
-      });
+      this.checkAndEmitTotalRecords({ searchFilter, value: this.totalRecords });
+
+      this.reRenderQuestionForm++;
     },
     emitResetStatusFilter() {
       this.$root.$emit("reset-status-filter");
@@ -243,7 +398,7 @@ export default {
         newSearchValue !== this.searchFilterFromQuery
       ) {
         Notification.dispatch("notify", {
-          message: "Your changes will be lost if you apply the search filter",
+          message: this.$t("datasets.yourChangesWillBeLostOnSearch"),
           numberOfChars: 500,
           type: "warning",
           buttonText: LABEL_PROPERTIES.CONTINUE,
@@ -268,7 +423,7 @@ export default {
 
       if (this.questionFormTouched) {
         Notification.dispatch("notify", {
-          message: "Your changes will be lost if you move to another view",
+          message: this.$t("datasets.yourChangesWillBeLostOnViewChange"),
           numberOfChars: 500,
           type: "warning",
           buttonText: LABEL_PROPERTIES.CONTINUE,
@@ -287,37 +442,271 @@ export default {
       this.questionFormTouched = isTouched;
     },
     async setCurrentPage(newPage) {
-      if (this.fetching) return Promise.resolve();
+      const offset = newPage - 1;
+      let isNextRecordExist = isRecordWithRecordIndexByDatasetIdExists(
+        this.datasetId,
+        offset
+      );
 
-      this.fetching = true;
-
-      let isNextRecordExist = this.records.existsRecordOn(newPage);
-
+      // if isNextRecordExist => move to the next one
+      // else fetch new set of records and move to next one
       if (!isNextRecordExist) {
-        await this.loadRecords(
+        await this.initRecordsInDatabase(offset);
+        isNextRecordExist = isRecordWithRecordIndexByDatasetIdExists(
           this.datasetId,
-          newPage,
-          this.recordStatusFilterValueForGetRecords,
-          this.searchTextToFilterWith
+          offset
         );
-
-        isNextRecordExist = this.records.existsRecordOn(newPage);
       }
 
       if (isNextRecordExist) {
         this.currentPage = newPage;
       } else if (this.currentPage < newPage) {
+        // notify there is no more records
         Notification.dispatch("notify", {
           message: this.noMoreDataMessage,
           numberOfChars: this.noMoreDataMessage.length,
           type: "info",
         });
       }
-
-      this.fetching = false;
     },
-    goToNext() {
+    async goToNextPageAndRefreshMetrics() {
       this.setCurrentPage(this.currentPage + 1);
+      await this.refreshMetrics();
+    },
+    async initRecordsInDatabase(
+      offset,
+      status = this.recordStatusFilterValueForGetRecords,
+      searchText = this.searchTextToFilterWith
+    ) {
+      let records = [];
+      let totalRecords = null;
+
+      if (isNil(searchText) || !searchText.length) {
+        // FETCH records from offset, status + 10 next records
+        ({ items: records } = await this.getRecords(
+          this.datasetId,
+          offset,
+          status
+        ));
+      } else {
+        ({ items: records, totalRecords } = await this.searchRecords(
+          this.datasetId,
+          offset,
+          status,
+          searchText
+        ));
+      }
+
+      this.totalRecords = isNil(totalRecords) ? null : totalRecords;
+
+      // FORMAT records for orm
+      const formattedRecords = this.factoryRecordsForOrm(records, offset);
+
+      // UPSERT records in ORM
+      await upsertRecords(formattedRecords);
+    },
+    async getRecords(
+      datasetId,
+      offset,
+      responseStatus,
+      numberOfRecordsToFetch = 10
+    ) {
+      try {
+        const url = `/v1/me/datasets/${datasetId}/records`;
+        const params = {
+          include: "responses",
+          offset,
+          limit: numberOfRecordsToFetch,
+          response_status: responseStatus,
+        };
+        const { data } = await this.$axios.get(url, { params });
+        return data;
+      } catch (err) {
+        console.warn(err);
+        throw {
+          response: TYPE_OF_FEEDBACK.ERROR_FETCHING_RECORDS,
+        };
+      }
+    },
+    async searchRecords(
+      datasetId,
+      offset,
+      responseStatus,
+      searchText,
+      numberOfRecordsToFetch = 10
+    ) {
+      try {
+        const url = `/v1/me/datasets/${datasetId}/records/search`;
+
+        const body = JSON.parse(
+          JSON.stringify({
+            query: {
+              text: {
+                q: searchText,
+              },
+            },
+          })
+        );
+
+        const params = {
+          include: "responses",
+          response_status: responseStatus,
+          limit: numberOfRecordsToFetch,
+          offset,
+        };
+
+        const { data } = await this.$axios.post(url, body, { params });
+        const { items, total: totalRecords } = data;
+
+        const formattedItems = items.map((item) => item.record);
+        return { items: formattedItems, totalRecords };
+      } catch (err) {
+        console.warn(err);
+        throw {
+          response: TYPE_OF_FEEDBACK.ERROR_FETCHING_RECORDS,
+        };
+      }
+    },
+    factoryRecordsForOrm(records, offset) {
+      return records.map(
+        (
+          { id: recordId, responses: recordResponses, fields: recordFields },
+          index
+        ) => {
+          const formattedRecordFields = this.factoryRecordFieldsForOrm(
+            recordFields,
+            recordId
+          );
+
+          // NOTE - the record status come from the corresponding responses
+          const { formattedRecordResponsesForOrm, recordStatus } =
+            this.factoryRecordResponsesForOrm({ recordId, recordResponses });
+
+          return {
+            id: recordId,
+            record_index: index + offset,
+            dataset_id: this.datasetId,
+            record_status: recordStatus ?? RECORD_STATUS.PENDING,
+            record_fields: formattedRecordFields,
+            record_responses: formattedRecordResponsesForOrm,
+          };
+        }
+      );
+    },
+    factoryRecordFieldsForOrm(fieldsObj, recordId) {
+      const fields = Object.entries(fieldsObj).map(
+        ([fieldKey, fieldValue], index) => {
+          return {
+            id: `${recordId}_${index}`,
+            field_name: fieldKey,
+            text: fieldValue,
+          };
+        }
+      );
+      return fields;
+    },
+    factoryRecordResponsesForOrm({ recordId, recordResponses }) {
+      const formattedRecordResponsesForOrm = [];
+      // NOTE - by default, recordStatus is at "PENDING"
+      let recordStatus = RECORD_STATUS.PENDING;
+      recordResponses.forEach((responsesByRecordAndUser) => {
+        recordStatus = responsesByRecordAndUser.status ?? RECORD_STATUS.PENDING;
+        if (responsesByRecordAndUser.values) {
+          if (Object.keys(responsesByRecordAndUser.values).length === 0) {
+            // IF responses.value  is an empty object, init formatted responses with questions data
+            this.questions.forEach(
+              ({ name: questionName, options: questionOptions }) => {
+                formattedRecordResponsesForOrm.push({
+                  id: responsesByRecordAndUser.id,
+                  question_name: questionName,
+                  options: questionOptions,
+                  record_id: recordId,
+                  user_id: responsesByRecordAndUser.user_id ?? null,
+                });
+              }
+            );
+          } else {
+            // ELSE responses.value is not an empty object, init formatted responses with questions data and corresponding responses
+            Object.entries(responsesByRecordAndUser.values).forEach(
+              ([questionName, recordResponseByQuestionName]) => {
+                let formattedOptionsWithRecordResponse = [];
+
+                const optionsByQuestionName =
+                  getOptionsOfQuestionByDatasetIdAndQuestionName(
+                    this.datasetId,
+                    questionName
+                  );
+                const correspondingComponentTypeOfTheAnswer =
+                  getComponentTypeOfQuestionByDatasetIdAndQuestionName(
+                    this.datasetId,
+                    questionName
+                  );
+
+                switch (correspondingComponentTypeOfTheAnswer) {
+                  case COMPONENT_TYPE.MULTI_LABEL:
+                    optionsByQuestionName.forEach(({ id, text, value }) => {
+                      const isValueInRecordResponse =
+                        recordResponseByQuestionName.value.includes(value);
+
+                      formattedOptionsWithRecordResponse.push({
+                        id,
+                        text,
+                        value,
+                        is_selected: isValueInRecordResponse,
+                      });
+                    });
+                    break;
+                  case COMPONENT_TYPE.SINGLE_LABEL:
+                  case COMPONENT_TYPE.RATING:
+                    // NOTE - the 'value' of the recordResponseByQuestionName is the text of the optionsByQuestionName
+                    formattedOptionsWithRecordResponse =
+                      optionsByQuestionName.map(({ id, text, value }) => {
+                        if (value === recordResponseByQuestionName.value) {
+                          return {
+                            id,
+                            text,
+                            value,
+                            is_selected: true,
+                          };
+                        }
+                        return { id, text, value, is_selected: false };
+                      });
+                    break;
+                  case COMPONENT_TYPE.FREE_TEXT:
+                    formattedOptionsWithRecordResponse = [
+                      {
+                        id: questionName,
+                        value: recordResponseByQuestionName.value,
+                      },
+                    ];
+                    break;
+                  default:
+                    console.log(
+                      `The corresponding component with a question name:'${questionName}' was not found`
+                    );
+                }
+                formattedRecordResponsesForOrm.push({
+                  id: responsesByRecordAndUser.id,
+                  question_name: questionName,
+                  options: formattedOptionsWithRecordResponse,
+                  record_id: recordId,
+                  user_id: responsesByRecordAndUser.user_id ?? null,
+                });
+              }
+            );
+          }
+        }
+      });
+
+      return { formattedRecordResponsesForOrm, recordStatus };
+    },
+    async cleanRecordOrm() {
+      await deleteAllRecords();
+      await deleteRecordResponsesByUserIdAndResponseId(
+        this.userId,
+        this.datasetId
+      );
+      await deleteAllRecordFields();
     },
   },
   beforeDestroy() {
@@ -325,9 +714,6 @@ export default {
     this.$root.$off("go-to-prev-page");
     this.$root.$off("status-filter-changed");
     this.$root.$off("search-filter-changed");
-  },
-  setup() {
-    return useRecordFeedbackTaskViewModel();
   },
 };
 </script>

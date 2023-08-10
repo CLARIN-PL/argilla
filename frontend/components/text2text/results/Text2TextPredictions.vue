@@ -9,8 +9,8 @@
           v-if="!arePredictionsVisible"
           class="predictions__button"
           :class="arePredictionsVisible === 'Prediction' ? '--active' : null"
-          >Prediction</base-button
-        >
+          >{{ $t("common.prediction") }}
+        </base-button>
         <svgicon
           @click="arePredictionsVisible && toggleVisibility"
           class="predictions__icon"
@@ -21,14 +21,14 @@
       </div>
       <div v-if="arePredictionsVisible" class="predictions__content">
         <div class="predictions__tabs">
-          <p class="predictions__title">Prediction:</p>
+          <p class="predictions__title">{{ $t("common.prediction") }}:</p>
           <div class="predictions__tabs__wrapper">
             <base-button
               :class="selectedPredictionIndex === index ? '--active' : null"
               @click="selectPrediction(index)"
               v-for="(prediction, index) in predictions"
               :key="index"
-              data-title="Score"
+              :data-title="$t('common.score')"
             >
               {{ prediction.score | percent }}</base-button
             >

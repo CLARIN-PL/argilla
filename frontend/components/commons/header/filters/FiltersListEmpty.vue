@@ -30,9 +30,9 @@
     </div>
     <div class="filters--right">
       <div v-if="enviroment === 'explore'" class="filter disabled show-more">
-        More filters
+        {{ $t("datasets.moreFilters") }}
       </div>
-      <div class="filter disabled filter__sort">Sort by</div>
+      <div class="filter disabled filter__sort">{{ $t("common.sortBy") }}</div>
     </div>
   </div>
 </template>

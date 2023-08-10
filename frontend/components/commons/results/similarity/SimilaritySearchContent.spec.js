@@ -26,7 +26,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper && wrapper.destroy();
 });
 
 describe("SimilaritySearchContentComponent", () => {

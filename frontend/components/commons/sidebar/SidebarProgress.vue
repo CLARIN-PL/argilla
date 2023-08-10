@@ -17,9 +17,9 @@
 
 <template>
   <div v-if="annotationsProgress">
-    <p class="metrics__title">Progress</p>
+    <p class="metrics__title">{{ $t("common.progress") }}</p>
     <div class="metrics__info">
-      <p class="metrics__info__name">Total</p>
+      <p class="metrics__info__name">{{ $t("common.total") }}</p>
       <span class="metrics__info__counter">{{ progress | percent }}</span>
     </div>
     <div class="metrics__numbers">
@@ -36,14 +36,18 @@
       <ul class="metrics__list">
         <li>
           <span class="color-bullet validated"></span>
-          <label class="metrics__list__name">Validated</label>
+          <label class="metrics__list__name">{{
+            $t("common.status.validated")
+          }}</label>
           <span class="metrics__list__counter">
             {{ totalValidated | formatNumber }}
           </span>
         </li>
         <li>
           <span class="color-bullet discarded"></span>
-          <label class="metrics__list__name">Discarded</label>
+          <label class="metrics__list__name">{{
+            $t("common.status.discarded")
+          }}</label>
           <span class="metrics__list__counter">
             {{ totalDiscarded | formatNumber }}
           </span>

@@ -57,7 +57,7 @@ export default {
     },
     titleShowLessMoreButton() {
       if (this.showAllLabels) {
-        return `Show less`;
+        return this.$t("common.showLess");
       }
       return `+${this.numberOfLabels - PROPERTIES.MAX_LABELS_TO_SHOW}`;
     },
@@ -81,7 +81,7 @@ export default {
 .label-text {
   outline: none;
   background: palette(purple, 800);
-  border-radius: $border-radius-rounded;
+  border-radius: 50em;
   height: 40px;
   line-height: 40px;
   padding-left: 16px;

@@ -32,11 +32,8 @@ const updateRecordStatusByRecordId = (recordId, recordStatus) => {
   });
 };
 
-/**
- * @deprecated
- */
 // GET
-const getRecordWithFieldsSuggestionsAndResponsesByUserId = (
+const getRecordWithFieldsAndResponsesByUserId = (
   datasetId,
   userId,
   recordIndex = 0
@@ -46,14 +43,10 @@ const getRecordWithFieldsSuggestionsAndResponsesByUserId = (
     .with("record_responses", (query) => {
       query.where("user_id", userId);
     })
-    .with("record_suggestions")
     .where("dataset_id", datasetId)
     .where("record_index", recordIndex)
     .first();
 };
-/**
- * @deprecated
- */
 const getRecordIndexByRecordId = (recordId) => {
   return RecordModel.query().whereId(recordId).first()?.record_index;
 };
@@ -80,9 +73,6 @@ const isRecordContainsAnyResponsesByUserId = (userId, recordId) => {
     .exists();
 };
 
-/**
- * @deprecated
- */
 const isAnyRecordByDatasetId = (datasetId) => {
   return RecordModel.query().where("dataset_id", datasetId).exists();
 };
@@ -95,7 +85,7 @@ export {
   RECORD_STATUS_COLOR,
   RESPONSE_STATUS_FOR_API,
   upsertRecords,
-  getRecordWithFieldsSuggestionsAndResponsesByUserId,
+  getRecordWithFieldsAndResponsesByUserId,
   getRecordStatusByDatasetIdAndRecordIndex,
   getRecordIndexByRecordId,
   updateRecordStatusByRecordId,

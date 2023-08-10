@@ -11,7 +11,7 @@ function mountSelectOptions() {
 }
 
 describe("SelectOptions", () => {
-  const spy = jest.spyOn(console, "error");
+  let spy = jest.spyOn(console, "error");
   afterEach(() => spy.mockReset());
 
   test("renders properly", () => {

@@ -22,11 +22,11 @@
     </base-button>
     <div v-if="open" class="extra-actions__content">
       <div @click="showRecordInfoModal()">
-        <span>View record info</span>
+        <span>{{ $t("results.viewRecordInfo") }} </span>
       </div>
-      <base-action-tooltip tooltip="Copied">
+      <base-action-tooltip :tooltip="$t('common.copied')">
         <div @click="$copyToClipboard(recordClipboardText)">
-          <span>Copy text</span>
+          <span>{{ $t("results.copyText") }} </span>
         </div>
       </base-action-tooltip>
     </div>

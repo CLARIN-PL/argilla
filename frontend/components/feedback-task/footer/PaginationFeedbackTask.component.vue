@@ -11,8 +11,8 @@
 <script>
 import { isNil } from "lodash";
 import { Notification } from "@/models/Notifications";
+import { isAnyRecordByDatasetId } from "@/models/feedback-task-model/record/record.queries";
 import { LABEL_PROPERTIES } from "@/components/feedback-task/feedbackTask.properties";
-import { usePaginationFeedbackTaskViewModel } from "./usePaginationFeedbackTaskViewModel";
 
 export default {
   name: "PaginationFeedbackTaskComponent",
@@ -43,7 +43,7 @@ export default {
       }
     },
     hasRecords() {
-      return this.records.hasRecordsToAnnotate;
+      return isAnyRecordByDatasetId(this.datasetId);
     },
   },
   methods: {
@@ -67,7 +67,7 @@ export default {
     showNotificationBeforePaginate(eventToFire) {
       // TODO - move logic to show notification in RecordFeedbackAndQuestionnaire component
       Notification.dispatch("notify", {
-        message: "Your changes will be lost if you move to another page",
+        message: this.$t("common.messages.yourChanges"),
         numberOfChars: 500,
         type: "warning",
         buttonText: LABEL_PROPERTIES.CONTINUE,
@@ -87,9 +87,6 @@ export default {
   destroyed() {
     this.$root.$off("are-responses-untouched");
     this.$root.$off("go-to-page");
-  },
-  setup() {
-    return usePaginationFeedbackTaskViewModel();
   },
 };
 </script>

@@ -87,7 +87,7 @@ export default {
         },
         {
           id: "refresh",
-          tooltip: "Refresh",
+          tooltip: this.$t("common.refresh"),
           icon: "refresh",
           group: "Refresh",
           action: "refresh",

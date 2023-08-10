@@ -81,7 +81,7 @@ export default {
     // 2. Fetch the record data and initialize the corresponding data models
     await this.fetchByName(this.datasetName);
     // 3. Fetch vector info from query param and setup the active vector if needed
-    await this.activateVectorAndRecordByUrlQueryParams();
+    await this.activateVectorAndRecorByUrlQueryParams();
     // 4. If we have a vector filter, apply a search
     if (this.referenceRecordId) {
       await this.searchRecords({ query: this.dataset.query });
@@ -98,14 +98,14 @@ export default {
     }),
     breadcrumbs() {
       return [
-        { link: { name: "datasets" }, name: "Home" },
+        { link: { name: "datasets" }, name: this.$t("common.home") },
         {
-          link: { path: `/datasets?workspaces=${this.workspace}` },
+          link: { path: `/datasets?workspace=${this.workspace}` },
           name: this.workspace,
         },
         {
           link: this.$route.fullPath,
-          name: this.dataset?.name,
+          name: this.dataset ? this.dataset.name : undefined,
         },
       ];
     },
@@ -205,7 +205,7 @@ export default {
         this.updateUrlParamsWithVectorInfo(vectorData);
       }
     },
-    async activateVectorAndRecordByUrlQueryParams() {
+    async activateVectorAndRecorByUrlQueryParams() {
       let vectorId = this.$route.query.vectorId;
       if (vectorId) {
         vectorId = JSON.parse(Base64.decode(vectorId));

@@ -3,7 +3,9 @@
     <span class="highlight__tooltip__container">
       <span class="highlight__tooltip">
         <span class="highlight__tooltip__origin" v-if="span.origin">{{
-          span.origin === "prediction" ? "pred." : "annot."
+          span.origin === "prediction"
+            ? $t("common.predictionAbbreviated")
+            : $t("common.annotationAbbreviated")
         }}</span>
         <span
           >{{ span.entity.label }}

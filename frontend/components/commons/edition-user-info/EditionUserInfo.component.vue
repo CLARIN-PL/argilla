@@ -1,48 +1,54 @@
 <template>
   <div class="edition-user-info">
     <div class="form-group circle-and-role">
-      <span v-circle="{ size: 'MEDIUM' }">
-        {{ userInfo.username.slice(0, 2) }}
-      </span>
-      <div class="bubble capitalized" v-text="userInfo.role" />
+      <span v-circle="{ size: 'MEDIUM' }" v-html="userNameFirstChar" />
+      <div class="user-role" v-text="userRole" />
     </div>
 
     <div class="form-group user-first_name">
-      <h2 class="--heading5 --semibold description__title">Username</h2>
-      <p class="--body1 description__text" v-text="userInfo.username" />
+      <h2
+        class="--heading5 --semibold description__title"
+        :v-text="$t('userSettings.username')"
+      />
+      <p class="--body1 description__text" v-text="username" />
     </div>
 
     <div class="form-group user-first_name">
-      <h2 class="--heading5 --semibold description__title">Name</h2>
-      <p class="--body1 description__text" v-text="userInfo.first_name" />
+      <h2
+        class="--heading5 --semibold description__title"
+        :v-text="$t('userSettings.name')"
+      />
+      <p class="--body1 description__text" v-text="firstName" />
     </div>
 
     <div class="form-group user-last_name">
-      <h2 class="--heading5 --semibold description__title">Surname</h2>
-      <p
-        class="--body1 description__text"
-        v-if="userInfo.last_name"
-        v-text="userInfo.last_name"
+      <h2
+        class="--heading5 --semibold description__title"
+        :v-text="$t('userSettings.surname')"
       />
-      <p class="--body1 description__text" v-else>-</p>
+      <p class="--body1 description__text" v-text="lastName" />
     </div>
 
-    <div class="form-group">
-      <h2 class="--heading5 --semibold description__title">Workspaces</h2>
-      <div class="workspaces" v-if="userInfo.workspaces.length">
-        <div
-          class="bubble clickable"
-          v-for="workspace in userInfo.workspaces"
-          v-text="workspace"
-          @click="goToWorkspace(workspace)"
-        />
-      </div>
-      <p v-else class="--body1 description__text">-</p>
+    <div class="form-group user-language">
+      <h2
+        class="--heading5 --semibold description__title"
+        :v-text="$t('userSettings.language')"
+      />
+      <select v-model="selectedLocale" class="description__lang-selector">
+        <option
+          v-for="(locale, idx) in $i18n.locales"
+          :key="'option_' + idx"
+          :value="locale.code"
+        >
+          {{ locale.name }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
 
 <script>
+import { cloneDeep } from "lodash";
 export default {
   name: "EditionUserInfoComponent",
   props: {
@@ -51,9 +57,38 @@ export default {
       required: true,
     },
   },
-  methods: {
-    goToWorkspace(workspace) {
-      this.$router.push(`/datasets?workspaces=${workspace}`);
+  data() {
+    return {
+      language: "",
+    };
+  },
+  created() {
+    this.userInfoCloned = cloneDeep(this.userInfo);
+    this.username = this.userInfoCloned.username;
+    this.firstName = this.userInfoCloned.first_name;
+    this.lastName = this.userInfoCloned.last_name ?? "-";
+  },
+  computed: {
+    userName() {
+      return this.userInfoCloned.username;
+    },
+    userNameFirstChar() {
+      return this.userName.slice(0, 2);
+    },
+    userRole() {
+      return this.$options.filters.capitalize(this.userInfoCloned.role);
+    },
+    selectedLocale: {
+      get() {
+        return (
+          this.$i18n.locales.find((locale) => locale.code == this.$i18n.locale)
+            .code || "pl"
+        );
+      },
+      set(val) {
+        this.$i18n.setLocale(val);
+        window.location.reload(true);
+      },
     },
   },
 };
@@ -67,15 +102,7 @@ export default {
   }
 }
 
-.workspaces {
-  gap: 5px;
-  display: flex;
-  flex-wrap: wrap;
-  width: 90%;
-}
-
-.bubble {
-  width: fit-content;
+.user-role {
   border: 1px solid rgba(0, 0, 0, 0.37);
   border-radius: 10px;
   color: rgba(0, 0, 0, 0.6);
@@ -108,19 +135,6 @@ export default {
   @include font-size(16px);
 }
 
-.capitalized {
-  text-transform: capitalize;
-}
-
-.clickable {
-  cursor: pointer;
-  background-color: $black-4;
-  border: unset;
-  &:hover {
-    background-color: $black-10;
-  }
-}
-
 .description {
   &__title {
     margin-top: 0;
@@ -128,6 +142,15 @@ export default {
   }
   &__text {
     margin: 0;
+  }
+
+  &__lang-selector {
+    border: 1px solid palette(grey, 600);
+    border-radius: $border-radius;
+    padding: 0 1em;
+    outline: none;
+    background: transparent;
+    min-height: 40px;
   }
 }
 </style>

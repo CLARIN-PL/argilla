@@ -53,9 +53,6 @@ const getTaskDatasetById = (datasetId, datasetTask, isWithViewSettings) => {
   return datasetById;
 };
 
-/**
- * @deprecated use V1 store
- */
 const upsertDataset = (datasetObj) => {
   ObservationDataset.insertOrUpdate({ data: datasetObj });
 };

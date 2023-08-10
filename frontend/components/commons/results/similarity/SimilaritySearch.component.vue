@@ -2,7 +2,9 @@
   <div v-if="multipleVectors" id="dropdown" class="similarity-search">
     <base-dropdown :visible="dropdownIsvisible" @visibility="onVisibility">
       <span slot="dropdown-header">
-        <base-button class="small clear"> Find similar </base-button>
+        <base-button class="small clear">
+          {{ $t("results.findSimilar") }}
+        </base-button>
       </span>
       <span slot="dropdown-content" class="similarity-search__dropdown-content">
         <similarity-search-content
@@ -22,8 +24,9 @@
     :disabled="isDisabled"
     v-else
     @click="findSimilar"
-    >Find similar</base-button
   >
+    {{ $t("results.findSimilar") }}
+  </base-button>
 </template>
 
 <script>

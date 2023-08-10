@@ -140,7 +140,9 @@ export default {
             records,
           };
           await this.updateRecords(updatedRecords);
-          message = `${selectedRecords.length} records are in pending`;
+          message = `${selectedRecords.length} ${this.$t(
+            "common.recordsAreInPending"
+          )}`;
           numberOfChars = 25;
           typeOfNotification = "info";
         } else {
@@ -148,7 +150,7 @@ export default {
         }
       } catch (err) {
         console.log(err);
-        message = "There was a problem on annotate records";
+        message = this.$t("common.messages.thereWasAProblemOnAnnotation");
         typeOfNotification = "error";
       } finally {
         if (this.isMultiLabel) {

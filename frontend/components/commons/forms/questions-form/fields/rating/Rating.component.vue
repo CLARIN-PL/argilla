@@ -2,7 +2,6 @@
   <div class="wrapper">
     <QuestionHeaderComponent
       :title="title"
-      :hasSuggestion="hasSuggestion"
       :isRequired="isRequired"
       :tooltipMessage="description"
     />
@@ -30,10 +29,6 @@ export default {
     description: {
       type: String,
       default: () => "",
-    },
-    hasSuggestion: {
-      type: Boolean,
-      default: () => false,
     },
   },
   model: {

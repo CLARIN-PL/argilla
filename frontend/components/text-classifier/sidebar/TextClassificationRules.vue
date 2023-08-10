@@ -17,9 +17,11 @@
 
 <template>
   <div>
-    <p class="metrics__title">Overall rule metrics</p>
+    <p class="metrics__title">{{ $t("common.overallRuleMetrics") }}</p>
     <div class="metrics__info">
-      <p class="metrics__info__name" :data-title="tooltip.coverage">Coverage</p>
+      <p class="metrics__info__name" :data-title="tooltip.coverage">
+        {{ $t("common.coverage") }}
+      </p>
       <span class="metrics__info__counter">{{
         coverage.percent || 0 | percent
       }}</span>
@@ -32,7 +34,7 @@
     ></base-progress>
     <div class="metrics__info">
       <p class="metrics__info__name" :data-title="tooltip.annotatedCoverage">
-        Annotated Coverage
+        {{ $t("common.annotatedCoverage") }}
       </p>
       <span class="metrics__info__counter">{{
         annotatedCoverage.percent || 0 | percent
@@ -46,7 +48,7 @@
     ></base-progress>
     <div class="metrics__info">
       <p class="metrics__info__name" :data-title="tooltip.precision">
-        Precision average
+        {{ $t("common.precisionAverage") }}
       </p>
       <transition name="fade" mode="out-in" appear
         ><span :key="precision" class="metrics__info__counter">{{
@@ -56,7 +58,7 @@
     </div>
     <div class="metrics__info">
       <p class="metrics__info__name" :data-title="tooltip.correctAndIncorrect">
-        Correct/Incorrect
+        {{ $t("common.correctIncorrect") }}
       </p>
       <transition name="fade" mode="out-in" appear
         ><span :key="correctAndIncorrect" class="metrics__info__counter">{{
@@ -65,7 +67,7 @@
       >
     </div>
     <div class="metrics__info">
-      <p class="metrics__info__name">Total rules</p>
+      <p class="metrics__info__name">{{ $t("common.totalRules") }}</p>
       <transition name="fade" mode="out-in" appear
         ><span :key="dataset.rules.length" class="metrics__info__counter">{{
           dataset.rules.length
@@ -73,7 +75,7 @@
       >
     </div>
     <template v-if="labels.length">
-      <p class="metrics__subtitle">Labels</p>
+      <p class="metrics__subtitle">{{ $t("common.labels") }}</p>
       <ul class="scroll metrics__list">
         <li v-for="label in labels" :key="label.index">
           <label class="metrics__list__name">{{ label.label }}</label>
@@ -103,12 +105,10 @@ export default {
   computed: {
     tooltip() {
       return {
-        coverage: "Percentage of records labeled by all rules",
-        annotatedCoverage:
-          "Percentage of annotated records labeled by all rules",
-        precision: "Percentage of correct labels given by all rules",
-        correctAndIncorrect:
-          "Number of labels the rule predicted correctly/incorrectly with respect to the annotations",
+        coverage: this.$t("common.coverageDescription"),
+        annotatedCoverage: this.$t("common.annotatedCoverageDescription"),
+        precision: this.$t("common.precisionDescription"),
+        correctAndIncorrect: this.$t("common.correctAndIncorrectDescription"),
       };
     },
     ruleMetrics() {

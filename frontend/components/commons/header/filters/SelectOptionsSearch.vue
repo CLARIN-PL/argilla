@@ -5,7 +5,7 @@
       class="options-search__input"
       type="text"
       autofocus
-      :placeholder="placeholder"
+      :placeholder="searchPlaceholder"
     />
     <a href="#" class="options-search__clear" @click.prevent="clear">
       <svgicon
@@ -24,7 +24,7 @@ export default {
   props: {
     placeholder: {
       type: String,
-      default: "Search...",
+      default: ""
     },
     value: {
       type: String,
@@ -36,6 +36,12 @@ export default {
     },
   },
   computed: {
+    searchPlaceholder() {
+      if(this.placeholder) {
+        return this.placeholder
+      }
+      return this.$t('common.search') + '...'
+    },
     searchText: {
       get() {
         return this.value;

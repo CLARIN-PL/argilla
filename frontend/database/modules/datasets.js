@@ -76,7 +76,7 @@ async function _getOrFetchDataset({ workspace, name }) {
    * Find locally a dataset by its name and fetch from backend if not found
    */
 
-  const ds = ObservationDataset.find([workspace, name]);
+  let ds = ObservationDataset.find([workspace, name]);
   if (ds !== null) {
     return ds;
   }
@@ -417,7 +417,7 @@ async function _updateDatasetRecords({
   if (records.length === 0) {
     return;
   }
-  const aggregations = {};
+  let aggregations = {};
   const entity = dataset.getTaskDatasetClass();
   const arePendingRecords = records.some(
     (record) => record.status === "Edited"
@@ -465,8 +465,8 @@ async function _updateTaskDataset({ dataset, data }) {
   const entity = dataset.getTaskDatasetClass();
   const { globalResults, results } = data;
 
-  const datasetResults = dataset.$toJson().results || {};
-  const dataResults = results || {};
+  let datasetResults = dataset.$toJson().results || {};
+  let dataResults = results || {};
 
   if (globalResults && globalResults.aggregations) {
     datasetResults.aggregations = globalResults.aggregations;
@@ -794,7 +794,7 @@ const actions = {
       message = `${datasetName} has been deleted`;
       typeOfNotification = "success";
     } catch ({ response }) {
-      const { status } = response;
+      let { status } = response;
       statusCall = status;
       message = `It is not possible to delete ${datasetName}`;
       typeOfNotification = "error";

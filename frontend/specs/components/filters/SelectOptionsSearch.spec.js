@@ -1,8 +1,8 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import SelectOptionsSearch from "@/components/commons/header/filters/SelectOptionsSearch";
 
 function mountSelectOptionsSearch() {
-  return mount(SelectOptionsSearch, {
+  return shallowMount(SelectOptionsSearch, {
     propsData: {
       value: "Search Input",
       allowClear: true,
@@ -10,8 +10,9 @@ function mountSelectOptionsSearch() {
   });
 }
 
+
 describe("SelectOptionsSearch", () => {
-  const spy = jest.spyOn(console, "error");
+  let spy = jest.spyOn(console, "error");
   afterEach(() => spy.mockReset());
 
   test("renders properly", () => {

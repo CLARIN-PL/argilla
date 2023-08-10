@@ -60,12 +60,12 @@
           ></base-range>
         </div>
         <div class="filter__buttons">
-          <base-button class="primary outline" @click="onClose()"
-            >Cancel</base-button
-          >
-          <base-button class="primary" @click="onApplyscoreRange"
-            >Apply</base-button
-          >
+          <base-button class="primary outline" @click="onClose()">{{
+            $t("common.cancel")
+          }}</base-button>
+          <base-button class="primary" @click="onApplyscoreRange">{{
+            $t("common.apply")
+          }}</base-button>
         </div>
       </div>
     </filter-dropdown>
@@ -128,13 +128,13 @@ export default {
   }),
   computed: {
     options() {
-      const options = Object.keys(this.filter.options).map((key) => {
+      let test = Object.keys(this.filter.options).map((key) => {
         return {
           key: Number(key),
           count: this.filter.options[key],
         };
       });
-      return options;
+      return test;
     },
     min() {
       return this.scoreRanges[0] * 0.01;
@@ -144,10 +144,10 @@ export default {
     },
   },
   beforeMount() {
-    const from = this.filter.selected
+    let from = this.filter.selected
       ? this.filter.selected.from * 100
       : this.rangeOptions.min;
-    const to = this.filter.selected
+    let to = this.filter.selected
       ? this.filter.selected.to * 100
       : this.rangeOptions.max;
     this.scoreRanges = [from, to];

@@ -33,7 +33,7 @@
         >
       </li>
     </ul>
-    <base-action-tooltip tooltip="Copied">
+    <base-action-tooltip :tooltip="$t('common.copied')">
       <a
         v-if="copyButton"
         class="breadcrumbs__copy"

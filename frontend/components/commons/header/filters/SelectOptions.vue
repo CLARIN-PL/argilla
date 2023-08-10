@@ -30,7 +30,9 @@
         >
       </base-checkbox>
     </li>
-    <li v-if="!Object.entries(options).length">0 results</li>
+    <li v-if="!Object.entries(options).length">
+      {{ $t("common.zeroResults") }}
+    </li>
   </ul>
   <ul v-else-if="type === 'single'" class="--single">
     <li v-for="option in options" :key="optionName(option)">
@@ -38,7 +40,7 @@
         {{ optionName(option) }}
       </a>
     </li>
-    <li v-if="!options.length">0 results</li>
+    <li v-if="!options.length">{{ $t("common.zeroResults") }}</li>
   </ul>
 </template>
 
@@ -87,6 +89,9 @@ export default {
   methods: {
     select(option) {
       this.$emit("selected", option);
+    },
+    optionIsAString(option) {
+      return typeof option === "string";
     },
   },
 };

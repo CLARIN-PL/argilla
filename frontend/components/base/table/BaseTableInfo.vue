@@ -79,9 +79,9 @@
                         >{{ itemValue(item, column) }}
                       </nuxt-link>
                       <span v-else>{{ itemValue(item, column) }}</span>
-                      <base-action-tooltip tooltip="Copied">
+                      <base-action-tooltip :tooltip="$t('common.copied')">
                         <base-button
-                          title="Copy to clipboard"
+                          :title="$t('common.copyToClipboard')"
                           class="table-info__actions__button button-icon"
                           @click.prevent="onActionClicked('copy-name', item)"
                         >
@@ -170,13 +170,13 @@
                         class="primary outline"
                         @click="$emit('close-modal')"
                       >
-                        Cancel
+                        {{ $t("common.cancel ") }}
                       </base-button>
                       <base-button
                         class="primary"
                         @click="onActionClicked('confirm-delete', item)"
                       >
-                        Yes, delete
+                        {{ $t("common.yesDelete ") }}
                       </base-button>
                     </div>
                   </div>
@@ -315,7 +315,7 @@ export default {
     const appliedFilters = this.activeFilters.filter(
       (filter) => filter.values.length
     );
-    appliedFilters?.forEach(({ column, values }) => {
+    (appliedFilters || []).forEach(({ column, values }) => {
       this.$set(this.filters, column, values);
     });
   },

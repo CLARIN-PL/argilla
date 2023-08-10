@@ -26,7 +26,7 @@ function mountTableFiltrableColumn() {
 }
 
 describe("TableFiltrableColumn", () => {
-  const spy = jest.spyOn(console, "error");
+  let spy = jest.spyOn(console, "error");
   afterEach(() => spy.mockReset());
 
   test("renders properly", () => {

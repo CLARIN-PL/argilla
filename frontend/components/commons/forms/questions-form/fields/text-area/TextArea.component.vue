@@ -3,7 +3,6 @@
     <QuestionHeaderComponent
       :title="title"
       :isRequired="isRequired"
-      :hasSuggestion="hasSuggestion"
       :tooltipMessage="description"
     />
 
@@ -17,7 +16,9 @@
       <ContentEditableFeedbackTask
         v-else
         class="textarea"
-        :value="value"
+        :annotationEnabled="true"
+        :annotations="[]"
+        :defaultText="value"
         :placeholder="placeholder"
         @change-text="onChangeTextArea"
         @on-change-focus="setFocus"
@@ -51,10 +52,6 @@ export default {
       default: () => "",
     },
     useMarkdown: {
-      type: Boolean,
-      default: () => false,
-    },
-    hasSuggestion: {
       type: Boolean,
       default: () => false,
     },

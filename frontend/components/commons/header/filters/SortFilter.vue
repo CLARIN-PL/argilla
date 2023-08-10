@@ -32,7 +32,7 @@
     >
       <span slot="dropdown-header">
         <span v-if="selectedField">{{ selectedField.name }}</span>
-        <span v-else>Sort by</span>
+        <span v-else>{{ $t("common.sortBy") }}</span>
       </span>
       <div slot="dropdown-content">
         <select-options-search v-model="searchText" />

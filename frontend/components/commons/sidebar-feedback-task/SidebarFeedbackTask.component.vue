@@ -3,6 +3,7 @@
     <SidebarFeedbackTaskPanel v-if="isPanelVisible" @close-panel="closePanel">
       <FeedbackTaskProgress
         v-if="getProgressComponentName === 'FeedbackTaskProgress'"
+        :userIdToShowMetrics="userId"
       />
     </SidebarFeedbackTaskPanel>
     <SidebarFeedbackTask
@@ -16,6 +17,7 @@
 
 <script>
 import { SIDEBAR_GROUP } from "@/models/feedback-task-model/dataset-filter/datasetFilter.queries";
+import { isDatasetExistsByDatasetIdAndUserId } from "@/models/feedback-task-model/dataset-metric/datasetMetric.queries";
 
 export default {
   props: {
@@ -29,6 +31,15 @@ export default {
     currentMode: "annotate",
   }),
   computed: {
+    userId() {
+      return this.$auth.user.id;
+    },
+    isDatasetMetrics() {
+      return isDatasetExistsByDatasetIdAndUserId({
+        userId: this.userId,
+        datasetId: this.datasetId,
+      });
+    },
     getProgressComponentName() {
       return (
         this.sidebarItems.metrics.buttons.find(
@@ -42,12 +53,25 @@ export default {
   },
   created() {
     this.sidebarItems = {
+      // TODO - Hidden for MVP
+      // mode: {
+      //   buttonType: "non-expandable",
+      //   buttons: [
+      //     {
+      //       id: "annotate",
+      //       tooltip: "Hand labeling",
+      //       icon: "hand-labeling",
+      //       action: "change-view-mode",
+      //       relatedMetrics: ["progress", "stats"],
+      //     },
+      //   ],
+      // },
       metrics: {
         buttonType: "expandable",
         buttons: [
           {
             id: "metrics",
-            tooltip: "Progress",
+            tooltip: this.$t("common.progress"),
             icon: "progress",
             action: "show-metrics",
             type: "expandable",
@@ -60,7 +84,7 @@ export default {
         buttons: [
           {
             id: "refresh",
-            tooltip: "Refresh",
+            tooltip: this.$t("common.refresh"),
             icon: "refresh",
             group: "Refresh",
             type: "non-expandable",
@@ -87,6 +111,8 @@ export default {
       }
     },
     toggleMetrics(panelContent) {
+      if (!this.isDatasetMetrics) return;
+
       this.currentMetric =
         this.currentMetric !== panelContent ? panelContent : null;
       $nuxt.$emit("on-sidebar-toggle-metrics", !!this.currentMetric);

@@ -31,7 +31,7 @@
         </classifier-annotation-button>
       </div>
       <div class="feedback">
-        <p class="--body1 help-message">Introduce a query to define a rule.</p>
+        <p class="--body1 help-message">{{ $t("dataset.introduceAQuery") }}</p>
         <p v-if="!areAnnotationsInDataset" class="--body1 help-message">
           {{ messageNotAnnotation }}
         </p>
@@ -72,14 +72,14 @@ export default {
     return {
       shownLabels: DatasetViewSettings.MAX_VISIBLE_LABELS,
       inputForFeedbackComponent: {
-        message: "Action needed: Create labels in the dataset settings",
-        buttonLabels: [{ label: "Create labels", value: "CREATE_LABELS" }],
+        message: this.$t("dataset.actionNeeded"),
+        buttonLabels: [
+          { label: this.$t("dataset.createLabels"), value: "CREATE_LABELS" },
+        ],
         feedbackType: "ERROR",
       },
-      messageNotLabels: `To create new rules, you need at least two labels.
-       <br/>We highly recommend starting by annotating some records with these labels.`,
-      messageNotAnnotation:
-        "We highly recommend starting by annotating some records with these labels.",
+      messageNotLabels: this.$t("dataset.toCreateNewRules"),
+      messageNotAnnotation: this.$t("dataset.weRecommend"),
     };
   },
   computed: {

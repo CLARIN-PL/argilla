@@ -30,7 +30,7 @@
         autofocus
         class="new-label__input"
         type="text"
-        placeholder="New label"
+        :placeholder="$t('common.newLabel')"
         @keyup.enter="createNewLabel(label)"
       />
       <svgicon class="new-label__close" name="close" @click="reset()" />
@@ -38,8 +38,9 @@
         class="new-label__button primary small"
         :disabled="!label"
         @click="createNewLabel(label)"
-        >Create</base-button
       >
+        {{ $t("common.create") }}
+      </base-button>
     </div>
   </div>
 </template>
@@ -49,7 +50,7 @@ export default {
     text: {
       type: String,
       required: false,
-      default: "Create label",
+      default: this.$t("common.createLabel"),
     },
   },
   data: () => ({

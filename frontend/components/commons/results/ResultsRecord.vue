@@ -39,7 +39,7 @@
             class="record__date"
             v-if="record.event_timestamp"
             :date="record.event_timestamp"
-            data-title="Event Timestamp"
+            :data-title="$t('results.eventTimestamp')"
           />
           <similarity-search-component
             class="record__similarity-search"
@@ -50,10 +50,10 @@
           />
           <base-button
             v-else
-            data-title="To use this function you need to have a vector associated with this record"
+            :data-title="$t('results.toUseThis')"
             class="small similarity-search__button--disabled"
           >
-            Find similar
+            {{ $t("results.findSimilar") }}
           </base-button>
         </template>
         <record-extra-actions

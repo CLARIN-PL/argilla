@@ -29,7 +29,7 @@
           :annotation-enabled="annotationEnabled"
           :edition-mode="true"
           :default-text="visibleSentence || ''"
-          placeholder="Type your text"
+          :placeholder="$t('common.typeYourText')"
           @annotate="onValidate()"
           @change-text="onTextChanged"
           @on-change-focus="setFocus"
@@ -44,7 +44,7 @@
               :class="predictionNumber === index ? '--active' : null"
               v-for="(prediction, index) in predictions"
               :key="index"
-              data-title="Score"
+              :data-title="$t('common.score')"
               >{{ prediction.score | percent }}</base-button
             >
           </div>
@@ -54,7 +54,7 @@
             :default-text="defaultText"
             :content-editable="annotationEnabled"
             :annotations="annotations"
-            placeholder="Type your text"
+            :placeholder="$t('common.typeYourText')"
             @annotate="onValidate()"
             @change-text="onTextChanged"
             @on-change-focus="setFocus"
@@ -201,26 +201,26 @@ export default {
       return [
         {
           id: "validate",
-          name: "Validate",
+          name: this.$t("common.validate"),
           allow: true,
           active: !this.allowValidation,
           disable: !this.defaultText,
         },
         {
           id: "discard",
-          name: "Discard",
+          name: this.$t("common.discard"),
           allow: true,
           active: this.recordStatusIs("Discarded"),
         },
         {
           id: "clear",
-          name: "Clear",
+          name: this.$t("common.clear"),
           allow: true,
           disable: !showClean,
         },
         {
           id: "reset",
-          name: "Reset",
+          name: this.$t("common.reset"),
           allow: true,
           disable: !this.recordStatusIs("Edited"),
         },
@@ -238,7 +238,7 @@ export default {
       this.visibleSentence = this.predictions[this.predictionNumber]?.text;
     },
     async onTextChanged(newText) {
-      const status = this.currentAnnotation === newText ? "Default" : "Edited";
+      let status = this.currentAnnotation === newText ? "Default" : "Edited";
       this.visibleSentence = newText;
       await this.updateRecords({
         dataset: this.getText2TextDataset(),
@@ -267,7 +267,7 @@ export default {
       }
     },
     async onValidate() {
-      const newS = {
+      let newS = {
         score: 1,
         text: this.record.sentenceForAnnotation || null,
       };

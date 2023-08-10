@@ -17,9 +17,9 @@
 
 <template>
   <div>
-    <p class="metrics__title">Progress</p>
+    <p class="metrics__title">{{ $t("common.progress") }}</p>
     <div class="metrics__info">
-      <p class="metrics__info__name">Total</p>
+      <p class="metrics__info__name">{{ $t("common.total") }}</p>
       <span class="metrics__info__counter">{{ progress | percent }}</span>
     </div>
     <div class="metrics__numbers">

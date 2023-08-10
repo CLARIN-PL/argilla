@@ -59,9 +59,11 @@
         />
         <div class="filter__buttons">
           <base-button class="primary outline" @click="onCancel">
-            Cancel
+            {{ $t("common.cancel") }}
           </base-button>
-          <base-button class="primary" @click="onApply"> Filter </base-button>
+          <base-button class="primary" @click="onApply">
+            {{ $t("common.filter") }}
+          </base-button>
         </div>
       </div>
     </filter-dropdown>
@@ -134,7 +136,7 @@ export default {
       if (text === undefined) {
         return sortedOptions;
       }
-      const filtered = sortedOptions.filter(([id]) =>
+      let filtered = sortedOptions.filter(([id]) =>
         id.toLowerCase().match(text.toLowerCase())
       );
       return filtered;

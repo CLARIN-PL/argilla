@@ -4,8 +4,8 @@
     <BaseCard
       card-type="danger"
       :title="datasetDeleteTitle"
-      text="Be careful, this action is not reversible"
-      buttonText="Delete dataset"
+      :text="$t('common.beCarefulThisActionIsNotReversible')"
+      :buttonText="$t('common.deleteDataset')"
       @card-action="toggleDeleteModal(true)"
     />
 
@@ -22,10 +22,10 @@
         <p v-html="modalDescription"></p>
         <div class="modal-buttons">
           <BaseButton class="primary outline" @click="toggleDeleteModal(false)">
-            Cancel
+            {{ $t("common.cancel") }}
           </BaseButton>
           <BaseButton class="primary" @click="onConfirmDeleteDataset">
-            Yes, delete
+            {{ $t("common.yesDelete") }}
           </BaseButton>
         </div>
       </div>
@@ -33,10 +33,14 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Notification } from "@/models/Notifications";
-import { deleteDatasetById } from "@/models/feedback-task-model/feedback-dataset/feedbackDataset.queries";
-import { urlDeleteDatasetV1 } from "@/utils/url.properties";
+import {
+  getFeedbackDatasetNameById,
+  getFeedbackDatasetWorkspaceNameById,
+  deleteDatasetById,
+} from "@/models/feedback-task-model/feedback-dataset/feedbackDataset.queries";
+import { urlDeleteDatasetV1 } from "/utils/url.properties";
 
 const TYPE_OF_FEEDBACK = Object.freeze({
   NOT_ALLOWED_TO_DELETE_DATASET: "NOT_ALLOWED_TO_DELETE_DATASET",
@@ -45,27 +49,36 @@ const TYPE_OF_FEEDBACK = Object.freeze({
 export default {
   name: "DatasetDeleteFeedbackTaskComponent",
   props: {
-    dataset: {
-      type: Object,
+    datasetId: {
+      type: String,
       required: true,
     },
   },
-  created() {},
+  created() {
+    this.sectionTitle = this.$t("common.dangerZone");
+    this.datasetName = getFeedbackDatasetNameById(this.datasetId);
+    this.workspace = getFeedbackDatasetWorkspaceNameById(this.datasetId);
+
+    this.datasetDeleteTitle = `${this.$t("common.delete")} <strong>${
+      this.datasetName
+    }</strong>`;
+    this.modalTitle = this.$t("common.deleteConfirmation");
+    this.modalDescription = `${this.$t(
+      "common.youAreAboutToDelete"
+    )}: <strong>${this.datasetName}</strong> ${this.$t(
+      "common.fromWorkspace"
+    )} <strong>${this.workspace}</strong>.${this.$t(
+      "common.thisActionCannotBeUndone"
+    )}`;
+  },
   data() {
     return {
       showDeleteModal: false,
-      sectionTitle: "Danger zone",
-      datasetId: this.dataset.id,
-      datasetName: this.dataset.name,
-      workspace: this.dataset.workspace,
-      datasetDeleteTitle: `Delete <strong>${this.dataset.name}</strong>`,
-      modalTitle: `Delete confirmation`,
-      modalDescription: `You are about to delete: <strong>${this.dataset.name}</strong> from workspace <strong>${this.dataset.workspace}</strong>. This action cannot be undone`,
     };
   },
   methods: {
-    toggleDeleteModal(show) {
-      this.showDeleteModal = show;
+    toggleDeleteModal(value) {
+      this.showDeleteModal = value;
     },
     async onConfirmDeleteDataset() {
       try {
@@ -93,17 +106,17 @@ export default {
         // DELETE dataset from the orm
         deleteDatasetById(this.datasetId);
 
-        message = `${this.datasetName} has been deleted`;
+        message = `${this.datasetName} ${this.$t("common.hasBeenDeleted")} `;
         typeOfNotification = "success";
       } catch ({ response }) {
-        const { status } = response;
+        let { status } = response;
         statusCall = status;
-        message = `It is not possible to delete ${this.datasetName}`;
+        message = `${this.$t("common.itsNotPossibleToDelete")} ${
+          this.datasetName
+        }`;
         typeOfNotification = "error";
         if (status === 403) {
-          throw {
-            response: TYPE_OF_FEEDBACK.NOT_ALLOWED_TO_DELETE_DATASET,
-          };
+          throw { response: TYPE_OF_FEEDBACK.NOT_ALLOWED_TO_DELETE_DATASET };
         }
       } finally {
         statusCall === 403 ||

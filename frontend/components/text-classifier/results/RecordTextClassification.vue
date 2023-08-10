@@ -134,25 +134,25 @@ export default {
       return [
         {
           id: "validate",
-          name: "Validate",
+          name: this.$t("common.validate"),
           allow: this.isMultiLabel,
           active: !this.allowValidate,
         },
         {
           id: "discard",
-          name: "Discard",
+          name: this.$t("common.discard"),
           allow: true,
           active: this.record.status === "Discarded",
         },
         {
           id: "clear",
-          name: "Clear",
+          name: this.$t("common.clear"),
           allow: this.isMultiLabel,
           disable: !this.record.currentAnnotation?.labels?.length || false,
         },
         {
           id: "reset",
-          name: "Reset",
+          name: this.$t("common.reset"),
           allow: this.isMultiLabel,
           disable: this.record.status !== "Edited",
         },

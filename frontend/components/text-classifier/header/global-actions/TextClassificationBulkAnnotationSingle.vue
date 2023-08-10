@@ -18,12 +18,12 @@
 <template>
   <div>
     <filter-dropdown
-      tooltip="Annotate"
+      :tooltip="$t('common.annotate')"
       :visible="visible"
       @visibility="onVisibility"
     >
       <template #dropdown-header>
-        <span data-title="Annotate">
+        <span :data-title="$t('common.annotate')">
           <svgicon name="pen"></svgicon>
         </span>
       </template>
@@ -32,7 +32,7 @@
           allow-clear
           @clear="clearSearchText"
           v-model="searchText"
-          placeholder="Search label..."
+          :placeholder="$t('common.searchLabel') + '...'"
         />
         <div class="wrapper">
           <div class="labels">
@@ -44,7 +44,9 @@
             >
               {{ option }}
             </base-button>
-            <p v-if="!filterSearch(options).length">0 results</p>
+            <p v-if="!filterSearch(options).length">
+              0 {{ $t("common.results") }}
+            </p>
           </div>
         </div>
       </template>

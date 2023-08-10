@@ -89,18 +89,20 @@ export default {
   width: 14.5em;
   padding: 0 $base-space;
   border: 1px solid $black-10;
-  border-radius: $border-radius-l;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: $shadow-300;
   transition: all 0.2s ease-out;
   &:hover {
+    box-shadow: $shadow-400;
     transition: all 0.2s ease-in;
   }
   &__icon {
     flex-shrink: 0;
     padding: 0;
     background: transparent;
-    width: $base-space * 2;
-    height: $base-space * 2;
+    width: 18px;
+    height: 18px;
     transition: none;
     &.--search {
       cursor: default;
@@ -112,14 +114,16 @@ export default {
   }
   &.--focused {
     border-color: $primary-color;
+    box-shadow: $shadow-300;
   }
 }
 
 .search-input {
-  height: 26px;
+  height: 28px;
   width: 100%;
   border: none;
-  @include font-size(13px);
+  border-radius: 10px;
+  line-height: 28px;
   &:focus-visible {
     outline: 0;
   }

@@ -31,7 +31,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "0 results found",
+      default: this.$t("common.zeroResultsFound"),
     },
     message: {
       type: String,

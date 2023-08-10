@@ -1,8 +1,8 @@
 <template>
-  <BaseLoading v-if="isLoadingDataset" />
-  <HeaderAndTopAndTwoColumns v-else>
+  <HeaderAndTopAndTwoColumns v-if="!$fetchState.error && !$fetchState.pending">
     <template v-slot:header>
       <HeaderFeedbackTaskComponent
+        v-if="datasetName && workspace"
         :datasetId="datasetId"
         :breadcrumbs="breadcrumbs"
       />
@@ -11,22 +11,132 @@
       <TopDatasetSettingsFeedbackTaskContent :datasetId="datasetId" />
     </template>
     <template v-slot:left>
-      <LeftDatasetSettingsFeedbackTaskContent :dataset="dataset" />
+      <LeftDatasetSettingsFeedbackTaskContent :datasetId="datasetId" />
+    </template>
+    <template v-slot:right>
+      <div class="right-content"></div>
     </template>
   </HeaderAndTopAndTwoColumns>
 </template>
 
 <script>
 import HeaderAndTopAndTwoColumns from "@/layouts/HeaderAndTopAndTwoColumns";
-import { useDatasetSettingViewModel } from "./useDatasetSettingViewModel";
+import {
+  upsertFeedbackDataset,
+  getFeedbackDatasetNameById,
+  getFeedbackDatasetWorkspaceNameById,
+} from "@/models/feedback-task-model/feedback-dataset/feedbackDataset.queries";
 
+const TYPE_OF_FEEDBACK = Object.freeze({
+  ERROR_FETCHING_DATASET_INFO: "ERROR_FETCHING_DATASET_INFO",
+  ERROR_FETCHING_WORKSPACE_INFO: "ERROR_FETCHING_WORKSPACE_INFO",
+});
 export default {
   name: "SettingsPage",
   components: {
     HeaderAndTopAndTwoColumns,
   },
-  setup() {
-    return useDatasetSettingViewModel();
+  computed: {
+    datasetId() {
+      return this.$route.params.id;
+    },
+    datasetName() {
+      return getFeedbackDatasetNameById(this.datasetId);
+    },
+    workspace() {
+      return getFeedbackDatasetWorkspaceNameById(this.datasetId);
+    },
+    breadcrumbs() {
+      return [
+        { link: { name: "datasets" }, name: this.$t("common.home") },
+        {
+          link: { path: `/datasets?workspace=${this.workspace}` },
+          name: this.workspace,
+        },
+        {
+          link: {
+            name: "dataset-id-annotation-mode",
+            params: { id: this.datasetId },
+          },
+          name: this.datasetName,
+        },
+        {
+          link: null,
+          name: "settings",
+        },
+      ];
+    },
+  },
+  async fetch() {
+    try {
+      // 1- fetch dataset info
+      const dataset = await this.getDatasetInfo(this.datasetId);
+
+      // 2- fetch workspace info
+      const workspace = await this.getWorkspaceInfo(dataset.workspace_id);
+
+      // 3- insert in ORM
+      upsertFeedbackDataset({ ...dataset, workspace_name: workspace });
+    } catch (err) {
+      this.manageErrorIfFetchNotWorking(err);
+    }
+  },
+  methods: {
+    async getDatasetInfo(datasetId) {
+      try {
+        const { data } = await this.$axios.get(`/v1/datasets/${datasetId}`);
+
+        return data;
+      } catch (err) {
+        throw {
+          response: TYPE_OF_FEEDBACK.ERROR_FETCHING_DATASET_INFO,
+        };
+      }
+    },
+    async getWorkspaceInfo(workspaceId) {
+      try {
+        const { data: responseWorkspace } = await this.$axios.get(
+          `/v1/workspaces/${workspaceId}`
+        );
+
+        const { name } = responseWorkspace || { name: null };
+
+        return name;
+      } catch (err) {
+        throw {
+          response: TYPE_OF_FEEDBACK.ERROR_FETCHING_WORKSPACE_INFO,
+        };
+      }
+    },
+    manageErrorIfFetchNotWorking({ response }) {
+      this.initErrorNotification(response);
+      this.$router.push("/");
+    },
+    initErrorNotification(response) {
+      let message = "";
+      switch (response) {
+        case TYPE_OF_FEEDBACK.ERROR_FETCHING_DATASET_INFO:
+          message = `${this.$t("dataset.cantGetDatasetInfo")} ${
+            this.datasetId
+          }`;
+          break;
+        case TYPE_OF_FEEDBACK.ERROR_FETCHING_WORKSPACE_INFO:
+          message = `${this.$t("dataset.cantGetWorkspaceInfo")} ${
+            this.datasetId
+          }`;
+          break;
+        default:
+          message = this.$t("dataset.cantGetInfo");
+      }
+
+      const paramsForNotitification = {
+        message,
+        numberOfChars: message.length,
+        type: "error",
+      };
+
+      Notification.dispatch("notify", paramsForNotitification);
+    },
   },
 };
 </script>

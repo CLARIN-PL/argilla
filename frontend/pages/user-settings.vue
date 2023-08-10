@@ -9,6 +9,9 @@
     <template v-slot:left>
       <LeftUserSettingsContent />
     </template>
+    <template v-slot:right>
+      <div class="right-content"></div>
+    </template>
   </HeaderAndTopAndTwoColumns>
 </template>
 

@@ -4,16 +4,16 @@
       <div class="input-button" v-for="option in options" :key="option.id">
         <input
           type="checkbox"
-          :name="option.value"
+          :name="option.text"
           :id="option.id"
-          v-model="option.isSelected"
+          v-model="option.is_selected"
           @change="onSelect(option)"
         />
         <label
           class="label-text cursor-pointer"
-          :class="{ 'label-active': option.isSelected }"
+          :class="{ 'label-active': option.is_selected }"
           :for="option.id"
-          v-text="option.value"
+          v-text="option.text"
         />
       </div>
     </div>
@@ -34,12 +34,12 @@ export default {
     event: "on-change",
   },
   methods: {
-    onSelect({ id, isSelected }) {
+    onSelect({ id, is_selected }) {
       this.options.map((option) => {
         if (option.id === id) {
-          option.isSelected = isSelected;
+          option.is_selected = is_selected;
         } else {
-          option.isSelected = false;
+          option.is_selected = false;
         }
         return option;
       });
@@ -56,7 +56,7 @@ export default {
   .inputs-area {
     display: inline-flex;
     gap: $base-space;
-    border-radius: $border-radius-rounded;
+    border-radius: 5em;
     border: 1px solid #cdcdff;
     background: #e0e0ff;
     &:hover {
@@ -65,19 +65,18 @@ export default {
   }
 }
 .label-text {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: flex;
   width: 100%;
-  border-radius: $border-radius-rounded;
-  height: $base-space * 4;
-  min-width: $base-space * 4;
-  padding-inline: $base-space;
-  outline: none;
+  border-radius: 50em;
+  height: 32px;
   background: palette(purple, 800);
-  color: palette(purple, 200);
+  outline: none;
+  padding-inline: 12px;
+  line-height: 32px;
   font-weight: 500;
   overflow: hidden;
+  color: palette(purple, 200);
+  box-shadow: 0;
   transition: all 0.2s ease-in-out;
   &:not(.label-active):hover {
     background: darken(palette(purple, 800), 8%);

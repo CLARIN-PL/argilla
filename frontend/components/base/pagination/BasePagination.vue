@@ -19,7 +19,9 @@
   <div class="pagination__container">
     <template v-if="!onePage">
       <div v-click-outside="closePageSizeSelector" class="pagination__selector">
-        <span class="pagination__selector__title">Records per page:</span>
+        <span class="pagination__selector__title">{{
+          $t("datasets.recordsPerPage")
+        }}</span>
         <div class="pagination__selector__content">
           <a href="#" @click.prevent="showOptions = !showOptions">
             {{ paginationSize }}
@@ -192,17 +194,9 @@ export default {
       return this.$options.filters.formatNumber(this.maxRecordsLimit);
     },
     message() {
-      return `<p>
-                You cannot go through more than ${this.formattedLimit} records.
-                To explore more records, you can combine queries, filters, and sorting to reduce your search results.
-                Visit this
-                <a
-                  href="${this.$config.documentationSiteQueryDatasets}"
-                  target="_blank"
-                >
-                  guide</a
-                > for using advanced queries.
-              </p>`;
+      return this.$t("datasets.youCannotGoThrough", {
+        formatted_limit: this.formattedLimit,
+      });
     },
   },
   watch: {

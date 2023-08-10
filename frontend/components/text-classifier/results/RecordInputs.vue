@@ -37,7 +37,11 @@
       v-if="toggleCollapseRecordText"
       class="secondary text record__show-more"
       @click.prevent="showFullRecord = !showFullRecord"
-      >{{ !showFullRecord ? "Full record" : "Show less" }}
+      >{{
+        !showFullRecord
+          ? this.$t("common.fullRecord")
+          : this.$t("common.showLess")
+      }}
     </base-button>
   </div>
 </template>

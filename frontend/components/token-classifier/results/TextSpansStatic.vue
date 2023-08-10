@@ -81,10 +81,10 @@ export default {
       };
 
       let idx = 0;
-      const textSpans = [];
+      let textSpans = [];
       const entities = normalizedEntities(this.entities, this.visualTokens);
       while (idx < this.visualTokens.length) {
-        const index = textSpans.length;
+        let index = textSpans.length;
         const entityArray = entities.filter(
           (entity) => entity.start_token <= idx && idx < entity.end_token
         );

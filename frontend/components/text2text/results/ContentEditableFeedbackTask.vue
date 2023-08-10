@@ -13,10 +13,10 @@
           id="contentId"
           class="content__text"
           :class="textIsEdited ? '--edited-text' : null"
-          :contenteditable="true"
+          :contenteditable="annotationEnabled"
           :placeholder="placeholder"
           @input="onInputText"
-          v-html="sanitizedEditableText"
+          v-html="sanitazedEditableText"
           @focus="setFocus(true)"
           @blur="setFocus(false)"
           @keydown.shift.enter.exact="looseFocus"
@@ -37,7 +37,15 @@ import * as DOMPurify from "dompurify";
 export default {
   name: "ContentEditableFeedbackTask",
   props: {
-    value: {
+    annotationEnabled: {
+      type: Boolean,
+      required: true,
+    },
+    annotations: {
+      type: Array,
+      required: true,
+    },
+    defaultText: {
       type: String,
       required: true,
     },
@@ -48,29 +56,28 @@ export default {
   },
   data: () => {
     return {
-      defaultText: null,
-      currentValue: null,
       editableText: null,
       focus: false,
     };
   },
   computed: {
     textIsEdited() {
-      return this.defaultText !== this.value;
+      return (
+        this.defaultText !== this.editableText ||
+        this.defaultText === this.annotations[0]?.text
+      );
     },
-    sanitizedEditableText() {
+    sanitazedEditableText() {
       return DOMPurify.sanitize(this.editableText);
-    },
-  },
-  watch: {
-    value(newValue) {
-      if (newValue !== this.currentValue) this.editableText = newValue;
     },
   },
   mounted() {
     window.addEventListener("paste", this.pastePlainText);
-
-    this.editableText = this.defaultText = this.value;
+    if (this.defaultText) {
+      this.editableText = this.defaultText;
+    } else {
+      this.editableText = this.text;
+    }
 
     this.textAreaWrapper = document.getElementById("contentId");
   },
@@ -82,7 +89,6 @@ export default {
       this.textAreaWrapper.blur();
     },
     onInputText(event) {
-      this.currentValue = event.target.innerText;
       this.$emit("change-text", event.target.innerText);
     },
     setFocus(status) {
@@ -93,7 +99,7 @@ export default {
       if (this.focus && event.target.isContentEditable) {
         event.preventDefault();
         const text = event.clipboardData?.getData("text/plain") ?? "";
-        document.execCommand("insertText", false, text);
+        document.execCommand("insertHtml", false, text);
       }
     },
     onClickOutside() {

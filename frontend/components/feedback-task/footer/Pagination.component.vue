@@ -8,7 +8,7 @@
         :disabled="isFirstPage"
       >
         <svgicon name="chevron-left" width="8" height="8" />
-        {{ prevButtonMessage }}
+        {{ prevButtonMessageText }}
       </BaseButton>
 
       <BaseButton
@@ -17,7 +17,7 @@
         @click="onClickNext"
         :disabled="false"
       >
-        {{ nextButtonMessage }}
+        {{ nextButtonMessageText }}
         <svgicon name="chevron-right" width="8" height="8" />
       </BaseButton>
     </div>
@@ -34,14 +34,26 @@ export default {
     },
     nextButtonMessage: {
       type: String,
-      default: () => "Next",
+      default: () => "",
     },
     prevButtonMessage: {
       type: String,
-      default: () => "Prev",
+      default: () => "",
     },
   },
   computed: {
+    nextButtonMessageText() {
+      if (this.nextButtonMessage) {
+        return this.nextButtonMessage;
+      }
+      return this.$t("common.next");
+    },
+    prevButtonMessageText() {
+      if (this.prevButtonMessage) {
+        return this.prevButtonMessage;
+      }
+      return this.$t("common.prev");
+    },
     isFirstPage() {
       return this.currentPage === 1;
     },

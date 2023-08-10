@@ -32,11 +32,15 @@
       v-if="selectedFields.length === numberOfSortFields"
       class="sort__add-button secondary light small"
       @click="addNewField"
-      >+ Add another field</base-button
-    >
+      >+ {{ $t("common.addAnotherField") }}
+    </base-button>
     <div class="sort__buttons" v-if="sort.length || selectedFields.length">
-      <base-button class="primary outline" @click="cancel">Cancel</base-button>
-      <base-button class="primary" @click="apply">Sort</base-button>
+      <base-button class="primary outline" @click="cancel">{{
+        $t("common.cancel")
+      }}</base-button>
+      <base-button class="primary" @click="apply">{{
+        $t("common.sort")
+      }}</base-button>
     </div>
   </div>
 </template>
@@ -65,7 +69,7 @@ export default {
           return {
             ...opt,
             id: `metadata.${opt.name}`,
-            name: `Metadata.${opt.name}`,
+            name: `${this.$t("common.metadata")}.${opt.name}`,
           };
         }
         return opt;

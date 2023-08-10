@@ -7,7 +7,7 @@
           v-if="showSearch"
           v-model="searchInput"
           :searchRef="searchRef"
-          :placeholder="placeholder"
+          :placeholder="searchPlaceholder"
         />
       </div>
       <div class="right-header">
@@ -46,13 +46,13 @@
           type="checkbox"
           :name="option.text"
           :id="option.id"
-          v-model="option.isSelected"
+          v-model="option.is_selected"
           @change="onSelect(option)"
         />
         <label
           class="label-text cursor-pointer"
           :class="{
-            'label-active': option.isSelected,
+            'label-active': option.is_selected,
             square: multiple,
             round: !multiple,
           }"
@@ -83,7 +83,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: () => "Search labels",
+      default: () => "",
     },
     componentId: {
       type: String,
@@ -108,6 +108,12 @@ export default {
     this.searchRef = `${this.componentId}SearchFilterRef`;
   },
   computed: {
+    searchPlaceholder() {
+      if (this.placeholder) {
+        return this.placeholder;
+      }
+      return this.$t("common.searchLabels");
+    },
     filteredOptions() {
       return this.options.filter((option) =>
         String(option.text)
@@ -118,7 +124,7 @@ export default {
     remainingVisibleOptions() {
       return this.filteredOptions
         .slice(this.maxOptionsToShowBeforeCollapse)
-        .filter((option) => option.isSelected);
+        .filter((option) => option.is_selected);
     },
     visibleOptions() {
       if (this.maxOptionsToShowBeforeCollapse === -1 || this.isExpanded)
@@ -129,7 +135,9 @@ export default {
         .concat(this.remainingVisibleOptions);
     },
     noResultMessage() {
-      return `There is no result matching: ${this.searchInput}`;
+      return `${this.$t("common.thereIsNoResultMatching")}: ${
+        this.searchInput
+      }`;
     },
     numberToShowInTheCollapseButton() {
       return this.filteredOptions.length - this.visibleOptions.length;
@@ -146,7 +154,7 @@ export default {
     },
     textToShowInTheCollapseButton() {
       if (this.isExpanded) {
-        return "Less";
+        return this.$t("common.less");
       }
       return `+${this.numberToShowInTheCollapseButton}`;
     },
@@ -155,14 +163,14 @@ export default {
     },
   },
   methods: {
-    onSelect({ id, isSelected }) {
+    onSelect({ id, is_selected }) {
       if (this.multiple) return;
       else {
         this.options.forEach((option) => {
           if (option.id === id) {
-            option.isSelected = isSelected;
+            option.is_selected = is_selected;
           } else {
-            option.isSelected = false;
+            option.is_selected = false;
           }
           return option;
         });
@@ -227,10 +235,10 @@ export default {
   display: block;
   width: 100%;
   height: 32px;
-  min-width: 50px;
   max-width: 200px;
-  text-align: center;
   padding-inline: 12px;
+  box-shadow: 0;
+  border-radius: 50em;
   background: palette(purple, 800);
   color: palette(purple, 200);
   line-height: 32px;
@@ -239,17 +247,16 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-radius: $border-radius-rounded;
   &:not(.label-active):hover {
     background: darken(palette(purple, 800), 8%);
   }
 }
 
 .round {
-  border-radius: $border-radius-rounded;
+  border-radius: 50em;
 }
 .square {
-  border-radius: $border-radius-s;
+  border-radius: 5px;
 }
 
 input[type="checkbox"] {

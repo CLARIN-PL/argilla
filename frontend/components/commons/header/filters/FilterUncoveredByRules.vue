@@ -4,7 +4,7 @@
     class="re-checkbox--dark"
     :value="filter.selected"
   >
-    Only records not covered by rules
+    {{ $t("datasets.onlyRecordsNotCoveredByRules") }}
   </base-checkbox>
 </template>
 

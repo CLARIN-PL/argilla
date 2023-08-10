@@ -9,12 +9,13 @@ const options = {
     options: [],
   },
 };
+
 beforeEach(() => {
   wrapper = shallowMount(LabelSelectionComponent, options);
 });
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper && wrapper.destroy();
 });
 
 describe("LabelSelectionComponent in Single Selection mode", () => {
@@ -47,7 +48,7 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -85,13 +86,13 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -132,19 +133,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -182,25 +183,26 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
     expect(labelsWrapper.at(2).classes()).toContain("round");
     expect(labelsWrapper.length).toBe(3);
   });
-  it("update the flag 'isSelected' of the corresponding checkbox option when user click (no items have been selected)", async () => {
+
+  it("update the flag 'is_selected' of the corresponding checkbox option when user click (no items have been selected)", async () => {
     const options = [
       {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -216,21 +218,22 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
+
     const checkbox = wrapper.find("#sentiment_positive");
     await checkbox.setChecked();
     expect(checkbox.element.checked).toBeTruthy();
@@ -239,41 +242,41 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
   });
-  it("update the flag 'isSelected' of the corresponding checkbox option when user click (one item have been selected)", async () => {
+  it("update the flag 'is_selected' of the corresponding checkbox option when user click (one item have been selected)", async () => {
     const options = [
       {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -289,19 +292,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     const checkbox = wrapper.find("#sentiment_very_positive");
@@ -312,19 +315,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
   });
@@ -334,19 +337,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -367,19 +370,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     let labelsWrapper = wrapper.findAll("label");
@@ -394,7 +397,7 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     labelsWrapper = wrapper.findAll("label");
@@ -412,19 +415,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     labelsWrapper = wrapper.findAll("label");
@@ -439,19 +442,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -472,13 +475,13 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     let labelsWrapper = wrapper.findAll("label");
@@ -494,19 +497,19 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     labelsWrapper = wrapper.findAll("label");
@@ -524,19 +527,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -575,25 +578,25 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
     expect(labelsWrapper.at(2).classes()).toContain("square");
     expect(labelsWrapper.length).toBe(3);
   });
-  it("update the flag 'isSelected' of the corresponding checkbox option when user click (no items have been selected)", async () => {
+  it("update the flag 'is_selected' of the corresponding checkbox option when user click (no items have been selected)", async () => {
     const options = [
       {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -610,19 +613,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     const checkbox = wrapper.find("#sentiment_positive");
@@ -633,41 +636,41 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
   });
-  it("update the flag 'isSelected' of the corresponding checkbox option when user click (one item have been selected)", async () => {
+  it("update the flag 'is_selected' of the corresponding checkbox option when user click (one item have been selected)", async () => {
     const options = [
       {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -684,19 +687,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     const checkbox = wrapper.find("#sentiment_very_positive");
@@ -707,19 +710,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
   });
@@ -729,19 +732,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -763,19 +766,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     let labelsWrapper = wrapper.findAll("label");
@@ -790,7 +793,7 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     labelsWrapper = wrapper.findAll("label");
@@ -808,19 +811,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     labelsWrapper = wrapper.findAll("label");
@@ -835,19 +838,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ];
 
@@ -869,13 +872,13 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     let labelsWrapper = wrapper.findAll("label");
@@ -891,19 +894,19 @@ describe("LabelSelectionComponent in Multi Selection mode", () => {
         id: "sentiment_positive",
         text: "Positive",
         value: "positive",
-        isSelected: true,
+        is_selected: true,
       },
       {
         id: "sentiment_very_positive",
         text: "Very Positive",
         value: "very_positive",
-        isSelected: false,
+        is_selected: false,
       },
       {
         id: "sentiment_negative",
         text: "Negative",
         value: "negative",
-        isSelected: false,
+        is_selected: false,
       },
     ]);
     labelsWrapper = wrapper.findAll("label");

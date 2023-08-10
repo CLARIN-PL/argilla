@@ -42,7 +42,7 @@ export default {
       sidebarItems: [
         {
           id: "annotate",
-          tooltip: "Hand labeling",
+          tooltip: this.$t("common.handLabeling"),
           icon: "hand-labeling",
           group: "Mode",
           action: "change-view-mode",
@@ -50,7 +50,7 @@ export default {
         },
         {
           id: "explore",
-          tooltip: "Exploration",
+          tooltip: this.$t("common.exploration"),
           icon: "exploration",
           group: "Mode",
           action: "change-view-mode",
@@ -58,21 +58,21 @@ export default {
         },
         {
           id: "progress",
-          tooltip: "Progress",
+          tooltip: this.$t("common.progress"),
           icon: "progress",
           action: "show-metrics",
           group: "Metrics",
         },
         {
           id: "stats",
-          tooltip: "Stats",
+          tooltip: this.$t("common.stats"),
           icon: "stats",
           action: "show-metrics",
           group: "Metrics",
         },
         {
           id: "refresh",
-          tooltip: "Refresh",
+          tooltip: this.$t("common.refresh"),
           icon: "refresh",
           group: "Refresh",
           action: "refresh",

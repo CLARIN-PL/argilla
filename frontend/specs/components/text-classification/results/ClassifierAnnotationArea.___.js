@@ -28,7 +28,7 @@ function mountSidebar() {
 }
 
 describe("ClassifierAnnotationArea", () => {
-  const spy = jest.spyOn(console, "error");
+  let spy = jest.spyOn(console, "error");
   afterEach(() => spy.mockReset());
 
   test("Required property", () => {

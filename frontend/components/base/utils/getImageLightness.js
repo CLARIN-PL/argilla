@@ -22,6 +22,9 @@ const getImageLightness = (image, onLoad, onError) => {
 
   image.onload = function () {
     let colorSum = 0;
+    let ctx;
+    let imageData;
+    let imageMetadata;
     let r;
     let g;
     let b;
@@ -29,12 +32,12 @@ const getImageLightness = (image, onLoad, onError) => {
 
     canvas.width = this.width;
     canvas.height = this.height;
-    const ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d");
 
     ctx.drawImage(this, 0, 0);
 
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const imageMetadata = imageData.data;
+    imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    imageMetadata = imageData.data;
 
     for (let x = 0, len = imageMetadata.length; x < len; x += 4) {
       r = imageMetadata[x];

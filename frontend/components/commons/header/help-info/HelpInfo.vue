@@ -1,12 +1,14 @@
 <template>
   <div v-if="helpContents.length">
     <base-button
-      title="Info"
+      :title="$t('helpInfo.info')"
       class="help-info__action-button"
       :class="buttonClass"
       @click="showHelpModal()"
     >
-      <svgicon name="support" width="18" height="18" />Help</base-button
+      <svgicon name="support" width="18" height="18" />{{
+        $t("helpInfo.help")
+      }}</base-button
     >
     <lazy-base-modal
       modal-class="modal-secondary"
@@ -17,7 +19,9 @@
     >
       <help-info-content :help-contents="helpContents" />
       <div class="help-info__buttons">
-        <base-button class="primary" @click="close()">Ok, got it!</base-button>
+        <base-button class="primary" @click="close()">{{
+          $t("helpInfo.okGotIt")
+        }}</base-button>
       </div>
     </lazy-base-modal>
   </div>
@@ -47,12 +51,12 @@ export default {
       isModalVisible: false,
       similarity: {
         id: "similarity",
-        name: "Similarity Search",
+        name: this.$t("helpInfo.similaritySearch"),
         component: "helpInfoSimilarity",
       },
       explain: {
         id: "explain",
-        name: "Colors in token attributions",
+        name: this.$t("helpInfo.colorsInTokenAttributions"),
         component: "helpInfoExplain",
       },
     };

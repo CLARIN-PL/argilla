@@ -22,7 +22,7 @@ export default {
     },
   },
   created() {
-    this.title = "Annotation guidelines";
+    this.title = this.$t("dataset.settings.annotationGuidelines");
   },
 };
 </script>

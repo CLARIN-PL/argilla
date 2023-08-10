@@ -11,7 +11,7 @@
       :datasetId="datasetId"
       @click-settings-icon="goToSettings()"
     />
-    <user-avatar-tooltip />
+    <user />
   </BaseTopbarBrand>
 </template>
 
@@ -40,9 +40,9 @@ export default {
     },
     breadcrumbs() {
       return [
-        { link: { name: "datasets" }, name: "Home" },
+        { link: { name: "datasets" }, name: this.$t("common.home") },
         {
-          link: { path: `/datasets?workspaces=${this.workspace}` },
+          link: { path: `/datasets?workspace=${this.workspace}` },
           name: this.workspace,
         },
         {

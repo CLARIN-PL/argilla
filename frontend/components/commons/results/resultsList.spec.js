@@ -1,12 +1,13 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import ResultsListComponent from "./ResultsList";
 import Vuex from "vuex";
+// jest.mock("@/models/TextClassification.js");
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
 let store = null;
-const getters = {};
+let getters = {};
 store = new Vuex.Store({ getters });
 
 let wrapper = null;

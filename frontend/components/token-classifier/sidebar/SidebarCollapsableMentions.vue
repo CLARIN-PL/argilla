@@ -27,7 +27,9 @@
       v-if="limit !== 0 && sortedObject.length > 3"
       class="secondary text"
       @click="$emit('limit', k)"
-      >{{ limit === 3 ? `Show more` : `Show less` }}</base-button
+      >{{
+        limit === 3 ? $t("common.showMore") : $t("common.showLess")
+      }}</base-button
     >
   </ul>
 </template>

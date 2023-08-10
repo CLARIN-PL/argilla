@@ -26,7 +26,7 @@
       height="14"
       @click="filter = ''"
     />
-    <base-input v-model="filter" placeholder="Search labels" />
+    <base-input v-model="filter" :placeholder="$t('common.searchLabels')" />
   </base-input-container>
 </template>
 <script>

@@ -89,7 +89,7 @@ export default {
     },
     description: {
       type: String,
-      default: "Introduce a text",
+      default: this.$t("common.introduceAText"),
     },
   },
   data() {
@@ -163,7 +163,7 @@ export default {
   }
   &.active {
     border: 1px solid $primary-color;
-    box-shadow: none;
+    box-shadow: $shadow-300;
   }
   &__icon.button {
     display: flex;

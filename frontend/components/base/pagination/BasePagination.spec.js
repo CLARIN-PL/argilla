@@ -1,8 +1,10 @@
 import { shallowMount } from "@vue/test-utils";
 import BasePagination from "./BasePagination";
-import "@/plugins/plugins/filters";
+import "@/plugins/filters";
 
 let wrapper = null;
+
+
 const options = {
   propsData: {
     totalItems: 500,
@@ -17,12 +19,13 @@ const options = {
     visiblePagesRange: 5,
   },
 };
+
 beforeEach(() => {
   wrapper = shallowMount(BasePagination, options);
 });
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper && wrapper.destroy();
 });
 
 describe("BasePaginationComponent", () => {
