@@ -1,5 +1,5 @@
 <template>
-  <div class="markdown-render" v-html="markdownToHtml" />
+  <div class="markdown-render" v-html="markdownToHtml" v-copy-code />
 </template>
 <script>
 import { marked } from "marked";
@@ -15,6 +15,7 @@ marked.use(
     },
   })
 );
+
 export default {
   name: "RenderMarkdownBaseComponent",
   props: {
@@ -23,12 +24,22 @@ export default {
       required: true,
     },
   },
-  created() {
-    const parsed = marked.parse(this.markdown, {
-      headerIds: false,
-      mangle: false,
-    });
-    this.markdownToHtml = DOMPurify.sanitize(parsed);
+  methods: {
+    cleanMarkdown(markdown) {
+      return markdown.replace(/[^\S\r\n]+$/gm, "");
+    },
+  },
+  computed: {
+    markdownToHtml() {
+      const cleanedMarkdown = this.cleanMarkdown(this.markdown);
+      const parsed = marked.parse(cleanedMarkdown, {
+        headerIds: false,
+        mangle: false,
+        breaks: true,
+      });
+
+      return DOMPurify.sanitize(parsed);
+    },
   },
 };
 </script>
@@ -37,8 +48,13 @@ export default {
   white-space: normal;
   word-break: break-word;
   :deep() {
+    hr {
+      width: 100%;
+    }
+    blockquote {
+      font-style: italic;
+    }
     pre {
-      overflow: scroll;
       white-space: pre-wrap;
       word-break: break-all;
     }
