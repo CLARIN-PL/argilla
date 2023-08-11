@@ -2,8 +2,22 @@ import Vue from "vue";
 import { Nuxt, Builder } from "nuxt";
 import SvgIcon from "vue-svgicon";
 import nuxtConfig from "./nuxt.config";
+import { config } from '@vue/test-utils'
+import i18nEn from "./i18n/en/"
+import _ from "lodash"
+
 Vue.use(SvgIcon);
 Vue.directive("click-outside", {});
+Vue.config.silent = true
+
+// configure @vue/test-utils
+// default language set to English since it's the original language of Argilla
+config.stubs['nuxt-link'] = true
+config.mocks.$t = (i) => {
+  let res = _.get(i18nEn, i)
+  return res ? res : i
+}
+config.mocks.localePath = i => i
 
 // these boolean switches turn off the build for all but the store
 const resetConfig = {
@@ -37,14 +51,14 @@ const resetConfig = {
 
 // we take our nuxt config, lay the resets on top of it,
 // and lastly we apply the non-boolean overrides
-const config = Object.assign({}, nuxtConfig, resetConfig, {
+const newNuxtConfig = Object.assign({}, nuxtConfig, resetConfig, {
   mode: "spa",
   srcDir: nuxtConfig.srcDir,
   ignore: ["**/components/**/*", "**/layouts/**/*", "**/pages/**/*"],
 });
 
 const buildNuxt = async () => {
-  const nuxt = new Nuxt(config);
+  const nuxt = new Nuxt(newNuxtConfig);
   await new Builder(nuxt).build();
   return nuxt;
 };

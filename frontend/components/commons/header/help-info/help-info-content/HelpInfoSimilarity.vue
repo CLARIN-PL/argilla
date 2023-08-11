@@ -28,7 +28,7 @@
       {{ $t("helpInfo.toBenefit") }}
       <a
         class="link"
-        href="https://docs.argilla.io/en/latest/guides/features/semantic-search.html"
+        :href="$config.documentationSiteSemanticSearch"
         target="_blank"
       >
         {{ $t("helpInfo.docs") }}

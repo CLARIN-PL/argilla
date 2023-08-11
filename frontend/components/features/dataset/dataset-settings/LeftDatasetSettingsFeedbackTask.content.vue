@@ -5,13 +5,13 @@
         <p class="dataset-name" v-text="datasetName" />
         <p class="dataset-task" v-if="datasetTask" v-html="datasetTask" />
       </div>
-      <base-action-tooltip tooltip="Copied">
+      <base-action-tooltip :tooltip="$t('common.copied')">
         <base-button
-          title="Copy to clipboard"
+          :title="$t('common.copyKeyToClipboard')"
           class="secondary small"
           @click.prevent="$copyToClipboard(datasetSettingsUrl)"
         >
-          Copy link
+          {{ $t("common.copyLink") }}
         </base-button>
       </base-action-tooltip>
     </div>
@@ -38,14 +38,13 @@ export default {
   },
   data() {
     const { fullPath } = this.$route;
-
     return {
       datasetSettingsUrl: `${window.origin}${fullPath}`,
       datasetName: this.dataset.name,
       datasetTask: this.dataset.task,
       settingsDescription: this.dataset.guidelines,
       settingsDescriptionText:
-        this.dataset.guidelines || "This dataset has no annotation guidelines",
+        this.dataset.guidelines || this.$t("datasetSettings.noGuideline"),
     };
   },
 };

@@ -19,15 +19,20 @@
       </div>
       <div class="">
         <NuxtLink class="user__link" :to="{ name: 'user-settings' }">
-          My settings
+          {{ $t("userSettings.mySettings") }}
         </NuxtLink>
         <a
           class="user__link"
           :href="$config.documentationSite"
           target="_blank"
-          v-text="'View docs'"
+          v-text="$t('common.viewDocs')"
         />
-        <a class="user__link" @click.prevent="logout" v-text="'Log out'" />
+        <a
+          class="user__link"
+          href="#"
+          @click.prevent="logout"
+          v-text="$t('common.logout')"
+        />
       </div>
       <span class="copyright"
         >© {{ currentYear }} Argilla ({{ $config.clientVersion }})</span

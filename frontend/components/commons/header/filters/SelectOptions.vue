@@ -90,9 +90,6 @@ export default {
     select(option) {
       this.$emit("selected", option);
     },
-    optionIsAString(option) {
-      return typeof option === "string";
-    },
   },
 };
 </script>

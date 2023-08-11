@@ -17,19 +17,9 @@
 
 <template>
   <div class="container">
-    <form class="form" @submit.prevent="userLogin">
-      <div class="form__header">
-        <brand-logo class="form__logo" />
-        <select v-model="selectedLocale" class="form__lang-selector">
-          <option
-            v-for="(locale, idx) in $i18n.locales"
-            :key="'option_' + idx"
-            :value="locale.code"
-          >
-            {{ locale.name }}
-          </option>
-        </select>
-      </div>
+    <BaseLoading v-if="hasAuthToken" />
+    <form class="form" @submit.prevent="onLoginUser">
+      <brand-logo class="form__logo" />
       <div class="form__content">
         <p class="form__title">{{ $t("login.messages.welcome") }}</p>
         <p class="form__text">
@@ -92,19 +82,39 @@ export default {
         password: "",
       },
       deployment: false,
+      hasAuthToken: false,
     };
+  },
+  async created() {
+    const rawAuthToken = this.$route.query.auth;
+
+    if (!rawAuthToken) return;
+
+    try {
+      const [username, password] = atob(rawAuthToken).split(":");
+
+      if (username && password) {
+        this.hasAuthToken = true;
+
+        try {
+          await this.loginUser({ username, password });
+        } catch {
+          this.hasAuthToken = false;
+        }
+      }
+    } catch {
+      /* lint:disable:no-empty */
+    }
   },
   async mounted() {
     try {
       const response = await fetch("deployment.json");
+
       const { deployment } = await response.json();
 
       this.deployment = deployment;
-    } catch (e) {
+    } catch {
       this.deployment = null;
-    }
-    if (this.$auth.loggedIn) {
-      return;
     }
   },
   computed: {
@@ -134,19 +144,23 @@ export default {
         path: redirect_url,
       });
     },
-    async userLogin() {
+    async loginUser(authData) {
+      await this.$auth.logout();
+      await this.$store.dispatch("entities/deleteAll");
+      await this.$auth.loginWith("authProvider", {
+        data: this.encodedLoginData(authData),
+      });
+
+      this.nextRedirect();
+    },
+    async onLoginUser() {
       try {
-        await this.$store.dispatch("entities/deleteAll");
-        await this.$auth.loginWith("authProvider", {
-          data: this.encodedLoginData(),
-        });
-        this.nextRedirect();
+        await this.loginUser(this.login);
       } catch (err) {
         this.error = err;
       }
     },
-    encodedLoginData() {
-      const { username, password } = this.login;
+    encodedLoginData({ username, password }) {
       return `username=${encodeURIComponent(
         username
       )}&password=${encodeURIComponent(password)}`;

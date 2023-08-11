@@ -1,6 +1,5 @@
 <template>
   <form
-    :key="renderForm"
     class="questions-form"
     :class="{ '--edited-form': !isFormUntouched }"
     @submit.prevent="onSubmit"
@@ -23,45 +22,60 @@
           </NuxtLink>
         </p>
       </div>
-      <div class="form-group" v-for="input in inputs" :key="input.id">
+      <div
+        class="form-group"
+        v-for="question in record.questions"
+        :key="question.id"
+      >
         <TextAreaComponent
-          v-if="input.component_type === COMPONENT_TYPE.FREE_TEXT"
-          :title="input.question"
-          :placeholder="input.placeholder"
-          v-model="input.options[0].value"
-          :useMarkdown="input.settings.use_markdown"
-          :isRequired="input.is_required"
-          :description="input.description"
-          @on-error="onError"
+          v-if="question.isTextType"
+          :title="question.title"
+          v-model="question.answer.value"
+          :placeholder="question.settings.placeholder"
+          :useMarkdown="question.settings.use_markdown"
+          :hasSuggestion="!record.isSubmitted && question.matchSuggestion"
+          :isRequired="question.isRequired"
+          :description="question.description"
         />
 
         <SingleLabelComponent
-          v-if="input.component_type === COMPONENT_TYPE.SINGLE_LABEL"
-          :questionId="input.id"
-          :title="input.question"
-          v-model="input.options"
-          :isRequired="input.is_required"
-          :description="input.description"
-          :visibleOptions="input.settings.visible_options"
+          v-if="question.isSingleLabelType"
+          :questionId="question.id"
+          :title="question.title"
+          v-model="question.answer.values"
+          :hasSuggestion="!record.isSubmitted && question.matchSuggestion"
+          :isRequired="question.isRequired"
+          :description="question.description"
+          :visibleOptions="question.settings.visible_options"
         />
 
         <MultiLabelComponent
-          v-if="input.component_type === COMPONENT_TYPE.MULTI_LABEL"
-          :questionId="input.id"
-          :title="input.question"
-          v-model="input.options"
-          :isRequired="input.is_required"
-          :description="input.description"
-          :visibleOptions="input.settings.visible_options"
+          v-if="question.isMultiLabelType"
+          :questionId="question.id"
+          :title="question.title"
+          v-model="question.answer.values"
+          :hasSuggestion="!record.isSubmitted && question.matchSuggestion"
+          :isRequired="question.isRequired"
+          :description="question.description"
+          :visibleOptions="question.settings.visible_options"
         />
 
         <RatingComponent
-          v-if="input.component_type === COMPONENT_TYPE.RATING"
-          :title="input.question"
-          v-model="input.options"
-          :isRequired="input.is_required"
-          :description="input.description"
-          @on-error="onError"
+          v-if="question.isRatingType"
+          :title="question.title"
+          v-model="question.answer.values"
+          :hasSuggestion="!record.isSubmitted && question.matchSuggestion"
+          :isRequired="question.isRequired"
+          :description="question.description"
+        />
+
+        <RankingComponent
+          v-if="question.isRankingType"
+          :title="question.title"
+          v-model="question.answer.values"
+          :hasSuggestion="!record.isSubmitted && question.matchSuggestion"
+          :isRequired="question.isRequired"
+          :description="question.description"
         />
       </div>
     </div>
@@ -79,20 +93,16 @@
       <div class="footer-form__right-area">
         <BaseButton
           type="button"
-          ref="discardButton"
           class="primary outline"
           @on-click="onDiscard"
-          :disabled="isRecordDiscarded"
+          :disabled="record.isDiscarded"
         >
           <span :v-text="$t('common.discard')" />
         </BaseButton>
         <BaseButton
-          ref="submitButton"
           type="submit"
-          name="submitButton"
-          value="submitButton"
           class="primary"
-          :disabled="disableSubmitButton"
+          :disabled="isSubmitButtonDisabled"
         >
           <span :v-text="$t('common.submit')" />
         </BaseButton>
@@ -104,23 +114,7 @@
 <script>
 import "assets/icons/external-link";
 import { isEqual, cloneDeep } from "lodash";
-import { Notification } from "@/models/Notifications";
-import { COMPONENT_TYPE } from "@/components/feedback-task/feedbackTask.properties";
-import {
-  getOptionsOfQuestionByDatasetIdAndQuestionName,
-  getComponentTypeOfQuestionByDatasetIdAndQuestionName,
-} from "@/models/feedback-task-model/dataset-question/datasetQuestion.queries";
-import {
-  getRecordIndexByRecordId,
-  updateRecordStatusByRecordId,
-  RECORD_STATUS,
-  RESPONSE_STATUS_FOR_API,
-} from "@/models/feedback-task-model/record/record.queries";
-import {
-  getRecordResponsesIdByRecordId,
-  upsertRecordResponses,
-  deleteRecordResponsesByUserIdAndResponseId,
-} from "@/models/feedback-task-model/record-response/recordResponse.queries";
+import { useQuestionFormViewModel } from "./useQuestionsFormViewModel";
 
 export default {
   name: "QuestionsFormComponent",
@@ -129,88 +123,31 @@ export default {
       type: String,
       required: true,
     },
-    recordId: {
-      type: String,
-      required: true,
-    },
-    recordStatus: {
-      type: String,
-      required: true,
-    },
-    initialInputs: {
-      type: Array,
+    record: {
+      type: Object,
       required: true,
     },
   },
   data() {
     return {
-      inputs: [],
-      renderForm: 0,
-      isError: false,
+      originalRecord: null,
     };
   },
+  setup() {
+    return useQuestionFormViewModel();
+  },
   computed: {
-    userId() {
-      return this.$auth.user.id;
-    },
-    recordIdIndex() {
-      return getRecordIndexByRecordId(this.recordId);
-    },
-    responseId() {
-      return getRecordResponsesIdByRecordId({
-        userId: this.userId,
-        recordId: this.recordId,
-      });
-    },
     isFormUntouched() {
-      return isEqual(this.initialInputs, this.inputs);
+      return isEqual(this.originalRecord, this.record);
     },
-    isSomeRequiredQuestionHaveNoAnswer() {
-      return this.inputs
-        .filter((input) => input.is_required)
-        .some((input) => {
-          if (input.component_type === COMPONENT_TYPE.FREE_TEXT) {
-            return input.options[0].value.length === 0;
-          } else {
-            return input.options.every((option) => !option.is_selected);
-          }
-        });
+    questionAreCompletedCorrectly() {
+      return this.record.questionAreCompletedCorrectly();
     },
-    isRecordDiscarded() {
-      return this.recordStatus === RECORD_STATUS.DISCARDED;
-    },
-    isRecordPending() {
-      return this.recordStatus === RECORD_STATUS.PENDING;
-    },
-    isRecordSubmitted() {
-      return this.recordStatus === RECORD_STATUS.SUBMITTED;
-    },
-    disableSubmitButton() {
-      let isButtonDisable = false;
-      switch (true) {
-        case this.isRecordSubmitted:
-          if (this.isFormUntouched || this.isSomeRequiredQuestionHaveNoAnswer) {
-            isButtonDisable = true;
-          }
-          break;
-        case this.isRecordDiscarded:
-        case this.isRecordPending:
-          if (this.isSomeRequiredQuestionHaveNoAnswer) isButtonDisable = true;
-          break;
-        default:
-          isButtonDisable = false;
-      }
+    isSubmitButtonDisabled() {
+      if (this.record.isSubmitted)
+        return this.isFormUntouched || !this.questionAreCompletedCorrectly;
 
-      return isButtonDisable;
-    },
-    currentInputsWithNoResponses() {
-      return this.inputs.filter(
-        (input) =>
-          (input.component_type === COMPONENT_TYPE.RATING ||
-            input.component_type === COMPONENT_TYPE.SINGLE_LABEL ||
-            input.component_type === COMPONENT_TYPE.MULTI_LABEL) &&
-          input.options.every((option) => !option.is_selected)
-      );
+      return !this.questionAreCompletedCorrectly;
     },
   },
   watch: {
@@ -219,340 +156,64 @@ export default {
     },
   },
   created() {
-    this.COMPONENT_TYPE = COMPONENT_TYPE;
+    this.record.restore();
+
     this.onReset();
   },
   mounted() {
     document.addEventListener("keydown", this.onPressKeyboardShortCut);
   },
   destroyed() {
-    this.emitIsQuestionsFormUntouched(true); // NOTE - ensure that on destroy, all parents and siblings have the flag well reinitiate
+    this.emitIsQuestionsFormUntouched(true);
     document.removeEventListener("keydown", this.onPressKeyboardShortCut);
   },
   methods: {
     onPressKeyboardShortCut({ code, shiftKey }) {
       switch (code) {
         case "Enter": {
-          const elem = this.$refs.submitButton.$el;
-          elem.click();
+          this.onSubmit();
           break;
         }
         case "Space": {
-          const elem = this.$refs.clearButton.$el;
-          shiftKey && elem.click();
+          if (shiftKey) this.onClear();
           break;
         }
         case "Backspace": {
-          const elem = this.$refs.discardButton.$el;
-          elem.click();
+          this.onDiscard();
           break;
         }
         default:
       }
     },
-
-    async sendBackendRequest(responseValues) {
-      try {
-        let responseData = null;
-        if (this.responseId) {
-          responseData = await this.updateResponseValues(
-            this.responseId,
-            responseValues
-          );
-        } else {
-          responseData = await this.createRecordResponses(
-            this.recordId,
-            responseValues
-          );
-        }
-        const { data: updatedResponses } = responseData;
-
-        if (updatedResponses) {
-          this.updateResponsesInOrm({
-            record_id: this.recordId,
-            ...updatedResponses,
-          });
-        }
-      } catch (error) {
-        console.log(error);
-
-        const message = this.$t(
-          "common.messages.thereWasAProblemToSaveResponse"
-        );
-
-        this.showNotificationComponent(message, "error");
-      }
-    },
     async onDiscard() {
-      try {
-        const responseValues = this.factoryInputsToResponseValues();
+      await this.discard(this.record);
 
-        await this.sendBackendRequest({
-          status: RESPONSE_STATUS_FOR_API.DISCARDED,
-          values: responseValues,
-        });
+      this.$emit("on-discard-responses");
 
-        await updateRecordStatusByRecordId(
-          this.recordId,
-          RECORD_STATUS.DISCARDED
-        );
-
-        this.$emit("on-discard-responses");
-
-        // TODO - reset only when we know that we fetch and computed all the necessary records data
-        this.onReset();
-      } catch (error) {
-        console.log(error);
-      }
+      this.onReset();
     },
     async onSubmit() {
-      if (this.isSomeRequiredQuestionHaveNoAnswer) {
-        this.isError = true;
+      if (!this.questionAreCompletedCorrectly) {
         return;
       }
 
-      try {
-        const responseValues = this.factoryInputsToResponseValues();
+      await this.submit(this.record);
 
-        await this.sendBackendRequest({
-          status: RESPONSE_STATUS_FOR_API.SUBMITTED,
-          values: responseValues,
-        });
+      this.$emit("on-submit-responses");
 
-        await updateRecordStatusByRecordId(
-          this.recordId,
-          RECORD_STATUS.SUBMITTED
-        );
-
-        this.$emit("on-submit-responses");
-
-        // TODO - reset only when we know that we fetch and computed all the necessary records data
-        this.onReset();
-      } catch (error) {
-        console.log(error);
-      }
+      this.onReset();
     },
     async onClear() {
-      try {
-        const responseData =
-          this.responseId &&
-          (await this.deleteResponsesByResponseId(this.responseId));
+      await this.clear(this.record);
 
-        await deleteRecordResponsesByUserIdAndResponseId(
-          this.userId,
-          responseData?.data?.id
-        );
-
-        // NOTE - onClear event => the status change to PENDING
-        await updateRecordStatusByRecordId(
-          this.recordId,
-          RECORD_STATUS.PENDING
-        );
-
-        this.$emit("on-clear-responses");
-        this.onReset();
-      } catch (err) {
-        console.log(err);
-      }
+      this.onReset();
     },
     onReset() {
-      this.inputs = cloneDeep(this.initialInputs);
-      this.isError = false;
-      this.renderForm++;
-    },
-    onError(isError) {
-      if (isError) {
-        this.isError = true;
-      } else {
-        this.isError = false;
-      }
-    },
-    async deleteResponsesByResponseId(responseId) {
-      return await this.$axios.delete(`/v1/responses/${responseId}`);
-    },
-    async updateResponsesInOrm(responsesFromApi) {
-      const newResponseToUpsertInOrm =
-        this.formatResponsesApiForOrm(responsesFromApi);
-
-      await upsertRecordResponses(newResponseToUpsertInOrm);
-    },
-    async updateResponseValues(responseId, responseByQuestionName) {
-      return await this.$axios.put(
-        `/v1/responses/${responseId}`,
-        JSON.parse(JSON.stringify(responseByQuestionName))
-      );
-    },
-    async createRecordResponses(recordId, responseByQuestionName) {
-      return await this.$axios.post(
-        `/v1/records/${recordId}/responses`,
-        JSON.parse(JSON.stringify(responseByQuestionName))
-      );
-    },
-    formatResponsesApiForOrm(responsesFromApi) {
-      const formattedRecordResponsesForOrm = [];
-      if (responsesFromApi.values) {
-        // TODO - simplify if/else by one loop
-        if (Object.keys(responsesFromApi.values).length === 0) {
-          // IF responses.value  is an empty object, init formatted responses with questions data
-          this.inputs.forEach(
-            ({ question: questionName, options: questionOptions }) => {
-              formattedRecordResponsesForOrm.push({
-                id: responsesFromApi.id,
-                question_name: questionName,
-                options: questionOptions,
-                record_id: responsesFromApi.record_id,
-                user_id: responsesFromApi.user_id ?? null,
-              });
-            }
-          );
-        } else {
-          // ELSE responses.value is not an empty object, init formatted responses with questions data and corresponding responses
-
-          // TODO - remove both loop with only one loop over the form object ( this.inputs)
-          // 1/ push formatted object corresponding to recordResponse which have been remove from api
-          this.currentInputsWithNoResponses.forEach((input) => {
-            formattedRecordResponsesForOrm.push({
-              id: responsesFromApi.id,
-              question_name: input.name,
-              options: input.options,
-              record_id: this.recordId,
-              user_id: this.userId,
-            });
-          });
-
-          // 2/ loop over the responseFromApi
-          Object.entries(responsesFromApi.values).map(
-            ([questionName, newResponse]) => {
-              const componentType =
-                getComponentTypeOfQuestionByDatasetIdAndQuestionName(
-                  this.datasetId,
-                  questionName
-                );
-              let formattedOptions =
-                getOptionsOfQuestionByDatasetIdAndQuestionName(
-                  this.datasetId,
-                  questionName
-                );
-
-              switch (componentType) {
-                case COMPONENT_TYPE.MULTI_LABEL:
-                case COMPONENT_TYPE.SINGLE_LABEL:
-                  formattedOptions = formattedOptions.map((option) => {
-                    const currentOptionsFromForm = this.inputs.find(
-                      (input) => input.name === questionName
-                    )?.options;
-                    const currentOption = currentOptionsFromForm.find(
-                      (currentOption) => currentOption.id === option.id
-                    );
-
-                    return {
-                      id: option.id,
-                      text: option.text,
-                      is_selected: currentOption.is_selected,
-                      value: option.value,
-                    };
-                  });
-                  break;
-                case COMPONENT_TYPE.RATING:
-                  formattedOptions = formattedOptions.map((option) => {
-                    const currentOptionsFromForm = this.inputs.find(
-                      (input) => input.name === questionName
-                    )?.options;
-
-                    const currentOption = currentOptionsFromForm.find(
-                      (currentOption) => currentOption.id === option.id
-                    );
-
-                    return {
-                      id: option.id,
-                      text: option.text,
-                      is_selected: currentOption.is_selected,
-                      value: option.text,
-                    };
-                  });
-                  break;
-                case COMPONENT_TYPE.FREE_TEXT:
-                  formattedOptions = [
-                    {
-                      id: formattedOptions[0].id,
-                      value: newResponse.value,
-                    },
-                  ];
-                  break;
-                default:
-                  console.log(`The component type ${componentType} is unknown`);
-                  return;
-              }
-
-              formattedRecordResponsesForOrm.push({
-                id: responsesFromApi.id,
-                question_name: questionName,
-                user_id: responsesFromApi.user_id,
-                record_id: responsesFromApi.record_id,
-                options: formattedOptions,
-              });
-            }
-          );
-        }
-      }
-      return formattedRecordResponsesForOrm;
-    },
-    factoryInputsToResponseValues() {
-      let responseByQuestionName = {};
-
-      this.inputs.forEach((input) => {
-        switch (input.component_type) {
-          case COMPONENT_TYPE.MULTI_LABEL: {
-            const selectedOptions =
-              input.options?.filter((option) => option.is_selected) ?? false;
-
-            if (selectedOptions?.length) {
-              responseByQuestionName[input.name] = {
-                value: selectedOptions.map((option) => option.value),
-              };
-            }
-            break;
-          }
-          case COMPONENT_TYPE.SINGLE_LABEL:
-          case COMPONENT_TYPE.RATING: {
-            const selectedOption =
-              input.options?.find((option) => option.is_selected) ?? false;
-
-            if (selectedOption) {
-              responseByQuestionName[input.name] = {
-                value: selectedOption.value,
-              };
-            }
-            break;
-          }
-          case COMPONENT_TYPE.FREE_TEXT: {
-            const selectedOption = input.options[0] ?? false;
-
-            if (selectedOption) {
-              responseByQuestionName[input.name] = {
-                value: selectedOption.value,
-              };
-            }
-            break;
-          }
-          default:
-            console.log(
-              `The component type ${input.component_type} is unknown, the response can't be save`
-            );
-        }
-      });
-      return responseByQuestionName;
-    },
-    showNotificationComponent(message, typeOfToast) {
-      Notification.dispatch("notify", {
-        message,
-        numberOfChars: message.length,
-        type: typeOfToast,
-      });
+      this.originalRecord = cloneDeep(this.record);
     },
     emitIsQuestionsFormUntouched(isFormUntouched) {
       this.$emit("on-question-form-touched", !isFormUntouched);
-      // TODO: Once notifications are centralized in one single point, we can remove this.
+
       this.$root.$emit("are-responses-untouched", isFormUntouched);
     },
   },
@@ -565,6 +226,7 @@ export default {
   flex-direction: column;
   flex-basis: 37em;
   height: 100%;
+  min-width: 0;
   justify-content: space-between;
   border-radius: $border-radius-m;
   box-shadow: $shadow;
@@ -594,6 +256,7 @@ export default {
     gap: $base-space * 4;
     padding: $base-space * 3;
     overflow: auto;
+    scroll-behavior: smooth;
   }
   &.--edited-form {
     border-color: palette(brown);
@@ -614,9 +277,5 @@ export default {
     display: inline-flex;
     gap: $base-space * 2;
   }
-}
-
-.error-message {
-  color: $danger;
 }
 </style>
