@@ -87,10 +87,6 @@ def test_feedback_record(schema_kwargs: Dict[str, Any]) -> None:
     [
         (
             {
-<<<<<<< HEAD
-                "id": "00000000-0000-0000-0000-000000000000",
-=======
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
                 "fields": {"text": "This is the first record", "label": "positive"},
             },
             {
