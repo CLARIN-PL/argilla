@@ -1,7 +1,8 @@
 export default {
   username: "Nazwa użytkownika",
   name: "Imię",
-  nazwisko: "Nazwisko",
-  język: "Język",
-  mySettings: "My Settings",
+  surname: "Nazwisko",
+  workspace: "Obszar roboczy",
+  language: "Język",
+  mySettings: "Moje Ustawienia",
 };

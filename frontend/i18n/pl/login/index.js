@@ -1,6 +1,6 @@
 export default {
   messages: {
-    powitanie: "Witamy",
+    welcome: "Witamy",
     pleaseEnterYourDetails: "Wprowadź swoje dane, aby się zalogować.",
     slogan: "Buduj, ulepszaj i monitoruj dane dla NLP",
     slackSupport: "Aby uzyskać wsparcie społeczności, dołącz do nas",
