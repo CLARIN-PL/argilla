@@ -26,6 +26,7 @@ These are the section headers that we use:
 - Added `DELETE /api/v1/records/{record_id}` endpoint to remove a record given its ID ([#3337](https://github.com/argilla-io/argilla/pull/3337)).
 - Added `pull` method in `RemoteFeedbackDataset` (a `FeedbackDataset` pushed to Argilla) to pull all the records from it and return it as a local copy as a `FeedbackDataset` ([#3465](https://github.com/argilla-io/argilla/pull/3465)).
 - Added `delete` method in `RemoteFeedbackDataset` (a `FeedbackDataset` pushed to Argilla) ([#3512](https://github.com/argilla-io/argilla/pull/3512)).
+- Added `delete_records` method in `RemoteFeedbackDataset`, and `delete` method in `RemoteFeedbackRecord` to delete records from Argilla ([#3526](https://github.com/argilla-io/argilla/pull/3526)).
 
 ### Changed
 
@@ -212,7 +213,6 @@ These are the section headers that we use:
 
 - Resolved typos in the docs ([#3240](https://github.com/argilla-io/argilla/pull/3240)).
 - Fixed mention of master branch ([#3254](https://github.com/argilla-io/argilla/pull/3254)).
-
 
 ## [1.9.0](https://github.com/argilla-io/argilla/compare/v1.8.0...v1.9.0)
 

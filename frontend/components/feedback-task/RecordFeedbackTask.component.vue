@@ -1,6 +1,10 @@
 <template>
   <div class="record">
-    <StatusTag class="record__status" :title="recordStatus" v-if="isDesktop" />
+    <StatusTag
+      class="record__status"
+      :title="recordStatus"
+      v-if="isDesktop"
+    />
     <div
       v-for="{ id, name, content, isTextType, settings } in fields"
       :key="id"

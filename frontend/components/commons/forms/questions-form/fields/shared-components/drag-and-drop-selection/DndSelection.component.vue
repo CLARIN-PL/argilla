@@ -21,7 +21,11 @@
       <div
         class="draggable__slot"
         :class="{ '--active-slot': items.length }"
+<<<<<<< HEAD
         v-for="{ index, rank, items } in ranking.slots.reverse()"
+=======
+        v-for="{ index, rank, items } in ranking.slots"
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
         :key="index"
       >
         <span class="draggable__slot-box--ranking" v-text="rank" />

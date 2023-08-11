@@ -134,6 +134,7 @@ async def create_user(db: "AsyncSession", user_create: UserCreate) -> User:
                 )
 
     return user
+<<<<<<< HEAD
 
 
 async def update_user(db: "AsyncSession", user: User, request: "UpdateUserRequest") -> User:
@@ -141,6 +142,8 @@ async def update_user(db: "AsyncSession", user: User, request: "UpdateUserReques
     await user.update(db, **params)
     await db.refresh(user, attribute_names=["show_discard_button"])
     return user
+=======
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
 
 
 async def delete_user(db: "AsyncSession", user: User) -> User:

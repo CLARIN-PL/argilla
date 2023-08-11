@@ -32,7 +32,10 @@ class UserCreateModel(BaseModel):
     username: str = Field(min_length=1, regex=r"^(?!-|_)[a-z0-9-_]+$")
     role: UserRole = UserRole.annotator
     password: str = Field(min_length=8, max_length=100)
+<<<<<<< HEAD
     show_discard_button: Optional[bool] = True
+=======
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
     workspaces: Optional[List[str]] = None
 
     # TODO(alvarobartt): confirm with @frascuchon

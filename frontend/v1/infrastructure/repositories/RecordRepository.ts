@@ -159,13 +159,21 @@ export class RecordRepository {
 
       const { data } = await this.axios.post(url, body, { params });
 
+<<<<<<< HEAD
       const { items, total } = data;
+=======
+      const { items, total: totalRecords } = data;
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
 
       const records = items.map((item) => item.record);
 
       return {
         records,
+<<<<<<< HEAD
         total,
+=======
+        total: totalRecords,
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
       };
     } catch (err) {
       throw {

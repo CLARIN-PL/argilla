@@ -159,10 +159,17 @@ def test_create_dataset_with_suggestions(argilla_user: "ServerUser"):
     )
 
     remote_dataset = ds.push_to_argilla(name="new_dataset")
+<<<<<<< HEAD:tests/integration/client/feedback/test_dataset.py
 
     with pytest.warns(DeprecationWarning):
         remote_dataset.fetch_records()
 
+=======
+
+    with pytest.warns(DeprecationWarning):
+        remote_dataset.fetch_records()
+
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551):tests/client/feedback/test_dataset.py
     assert len(remote_dataset.records) == 1
     for record in remote_dataset.records:
         assert record.id is not None
@@ -397,6 +404,7 @@ async def test_push_to_argilla_and_from_argilla(
                 },
                 responses=[
                     {
+<<<<<<< HEAD:tests/integration/client/feedback/test_dataset.py
                         "values": {
                             "question-1": {"value": "answer"},
                             "question-2": {"value": 1},
@@ -410,6 +418,21 @@ async def test_push_to_argilla_and_from_argilla(
                         "values": {
                             "question-1": {"value": "answer"},
                             "question-2": {"value": 1},
+=======
+                        "values": {
+                            "question-1": {"value": "answer"},
+                            "question-2": {"value": 1},
+                            "question-3": {"value": "a"},
+                            "question-4": {"value": ["a", "b"]},
+                            "question-5": {"value": [{"rank": 1, "value": "a"}, {"rank": 2, "value": "b"}]},
+                        },
+                        "status": "submitted",
+                    },
+                    {
+                        "values": {
+                            "question-1": {"value": "answer"},
+                            "question-2": {"value": 1},
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551):tests/client/feedback/test_dataset.py
                             "question-3": {"value": "a"},
                             "question-4": {"value": ["a", "b"]},
                             "question-5": {"value": [{"rank": 1, "value": "a"}, {"rank": 2, "value": "b"}]},

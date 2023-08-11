@@ -1,24 +1,43 @@
 <template>
-  <div v-if="$auth.loggedIn" v-click-outside="close" class="user">
-    <a class="user__button" @click.prevent="showSelector">
+  <div
+    v-if="$auth.loggedIn"
+    v-click-outside="close"
+    class="user"
+  >
+    <a
+      class="user__button"
+      @click.prevent="showSelector"
+    >
       {{ firstChar(user.username) }}
     </a>
-    <div v-if="visibleSelector && user" class="user__content">
+    <div
+      v-if="visibleSelector && user"
+      class="user__content"
+    >
       <div class="head">
         <div class="left-head">
-          <span v-circle v-text="firstChar(user.username)" />
+          <span
+            v-circle
+            v-text="firstChar(user.username)"
+          />
         </div>
         <div class="right-head">
           <div class="item">
             <span v-text="user.username" />
           </div>
-          <div class="item" v-if="user.email">
+          <div
+            class="item"
+            v-if="user.email"
+          >
             <span v-text="user.email" />
           </div>
         </div>
       </div>
       <div class="">
-        <NuxtLink class="user__link" :to="{ name: 'user-settings' }">
+        <NuxtLink
+          class="user__link"
+          :to="{ name: 'user-settings' }"
+        >
           {{ $t("userSettings.mySettings") }}
         </NuxtLink>
         <NuxtLink
@@ -41,9 +60,7 @@
           v-text="$t('common.logout')"
         />
       </div>
-      <span class="copyright"
-        >© {{ currentYear }} Argilla ({{ $config.clientVersion }})</span
-      >
+      <span class="copyright">© {{ currentYear }} Argilla ({{ $config.clientVersion }})</span>
     </div>
   </div>
 </template>

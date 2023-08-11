@@ -13,4 +13,8 @@
 #  limitations under the License.
 
 # coding: utf-8
+<<<<<<< HEAD
 version = "1.15.0-dev"
+=======
+version = "1.14.0"
+>>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
