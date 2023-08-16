@@ -1,9 +1,9 @@
 export default {
   datasetSettings: " Ustawienia zestawu danych",
   seeYourDataset: "Zobacz swój zestaw danych",
-  annotationGuidelines: "Wytyczne dotyczące adnotacji",
+  annotationGuidelines: "Wytyczne dotyczące anotacji",
   soonYouWillBeAble: "Wkrótce będziesz mógł edytować swoje informacje",
-  noGuideline: "Ten zbiór danych nie ma wytycznych dotyczących adnotacji",
+  noGuideline: "Ten zbiór danych nie ma wytycznych dotyczących anotacji",
   messages: {
     error: {
       datasetInfo:

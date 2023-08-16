@@ -3,7 +3,7 @@ export default {
   settings,
   ruleMetrics: "Metryki reguł",
   manageRules: " Zarządzaj regułami",
-  theRuleIsSaved: " Reguła jest zapisana",
+  theRuleIsSaved: " Reguła została zapisana",
   theRuleCouldNotBeSaved: " Nie można zapisać reguły",
   introduceAQuery: " Wprowadź zapytanie, aby zdefiniować regułę",
   actionNeeded:
@@ -11,7 +11,7 @@ export default {
   createLabels: " Utwórz etykiety",
   toCreateNewRules: `Aby utworzyć nowe reguły, potrzebne są co najmniej dwie etykiety. <br/>Zalecamy rozpoczęcie od opatrzenia niektórych rekordów tymi etykietami.`,
   weRecommend:
-    " Zalecamy rozpoczęcie od dodania adnotacji do niektórych rekordów za pomocą tych etykiet.",
+    " Zalecamy rozpoczęcie od dodania anotacji do niektórych rekordów za pomocą tych etykiet.",
   recordNoun: " rekord",
   recordsNoun: " rekordy",
   records: " Rekordy:",

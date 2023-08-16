@@ -15,13 +15,13 @@ export default {
   youAreAboutToDelete: " Masz zamiar usunąć",
   delete: "Usuń",
   find: " Znajdź",
-  train: " Tren",
+  train: " Trenuj",
   dangerZone: "Strefa zagrożenia",
   deleteConfirmation: " Potwierdzenie usunięcia",
   fromWorkspace: " z obszaru roboczego",
   thisActionCannotBeUndone: " Ta akcja nie może zostać cofnięta",
   beCarefulThisActionIsNotReversible:
-    "Bądź ostrożny, ta akcja nie jest odwracalna",
+    "Uwaga, to działanie jest nieodwracalne",
   deleteDataset: "Usuń zbiór danych",
   cancel: "Anuluj",
   fullRecord: "Pełny rekord",
@@ -47,8 +47,8 @@ export default {
   readThe: " Czytaj",
   predictedAs: " Przewidywane jako",
   predictedBy: " Przewidywane przez",
-  annotatedAs: " Annotowany jako",
-  annotatedBy: " Annotowany przez",
+  annotatedAs: " Annotowane jako",
+  annotatedBy: " Annotowane przez",
   predictedOk: " Przewidywane OK",
   selectYesNo: "Wybierz Tak/Nie",
   removeAllFilters: "Usuń wszystkie filtry",
@@ -65,7 +65,7 @@ export default {
   new: " nowy",
   sort: " Sortuj",
   search: "Szukaj",
-  discard: "Discard",
+  discard: "Odrzuć",
   clear: "Wyczyść",
   metadata: "Metadane",
   and: " i",
@@ -95,10 +95,10 @@ export default {
   predictionAbbreviated: "pred.",
   overallRuleMetrics: " Ogólne metryki reguł",
   coverage: " Pokrycie",
-  annotatedCoverage: " Pokrycie z adnotacjami",
+  annotatedCoverage: " Pokrycie z anotacjami",
   precision: "Precyzja",
   precisionAverage: " Średnio precyzja",
-  correctIncorrect: "Poprawny/niepoprawny",
+  correctIncorrect: "Poprawny / Niepoprawny",
   labels: " Etykiety",
   coverageDescription: "Procent rekordów oznaczonych przez wszystkie reguły",
   annotatedCoverageDescription:
@@ -106,16 +106,16 @@ export default {
   precisionDescription:
     "Procent poprawnych etykiet nadanych przez wszystkie reguły",
   correctAndIncorrectDescription:
-    "Liczba etykiet, które reguła przewidziała poprawnie/niepoprawnie w odniesieniu do adnotacji",
+    "Liczba etykiet, które reguła przewidziała poprawnie/niepoprawnie w odniesieniu do anotacji",
   coverageTooltip: "Procent rekordów oznaczonych przez regułę",
   annotatedCoverageTooltip:
     "Procent adnotowanych rekordów oznaczonych przez regułę",
   precisionTooltip:
-    "Procent poprawnych etykiet nadanych przez regułę w odniesieniu do adnotacji",
+    "Procent poprawnych etykiet nadanych przez regułę w odniesieniu do anotacji",
   correctIncorrectTooltip:
-    "Liczba etykiet, które reguła przewidziała poprawnie/niepoprawnie w odniesieniu do adnotacji",
+    "Liczba etykiet, które reguła przewidziała poprawnie/niepoprawnie w odniesieniu do anotacji",
   total: "Łącznie",
-  totalRules: " Łącznie reguł",
+  totalRules: "Reguł łącznie",
   next: " Następny",
   prev: " Poprzedni",
   introduceAQuery: "Wprowadź zapytanie",
@@ -123,7 +123,7 @@ export default {
   statusSelector: " Selektor statusu",
   messages: {
     thereWasAProblemToSaveResponse: "Wystąpił problem z zapisaniem odpowiedzi",
-    thereWasAProblemOnAnnotation: "Wystąpił problem z adnotacją rekordów",
+    thereWasAProblemOnAnnotation: "Wystąpił problem z anotacją rekordów",
     yourChanges:
       "Twoje zmiany zostaną utracone, jeśli przejdziesz na inną stronę",
   },
