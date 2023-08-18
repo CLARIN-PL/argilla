@@ -26,5 +26,6 @@ export default {
   okGotIt: "Ok, got it!",
   info: "Info",
   similaritySearch: "Similarity Search",
+  tokenAttributions: "Token attributions",
   colorsInTokenAttributions: "Colors in token attributions",
 };

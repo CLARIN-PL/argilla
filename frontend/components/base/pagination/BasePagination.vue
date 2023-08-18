@@ -41,7 +41,8 @@
           :class="currentPage <= 1 ? 'is-disabled' : null"
           @click.prevent="prevPage"
         >
-          <svgicon name="chevron-left" width="8" height="8" /> Prev
+          <svgicon name="chevron-left" width="8" height="8" />
+          {{ $t("datasets.prev") }}
         </a>
         <ul class="pagination__numbers">
           <li v-if="totalPages > 1 && !pages.includes(1)">
@@ -87,7 +88,8 @@
           :class="currentPage >= totalPages ? 'is-disabled' : null"
           @click.prevent="nextPage"
         >
-          Next <svgicon name="chevron-right" width="8" height="8" />
+          {{ $t("datasets.next") }}
+          <svgicon name="chevron-right" width="8" height="8" />
         </a>
       </div>
     </template>
@@ -96,10 +98,10 @@
         <strong>
           {{ currentPaginationPosition }}
         </strong>
-        of
+        {{ $t("datasets.of") }}
       </template>
       <span class="total-records">{{ totalItems | formatNumber }} </span>
-      records
+      {{ $t("datasets.records") }}
     </div>
   </div>
 </template>

@@ -95,7 +95,7 @@ export default {
     expandedMentionsGroup: undefined,
     selectedOption: {
       id: "mentions",
-      name: this.$t("common.mentions"),
+      name: "Mentions",
     },
   }),
   computed: {
@@ -121,6 +121,14 @@ export default {
     query() {
       this.filteredMentions = this.dataset.results.aggregations[this.activeTab];
     },
+  },
+  created() {
+    this.selectedOption = {
+      ...this.selectedOption,
+      ...{
+        name: this.$t("common.mentions"),
+      },
+    };
   },
   mounted() {
     this.filteredMentions = this.dataset.results.aggregations[this.activeTab];

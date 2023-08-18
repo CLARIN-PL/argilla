@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <h2 class="--heading5 --semibold description__title" v-html="title" />
+      <h2 class="--heading5 --semibold description__title" v-html="editionLabelTitle" />
     </div>
     <div class="content">
       <BaseSpinner v-if="isLoading" />
@@ -52,7 +52,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: () => "Labels",
+      default: () => "",
     },
     datasetId: {
       type: Array,
@@ -77,6 +77,9 @@ export default {
     };
   },
   computed: {
+    editionLabelTitle() {
+      return this.title || this.$t("datasets.labels")
+    },
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask, false);
     },

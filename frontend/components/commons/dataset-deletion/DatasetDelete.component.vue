@@ -4,7 +4,7 @@
     <base-card
       card-type="danger"
       :title="datasetDeleteTitle"
-      :text="$t('common.beCarefulThisActIsNotReversible')"
+      :text="$t('common.beCarefulThisActionIsNotReversible')"
       :buttonText="$t('common.deleteDataset')"
       @card-action="toggleDeleteModal(true)"
     />

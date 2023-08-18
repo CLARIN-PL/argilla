@@ -1,6 +1,6 @@
 <template>
   <div class="dataset-delete">
-    <h2 class="--heading5 --semibold" v-text="sectionTitle" />
+    <h2 class="--heading5 --semibold" v-text="$t('common.dangerZone')" />
     <BaseCard
       card-type="danger"
       :title="datasetDeleteTitle"
@@ -54,14 +54,29 @@ export default {
   data() {
     return {
       showDeleteModal: false,
-      sectionTitle: "Danger zone",
       datasetId: this.dataset.id,
       datasetName: this.dataset.name,
       workspace: this.dataset.workspace,
-      datasetDeleteTitle: `Delete <strong>${this.dataset.name}</strong>`,
-      modalTitle: `Delete confirmation`,
-      modalDescription: `You are about to delete: <strong>${this.dataset.name}</strong> from workspace <strong>${this.dataset.workspace}</strong>. This action cannot be undone`,
     };
+  },
+  computed: {
+    datasetDeleteTitle() {
+      return this.$t("dataset.deleteDataset", {
+        dataset_name: this.dataset.name,
+      });
+    },
+    modalTitle() {
+      return this.$t("common.deleteConfirmation");
+    },
+    modalDescription() {
+      return (
+        this.$t("common.youAreAboutToDelete") +
+        ` <strong>${this.dataset.name}</strong> ` +
+        this.$t("common.fromThisWorkspace") +
+        ` <strong>${this.dataset.workspace}</strong>. ` +
+        this.$t("common.thisActionCannotBeUndone")
+      );
+    },
   },
   methods: {
     toggleDeleteModal(show) {

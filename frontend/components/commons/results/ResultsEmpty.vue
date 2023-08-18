@@ -19,7 +19,7 @@
   <div class="empty">
     <span class="empty__content">
       <svgicon v-if="icon" :name="icon" width="50" height="50" />
-      <h1 class="empty__title">{{ title }}</h1>
+      <h1 class="empty__title">{{ resultsTitle }}</h1>
       <p v-if="message" class="empty__message" v-html="message" />
     </span>
   </div>
@@ -31,7 +31,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: this.$t("common.zeroResultsFound"),
+      default: "",
     },
     message: {
       type: String,
@@ -40,6 +40,11 @@ export default {
     icon: {
       type: String,
       default: "smile-sad",
+    },
+  },
+  computed: {
+    resultsTitle() {
+      return this.title || this.$t("common.zeroResultsFound");
     },
   },
 };

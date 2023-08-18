@@ -1,4 +1,8 @@
 export default {
+  prev: "Poprzedni",
+  next: "Następny",
+  of: "z",
+  records: "rekordów",
   searchDatasets: " Szukaj zbiorów danych",
   name: "Nazwa",
   workspace: " Obszar roboczy",

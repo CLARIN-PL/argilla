@@ -52,7 +52,7 @@
     <div class="form-group user-language">
       <h2
         class="--heading5 --semibold description__title"
-        :v-text="$t('userSettings.language')"
+        v-text="$t('userSettings.language')"
       />
       <select v-model="selectedLocale" class="description__lang-selector">
         <option
@@ -76,10 +76,7 @@ export default {
       required: true,
     },
   },
-  methods: {
-    goToWorkspace(workspace) {
-      this.$router.push(`/datasets?workspaces=${workspace}`);
-    },
+  computed: {
     selectedLocale: {
       get() {
         return (
@@ -91,6 +88,11 @@ export default {
         this.$i18n.setLocale(val);
         window.location.reload(true);
       },
+    },
+  },
+  methods: {
+    goToWorkspace(workspace) {
+      this.$router.push(`/datasets?workspaces=${workspace}`);
     },
   },
 };

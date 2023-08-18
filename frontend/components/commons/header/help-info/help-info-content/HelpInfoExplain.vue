@@ -18,7 +18,7 @@
 <template>
   <div>
     <p>
-      {{ $t("helpInfo.argillaHelpsYou") }}
+      {{ $t("helpInfo.argillaEnablesYou") }}
       <a
         class="primary link"
         href="https://docs.argilla.io/en/latest/tutorials/notebooks/monitoring-textclassification-shaptransformersinterpret-explainability.html"

@@ -51,9 +51,12 @@ export default {
     return {
       selectedOption: {
         id: "keywords",
-        name: this.$t("common.keywords"),
+        name: "Keywords"
       },
     };
+  },
+  created() {
+    this.selectedOption.name = this.$t('common.keywords')
   },
   computed: {
     getKeywords() {

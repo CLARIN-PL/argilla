@@ -81,17 +81,21 @@ export default {
     progressItems() {
       return [
         {
-          name: RECORD_STATUS.PENDING,
+          name: this.$t(`common.status.${RECORD_STATUS.PENDING.toLowerCase()}`),
           color: RECORD_STATUS_COLOR.PENDING,
           progress: this.totalPending,
         },
         {
-          name: RECORD_STATUS.SUBMITTED,
+          name: this.$t(
+            `common.status.${RECORD_STATUS.SUBMITTED.toLowerCase()}`
+          ),
           color: RECORD_STATUS_COLOR.SUBMITTED,
           progress: this.totalSubmitted,
         },
         {
-          name: RECORD_STATUS.DISCARDED,
+          name: this.$t(
+            `common.status.${RECORD_STATUS.DISCARDED.toLowerCase()}`
+          ),
           color: RECORD_STATUS_COLOR.DISCARDED,
           progress: this.totalDiscarded,
         },
@@ -183,6 +187,7 @@ export default {
     }
     &__name {
       display: block;
+      text-transform: capitalize;
       width: calc(100% - 40px);
       hyphens: auto;
       word-break: break-word;

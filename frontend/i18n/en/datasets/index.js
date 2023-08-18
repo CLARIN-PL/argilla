@@ -1,4 +1,8 @@
 export default {
+  prev: "Prev",
+  next: "Next",
+  of: "of",
+  records: "records",
   searchDatasets: "Search datasets",
   name: "Name",
   workspace: "Workspace",

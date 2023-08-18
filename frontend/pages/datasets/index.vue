@@ -23,7 +23,7 @@
         <app-header
           :copy-button="false"
           :sticky="false"
-          :breadcrumbs="[{ action: 'clearFilters', name: 'Home' }]"
+          :breadcrumbs="[{ action: 'clearFilters', name: $t('common.home') }]"
           @breadcrumb-action="onBreadcrumbAction($event)"
         />
         <error
@@ -39,9 +39,9 @@
         :sidebar-items="[
           {
             id: 'refresh',
-            tooltip: 'Refresh',
+            tooltip: $t('common.refresh'),
             icon: 'refresh',
-            group: 'Refresh',
+            group: $t('common.refresh'),
             action: 'refresh',
           },
         ]"

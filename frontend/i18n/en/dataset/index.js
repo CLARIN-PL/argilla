@@ -33,4 +33,5 @@ export default {
   cantGetDatasetInfo: "Can't get dataset info for dataset_id:",
   cantGetWorkspaceInfo: "Can't get workspace info for dataset_id:",
   cantGetInfo: `There was an error on fetching dataset info and workspace info. Please try again`,
+  deleteDataset: "Delete <strong>{dataset_name}</strong>",
 };

@@ -71,18 +71,24 @@ export default {
   data: () => {
     return {
       shownLabels: DatasetViewSettings.MAX_VISIBLE_LABELS,
-      inputForFeedbackComponent: {
+    };
+  },
+  computed: {
+    inputForFeedbackComponent() {
+      return {
         message: this.$t("dataset.actionNeeded"),
         buttonLabels: [
           { label: this.$t("dataset.createLabels"), value: "CREATE_LABELS" },
         ],
         feedbackType: "ERROR",
-      },
-      messageNotLabels: this.$t("dataset.toCreateNewRules"),
-      messageNotAnnotation: this.$t("dataset.weRecommend"),
-    };
-  },
-  computed: {
+      };
+    },
+    messageNotLabels() {
+      return this.$t("dataset.toCreateNewRules");
+    },
+    messageNotAnnotation() {
+      return this.$t("dataset.weRecommend");
+    },
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask);
     },

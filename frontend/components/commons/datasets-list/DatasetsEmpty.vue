@@ -8,9 +8,10 @@
         name="unavailable"
       />
       <p class="datasets-empty__title">{{ $t("datasets.datasetsEmpty") }}</p>
-      <p class="datasets-empty__subtitle">
-        {{ $t("datasets.datasetsEmptyDescription") }}
-      </p>
+      <p
+        class="datasets-empty__subtitle"
+        v-html="$t('datasets.datasetsEmptyDescription')"
+      ></p>
     </div>
     <base-spinner v-if="$fetchState.pending" />
     <documentation-viewer v-else :content="content" />

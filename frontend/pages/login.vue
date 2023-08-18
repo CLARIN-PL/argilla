@@ -19,7 +19,18 @@
   <div class="container">
     <BaseLoading v-if="hasAuthToken" />
     <form class="form" @submit.prevent="onLoginUser">
-      <brand-logo class="form__logo" />
+      <div class="form__header">
+        <brand-logo class="form__logo" />
+        <select v-model="selectedLocale" class="form__lang-selector">
+          <option
+            v-for="(locale, idx) in $i18n.locales"
+            :key="'option_' + idx"
+            :value="locale.code"
+          >
+            {{ locale.name }}
+          </option>
+        </select>
+      </div>
       <div class="form__content">
         <p class="form__title">{{ $t("login.messages.welcome") }}</p>
         <p class="form__text">

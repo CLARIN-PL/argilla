@@ -21,7 +21,7 @@
       v-if="!showLabelCreation"
       class="new-label__main-button secondary text"
       @click="openLabelCreation()"
-      >{{ text }}</base-button
+      >{{ buttonText }}</base-button
     >
     <div v-else class="new-label">
       <input
@@ -39,7 +39,7 @@
         :disabled="!label"
         @click="createNewLabel(label)"
       >
-        {{ $t("common.create") }}
+        {{ $t("common.createLabel") }}
       </base-button>
     </div>
   </div>
@@ -50,13 +50,20 @@ export default {
     text: {
       type: String,
       required: false,
-      default: this.$t("common.createLabel"),
+      default: "",
     },
   },
+
   data: () => ({
     label: undefined,
     showLabelCreation: false,
   }),
+
+  computed: {
+    buttonText() {
+      return this.text || this.$t("common.createLabel");
+    },
+  },
 
   methods: {
     createNewLabel(label) {

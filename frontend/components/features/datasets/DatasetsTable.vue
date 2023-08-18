@@ -3,7 +3,10 @@
     <datasets-empty v-if="!datasets.length" />
     <div class="dataset__table" v-else>
       <div class="interactions">
-        <base-search-bar @input="onSearch" placeholder="Search datasets" />
+        <base-search-bar
+          @input="onSearch"
+          :placeholder="$t('datasets.searchDatasets')"
+        />
       </div>
       <base-table-info
         ref="table"
@@ -47,41 +50,41 @@ export default {
       querySearch: undefined,
       tableColumns: [
         {
-          name: "Name",
+          name: this.$t("datasets.name"),
           field: "name",
           class: "table-info__title",
           type: "link",
         },
         {
-          name: "Workspace",
+          name: this.$t("datasets.workspace"),
           field: "workspace",
           class: "text",
           type: "text",
           filtrable: "true",
         },
         {
-          name: "Task",
+          name: this.$t("datasets.task"),
           field: "task",
           class: "task",
           type: "task",
           filtrable: "true",
         },
         {
-          name: "Tags",
+          name: this.$t("datasets.tags"),
           field: "tags",
           class: "text",
           type: "object",
           filtrable: "true",
         },
         {
-          name: "Created at",
+          name: this.$t("datasets.createdAt"),
           field: "createdAt",
           class: "date",
           type: "date",
           sortable: "true",
         },
         {
-          name: "Updated at",
+          name: this.$t("datasets.updatedAt"),
           field: "updatedAt",
           class: "date",
           type: "date",
@@ -92,18 +95,18 @@ export default {
         {
           name: "go-to-settings",
           icon: "settings",
-          title: "Go to dataset settings",
-          tooltip: "Dataset settings",
+          title: this.$t("datasets.goToDatasetSettings"),
+          tooltip: this.$t("dataset.settings.datasetSettings"),
         },
         {
           name: "copy",
           icon: "link",
-          title: "Copy url to clipboard",
-          tooltip: "Copied",
+          title: this.$t("datasets.copyUrlToClipboard"),
+          tooltip: this.$t("common.copied"),
         },
       ],
       emptySearchInfo: {
-        title: "0 datasets found",
+        title: this.$t("datasets.noDatasetsFound"),
       },
       externalLinks: [],
       sortedOrder: "desc",

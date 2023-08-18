@@ -13,7 +13,7 @@
         @on-click="onClickTrain"
         v-if="isAdminOrOwnerRole && showTrainButton"
       >
-        <svgicon name="code" width="20" height="20" />Train
+        <svgicon name="code" width="20" height="20" /> {{ $t("common.train") }}
       </BaseButton>
       <NuxtLink
         :to="{ name: 'dataset-id-settings', params: { id: this.datasetId } }"

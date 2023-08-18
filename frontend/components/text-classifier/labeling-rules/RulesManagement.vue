@@ -80,25 +80,6 @@ export default {
       visibleModalId: undefined,
       sortedOrder: "desc",
       sortedByField: "created_at",
-      feedbackInputInMetricsPendingState: {
-        message: this.$t("dataset.calculatingRule"),
-        feedbackType: "ERROR",
-      },
-      actions: [
-        {
-          name: "delete",
-          icon: "trash-empty",
-          title: this.$t("datasets.deleteRule"),
-        },
-      ],
-      noDataInfo: {
-        title: this.$t("datasets.zeroRulesDefined"),
-        message: this.$t("datasets.noDataInfo"),
-        icon: "unavailable",
-      },
-      emptySearchInfo: {
-        title: this.$t("datasets.zeroRulesFound"),
-      },
     };
   },
   async fetch() {
@@ -107,6 +88,33 @@ export default {
     }
   },
   computed: {
+    actions() {
+      return [
+        {
+          name: "delete",
+          icon: "trash-empty",
+          title: this.$t("datasets.deleteRule"),
+        },
+      ];
+    },
+    emptySearchInfo() {
+      return {
+        title: this.$t("datasets.zeroRulesFound"),
+      };
+    },
+    noDataInfo() {
+      return {
+        title: this.$t("datasets.zeroRulesDefined"),
+        message: this.$t("datasets.noDataInfo"),
+        icon: "unavailable",
+      };
+    },
+    feedbackInputInMetricsPendingState() {
+      return {
+        message: this.$t("dataset.calculatingRule"),
+        feedbackType: "ERROR",
+      };
+    },
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask);
     },

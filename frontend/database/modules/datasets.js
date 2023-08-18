@@ -906,8 +906,8 @@ const actions = {
         {
           id: "status",
           key: "status",
-          group: "Status",
-          name: "Status",
+          group: this.$t("common.statusLabel"),
+          name: this.$t("common.statusLabel"),
           order: "desc",
         },
       ],

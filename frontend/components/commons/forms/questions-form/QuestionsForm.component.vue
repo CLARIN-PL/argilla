@@ -87,7 +87,7 @@
           class="primary text"
           @click.prevent="onClear"
         >
-          <span :v-text="$t('common.clear')" />
+          <span v-text="$t('common.clear')" />
         </BaseButton>
       </div>
       <div class="footer-form__right-area">
@@ -97,14 +97,14 @@
           @on-click="onDiscard"
           :disabled="record.isDiscarded"
         >
-          <span :v-text="$t('common.discard')" />
+          <span v-text="$t('common.discard')" />
         </BaseButton>
         <BaseButton
           type="submit"
           class="primary"
           :disabled="isSubmitButtonDisabled"
         >
-          <span :v-text="$t('common.submit')" />
+          <span v-text="$t('common.submit')" />
         </BaseButton>
       </div>
     </div>

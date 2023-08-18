@@ -54,7 +54,7 @@ export default {
         },
         {
           link: null,
-          name: "settings",
+          name: this.$t('common.settings'),
         },
       ];
     },

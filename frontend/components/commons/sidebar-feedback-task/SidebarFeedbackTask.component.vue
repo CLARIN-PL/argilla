@@ -62,7 +62,7 @@ export default {
             id: "refresh",
             tooltip: this.$t("common.refresh"),
             icon: "refresh",
-            group: "Refresh",
+            group: this.$t("common.refresh"),
             type: "non-expandable",
             action: "refresh",
           },

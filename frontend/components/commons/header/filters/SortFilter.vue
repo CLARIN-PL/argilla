@@ -83,9 +83,20 @@ export default {
   }),
   computed: {
     filteredSortOptions() {
-      return this.sortOptions.filter((opt) =>
-        opt.name.toLowerCase().match(this.searchText.toLowerCase())
-      );
+      return this.sortOptions
+        .map((opt) => {
+          return {
+            ...opt,
+            name: opt.name || "",
+          };
+        })
+        .filter(
+          (opt) =>
+            opt.name &&
+            JSON.stringify(opt.name)
+              .toLowerCase()
+              .match(this.searchText.toLowerCase())
+        );
     },
   },
   mounted() {

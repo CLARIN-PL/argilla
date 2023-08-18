@@ -22,5 +22,6 @@ export default {
   okGotIt: "Ok, rozumiem!",
   info: "Informacje",
   similaritySearch: "Wyszukiwanie podobieństw",
+  tokenAttributions: "Atrybucji token",
   colorsInTokenAttributions: "Kolory w atrybucjach tokenów",
 };

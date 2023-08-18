@@ -3,7 +3,7 @@ export default {
     welcome: "Witamy",
     pleaseEnterYourDetails: "Wprowadź swoje dane, aby się zalogować.",
     slogan: "Buduj, ulepszaj i monitoruj dane dla NLP",
-    slackSupport: "Aby uzyskać wsparcie społeczności, dołącz do nas",
+    slackSupport: "Aby uzyskać wsparcie społeczności, dołącz do nas na ",
     errorCredentials:
       "Niewłaściwa nazwa użytkownika lub hasło. Spróbuj ponownie",
   },

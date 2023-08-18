@@ -36,4 +36,5 @@ export default {
     "Nie można uzyskać informacji o obszarze roboczym dla dataset_id:",
   cantGetInfo:
     "Wystąpił błąd podczas pobierania informacji o zestawie danych i informacji o obszarze roboczym. Spróbuj ponownie",
+  deleteDataset: "Usuń <strong>{dataset_name}</strong>",
 };

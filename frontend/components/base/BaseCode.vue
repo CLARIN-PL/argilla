@@ -1,5 +1,5 @@
 <template>
-  <base-action-tooltip class="button" :tooltip="$t('common.copied')">
+  <base-action-tooltip class="button" :tooltip="tooltip">
     <a href="#" @click.prevent="copy(code)">
       <svgicon name="copy" width="16" height="16" />
     </a>
@@ -13,6 +13,11 @@ export default {
     code: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    tooltip() {
+      return this.$nuxt.$i18n.t("common.copied");
     },
   },
   methods: {

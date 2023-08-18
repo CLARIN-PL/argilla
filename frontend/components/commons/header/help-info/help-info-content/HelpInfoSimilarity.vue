@@ -17,9 +17,7 @@
 
 <template>
   <div>
-    <p>
-      {{ $t("helpInfo.sinceCode") }}
-    </p>
+    <p v-html="$t('helpInfo.sinceCode')"></p>
     <img src="images/help-info/similarity.png" alt="token attributions" />
     <p>
       {{ $t("helpInfo.thisFeature") }}
