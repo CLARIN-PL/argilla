@@ -3,6 +3,7 @@
     <StatusTag class="record__status" :title="recordStatus" />
     <div
       v-for="{ id, name, content, isTextType, settings } in fields"
+      :class="`record__field chat`"
       :key="id"
     >
       <TextFieldComponent
@@ -45,6 +46,23 @@ export default {
   &__status {
     display: inline-flex;
     margin-right: auto;
+  }
+
+  &__field {
+    &.chat {
+      &:nth-of-type(2n) {
+        margin-left: 10%;
+
+        .text_field_component {
+          background-color: palette(grey, 600) !important;
+        }
+      }
+
+      &:nth-of-type(2n+1) {
+        margin-right: 10%
+
+      }
+    }
   }
 }
 </style>
