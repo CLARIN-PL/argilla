@@ -20,8 +20,7 @@ export default {
   deleteConfirmation: " Potwierdzenie usunięcia",
   fromWorkspace: " z obszaru roboczego",
   thisActionCannotBeUndone: " Ta akcja nie może zostać cofnięta",
-  beCarefulThisActionIsNotReversible:
-    "Uwaga, to działanie jest nieodwracalne",
+  beCarefulThisActionIsNotReversible: "Uwaga, to działanie jest nieodwracalne",
   deleteDataset: "Usuń zbiór danych",
   cancel: "Anuluj",
   fullRecord: "Pełny rekord",

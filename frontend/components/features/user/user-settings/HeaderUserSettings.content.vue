@@ -16,7 +16,7 @@ export default {
   computed: {
     breadcrumbs() {
       return [
-        { link: { name: ROUTES.datasets}, name: this.$t("common.home") },
+        { link: { name: ROUTES.datasets }, name: this.$t("common.home") },
         {
           link: null,
           name: this.$t("userSettings.mySettings"),

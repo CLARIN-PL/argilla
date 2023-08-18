@@ -4,7 +4,6 @@ import "@/plugins/plugins/filters";
 
 let wrapper = null;
 
-
 const options = {
   propsData: {
     totalItems: 500,

@@ -24,7 +24,7 @@ export default {
   props: {
     placeholder: {
       type: String,
-      default: ""
+      default: "",
     },
     value: {
       type: String,
@@ -37,10 +37,10 @@ export default {
   },
   computed: {
     searchPlaceholder() {
-      if(this.placeholder) {
-        return this.placeholder
+      if (this.placeholder) {
+        return this.placeholder;
       }
-      return this.$t('common.search') + '...'
+      return this.$t("common.search") + "...";
     },
     searchText: {
       get() {

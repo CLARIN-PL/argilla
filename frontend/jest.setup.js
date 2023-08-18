@@ -2,22 +2,22 @@ import Vue from "vue";
 import { Nuxt, Builder } from "nuxt";
 import SvgIcon from "vue-svgicon";
 import nuxtConfig from "./nuxt.config";
-import { config } from '@vue/test-utils'
-import i18nEn from "./i18n/en/"
-import _ from "lodash"
+import { config } from "@vue/test-utils";
+import i18nEn from "./i18n/en/";
+import _ from "lodash";
 
 Vue.use(SvgIcon);
 Vue.directive("click-outside", {});
-Vue.config.silent = true
+Vue.config.silent = true;
 
 // configure @vue/test-utils
 // default language set to English since it's the original language of Argilla
-config.stubs['nuxt-link'] = true
+config.stubs["nuxt-link"] = true;
 config.mocks.$t = (i) => {
-  let res = _.get(i18nEn, i)
-  return res ? res : i
-}
-config.mocks.localePath = i => i
+  const res = _.get(i18nEn, i);
+  return res ? res : i;
+};
+config.mocks.localePath = (i) => i;
 
 // these boolean switches turn off the build for all but the store
 const resetConfig = {

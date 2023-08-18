@@ -34,7 +34,7 @@ export default {
   watch: {
     imOffline() {
       return Notification.dispatch("notify", {
-        message: this.$t('error.youAreOffline'),
+        message: this.$t("error.youAreOffline"),
         type: "error",
       });
     },

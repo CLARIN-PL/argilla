@@ -10,7 +10,6 @@ function mountSelectOptionsSearch() {
   });
 }
 
-
 describe("SelectOptionsSearch", () => {
   const spy = jest.spyOn(console, "error");
   afterEach(() => spy.mockReset());

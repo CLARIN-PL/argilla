@@ -18,8 +18,7 @@
 import { NuxtConfig } from "@nuxt/types";
 import Mode from "frontmatter-markdown-loader/mode";
 import pkg from "./package.json";
-import i18n from "./i18n"
-
+import i18n from "./i18n";
 
 require("dotenv").config();
 

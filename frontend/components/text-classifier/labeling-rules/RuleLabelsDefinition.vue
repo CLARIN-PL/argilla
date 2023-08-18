@@ -178,7 +178,7 @@ export default {
         return this.$t("dataset.ruleSaved");
       }
       if (this.selectedLabels && this.queryWithLabelsIsStored) {
-        let label =
+        const label =
           this.selectedLabels.length > 1
             ? this.$t("dataset.theseLabels")
             : this.$t("dataset.thisLabel");
