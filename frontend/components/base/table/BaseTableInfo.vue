@@ -170,13 +170,13 @@
                         class="primary outline"
                         @click="$emit('close-modal')"
                       >
-                        {{ $t("common.cancel ") }}
+                        {{ $t("common.cancel") }}
                       </base-button>
                       <base-button
                         class="primary"
                         @click="onActionClicked('confirm-delete', item)"
                       >
-                        {{ $t("common.yesDelete ") }}
+                        {{ $t("common.yesDelete") }}
                       </base-button>
                     </div>
                   </div>
