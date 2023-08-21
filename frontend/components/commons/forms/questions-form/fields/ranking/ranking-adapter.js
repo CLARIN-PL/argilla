@@ -10,7 +10,7 @@ export const adaptQuestionsToSlots = ({ options }) => {
       rank: id,
       items,
     };
-  });
+  })
 
   const questions = options.filter((o) => isNil(o.rank));
 
