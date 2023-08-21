@@ -6,7 +6,7 @@
       :key="id"
     >
       <TextFieldComponent
-        v-if="isTextType"
+        v-if="isTextType && !!content"
         :title="name"
         :fieldText="content"
         :useMarkdown="settings.use_markdown"
