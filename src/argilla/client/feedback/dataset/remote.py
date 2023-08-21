@@ -17,19 +17,12 @@ from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Union
 
 from tqdm import trange
 
-from argilla.client.feedback.constants import FETCHING_BATCH_SIZE, PUSHING_BATCH_SIZE
+from argilla.client.feedback.constants import DELETE_DATASET_RECORDS_MAX_NUMBER, FETCHING_BATCH_SIZE, PUSHING_BATCH_SIZE
 from argilla.client.feedback.dataset.base import FeedbackDatasetBase
 from argilla.client.feedback.schemas.records import FeedbackRecord, RemoteFeedbackRecord
 from argilla.client.sdk.users.models import UserRole
 from argilla.client.sdk.v1.datasets import api as datasets_api_v1
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 from argilla.client.sdk.v1.records import api as records_api_v1
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
-=======
-from argilla.client.sdk.v1.records import api as records_api_v1
->>>>>>> 5aa70961... Merge branch 'main' into develop
 from argilla.client.utils import allowed_for_roles
 
 if TYPE_CHECKING:
@@ -180,33 +173,15 @@ class RemoteFeedbackRecords:
 
     def add(
         self,
-<<<<<<< HEAD
-<<<<<<< HEAD
-        records: List[FeedbackRecord],
-=======
         records: Union[FeedbackRecord, Dict[str, Any], List[Union[FeedbackRecord, Dict[str, Any]]]],
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
-=======
-        records: Union[FeedbackRecord, Dict[str, Any], List[Union[FeedbackRecord, Dict[str, Any]]]],
->>>>>>> 5aa70961... Merge branch 'main' into develop
         show_progress: bool = True,
     ) -> None:
         """Pushes a list of `FeedbackRecord`s to Argilla.
 
         Args:
-<<<<<<< HEAD
-<<<<<<< HEAD
-            records: A list of `FeedbackRecord`s to push to Argilla.
-=======
             records: can be a single `FeedbackRecord`, a list of `FeedbackRecord`,
                 a single dictionary, or a list of dictionaries. If a dictionary is provided,
                 it will be converted to a `FeedbackRecord` internally.
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
-=======
-            records: can be a single `FeedbackRecord`, a list of `FeedbackRecord`,
-                a single dictionary, or a list of dictionaries. If a dictionary is provided,
-                it will be converted to a `FeedbackRecord` internally.
->>>>>>> 5aa70961... Merge branch 'main' into develop
             show_progress: Whether to show a `tqdm` progress bar while pushing the records.
 
         Raises:
@@ -230,11 +205,7 @@ class RemoteFeedbackRecords:
                 records=records_batch,
             )
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 =======
-=======
->>>>>>> 5aa70961... Merge branch 'main' into develop
     def delete(
         self,
         records: List[RemoteFeedbackRecord],
@@ -247,16 +218,17 @@ class RemoteFeedbackRecords:
         Raises:
             RuntimeError: If the deletion of the records from Argilla fails.
         """
-        for record in records:
+        num_records = len(records)
+        for start in range(0, num_records, DELETE_DATASET_RECORDS_MAX_NUMBER):
+            end = min(start + DELETE_DATASET_RECORDS_MAX_NUMBER, num_records)
             try:
-                records_api_v1.delete_record(client=self._dataset._client, id=record.id)
+                datasets_api_v1.delete_records(
+                    client=self._dataset._client,
+                    id=self._dataset.id,
+                    record_ids=[record.id for record in records[start:end]],
+                )
             except Exception as e:
-                raise RuntimeError(f"Failed to delete record with id {record.id} from Argilla.") from e
-
-<<<<<<< HEAD
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
-=======
->>>>>>> 5aa70961... Merge branch 'main' into develop
+                raise RuntimeError("Failed to remove records from Argilla") from e
 
 class RemoteFeedbackDataset(FeedbackDatasetBase):
     def __init__(
@@ -403,19 +375,9 @@ class RemoteFeedbackDataset(FeedbackDatasetBase):
             questions=self.questions,
             guidelines=self.guidelines,
         )
-<<<<<<< HEAD
-<<<<<<< HEAD
-        instance.add_records([record.dict(exclude={"client", "name2id"}) for record in self._records])
-=======
         instance.add_records(
             [record.dict(exclude={"client", "name2id", "id"}, exclude_none=True) for record in self._records]
         )
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
-=======
-        instance.add_records(
-            [record.dict(exclude={"client", "name2id", "id"}, exclude_none=True) for record in self._records]
-        )
->>>>>>> 5aa70961... Merge branch 'main' into develop
         return instance
 
     def add_records(
@@ -426,20 +388,9 @@ class RemoteFeedbackDataset(FeedbackDatasetBase):
         """Adds the given records to the dataset and pushes those to Argilla.
 
         Args:
-<<<<<<< HEAD
-<<<<<<< HEAD
-            records: the records to add to the dataset. Can be a single record, a list
-                of records or a dictionary with the fields of the record.
-=======
             records: can be a single `FeedbackRecord`, a list of `FeedbackRecord`,
                 a single dictionary, or a list of dictionaries. If a dictionary is provided,
                 it will be converted to a `FeedbackRecord` internally.
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
-=======
-            records: can be a single `FeedbackRecord`, a list of `FeedbackRecord`,
-                a single dictionary, or a list of dictionaries. If a dictionary is provided,
-                it will be converted to a `FeedbackRecord` internally.
->>>>>>> 5aa70961... Merge branch 'main' into develop
 
         Raises:
             ValueError: if the given records are an empty list.
@@ -450,11 +401,6 @@ class RemoteFeedbackDataset(FeedbackDatasetBase):
         self._records.add(records=records, show_progress=show_progress)
 
     @allowed_for_roles(roles=[UserRole.owner, UserRole.admin])
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 5aa70961... Merge branch 'main' into develop
     def delete_records(self, records: Union["RemoteFeedbackRecord", List["RemoteFeedbackRecord"]]) -> None:
         """Deletes the given records from the dataset in Argilla.
 
@@ -469,10 +415,6 @@ class RemoteFeedbackDataset(FeedbackDatasetBase):
         self._records.delete(records=[records] if not isinstance(records, list) else records)
 
     @allowed_for_roles(roles=[UserRole.owner, UserRole.admin])
-<<<<<<< HEAD
->>>>>>> a8abfaa6... Releases/1.14.0 (#3551)
-=======
->>>>>>> 5aa70961... Merge branch 'main' into develop
     def delete(self) -> None:
         """Deletes the current `FeedbackDataset` from Argilla. This method is just working
         if the user has either `owner` or `admin` role.
