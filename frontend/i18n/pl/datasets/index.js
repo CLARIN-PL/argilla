@@ -19,9 +19,9 @@ export default {
   recordsPerPage: "Liczba rekordów na stronie:",
   youHaveReached:
     "Dotarłeś/łaś do końca danych dla kolejki {recordStatusToFilterWith}",
-  youHaveNoRecords: "Nie masz żadnych rekordów {recordStatusToFilterWith}",
+  youHaveNoRecords: "Nie masz żadnych rekordów: {recordStatusToFilterWith}",
   youHaveNoRecordsMatchingSearch:
-    "Nie masz {recordStatusToFilterWith} rekordów pasujących do danych wejściowych wyszukiwania",
+    "Nie masz rekordów pasujących do danych wejściowych wyszukiwania: {recordStatusToFilterWith}",
   yourChangesWillBeLostOnViewChange:
     " Zmiany zostaną utracone po przejściu do innego widoku",
   yourChangesWillBeLostOnSearch:
