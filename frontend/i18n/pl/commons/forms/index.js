@@ -1,4 +1,4 @@
 export default {
   submitYourFeedback: "Prześlij swoją opinię",
-  annotationGuidelines: " Wytyczne dotyczące anotacji",
+  annotationGuidelines: "wytyczne dotyczące anotacji",
 };

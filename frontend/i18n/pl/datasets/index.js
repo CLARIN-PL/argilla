@@ -14,7 +14,7 @@ export default {
   copyUrlToClipboard: "Kopiuj adres URL do schowka",
   datasetsSettings: "Ustawienia zbiorów danych",
   noDatasetsFound: "Znaleziono 0 zestawów danych",
-  annotationGuidelines: "Wytyczne anotowania",
+  annotationGuidelines: "Wytyczne dotyczące anotacji",
   seeYourDataset: "Zobacz swój zbiór danych",
   recordsPerPage: "Liczba rekordów na stronie:",
   youHaveReached:
