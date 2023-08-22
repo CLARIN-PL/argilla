@@ -51,12 +51,12 @@ export default {
     return {
       selectedOption: {
         id: "keywords",
-        name: "Keywords"
+        name: "Keywords",
       },
     };
   },
   created() {
-    this.selectedOption.name = this.$t('common.keywords')
+    this.selectedOption.name = this.$t("common.keywords");
   },
   computed: {
     getKeywords() {

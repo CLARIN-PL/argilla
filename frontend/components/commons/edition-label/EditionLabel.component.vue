@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <h2 class="--heading5 --semibold description__title" v-html="editionLabelTitle" />
+      <h2
+        class="--heading5 --semibold description__title"
+        v-html="editionLabelTitle"
+      />
     </div>
     <div class="content">
       <BaseSpinner v-if="isLoading" />
@@ -78,7 +81,7 @@ export default {
   },
   computed: {
     editionLabelTitle() {
-      return this.title || this.$t("datasets.labels")
+      return this.title || this.$t("datasets.labels");
     },
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask, false);

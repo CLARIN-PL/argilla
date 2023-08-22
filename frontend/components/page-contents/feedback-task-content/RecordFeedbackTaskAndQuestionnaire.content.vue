@@ -97,10 +97,14 @@ export default {
         this.searchTextToFilterWith.length === 0
       )
         return this.$t("datasets.youHaveNoRecords", {
-          recordStatusToFilterWith: this.$t(`common.status.${this.recordStatusToFilterWith}`),
+          recordStatusToFilterWith: this.$t(
+            `common.status.${this.recordStatusToFilterWith}`
+          ),
         });
       return this.$t("datasets.youHaveNoRecordsMatchingSearch", {
-        recordStatusToFilterWith:  this.$t(`common.status.${this.recordStatusToFilterWith}`),
+        recordStatusToFilterWith: this.$t(
+          `common.status.${this.recordStatusToFilterWith}`
+        ),
       });
     },
     statusClass() {

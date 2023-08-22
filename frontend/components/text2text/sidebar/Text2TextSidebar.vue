@@ -77,8 +77,8 @@ export default {
           group: this.$t("common.refresh"),
           action: "refresh",
         },
-      ]
-    }
+      ];
+    },
   },
   beforeMount() {
     this.$emit("set-sidebar-items", this.sidebarItems);
