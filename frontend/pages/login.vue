@@ -131,10 +131,11 @@ export default {
   computed: {
     selectedLocale: {
       get() {
-        return (
-          this.$i18n.locales.find((locale) => locale.code == this.$i18n.locale)
-            .code || "pl"
+        const locales = this.$i18n.locales || [];
+        const locale = locales.find(
+          (locale) => locale.code == this.$i18n.locale
         );
+        return locale?.code || "pl";
       },
       set(val) {
         this.$i18n.setLocale(val);

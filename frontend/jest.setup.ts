@@ -17,6 +17,13 @@ config.mocks.$t = (i) => {
   const res = _.get(i18nEn, i);
   return res || i;
 };
+config.mocks.$i18n = () => {
+  return {
+    setLocale: () => {},
+    locale: "en",
+    locales: [{ code: "en", name: "English" }],
+  };
+};
 config.mocks.localePath = (i) => i;
 
 // these boolean switches turn off the build for all but the store
