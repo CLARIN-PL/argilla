@@ -16,7 +16,7 @@
   -->
 
 <template>
-  <div lang="en">
+  <div :lang="$i18n.locale">
     <Nuxt v-if="!$slots.default" />
     <slot />
   </div>
