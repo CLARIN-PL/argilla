@@ -15,24 +15,11 @@
  * limitations under the License.
  */
 
-import { Context } from "@nuxt/types";
-import { GeneralSettings } from "~/models/GeneralSettings";
+const getters = {};
 
-export default ({ $auth, route, redirect }: Context) => {
-  GeneralSettings.insertOrUpdate({
-    data: {
-      id: $auth.user.id,
-      agent: $auth.user.username,
-    },
-  });
-  switch (route.name) {
-    case "login":
-      break;
-    default:
-      if (!$auth.loggedIn) {
-        const REDIRECT_URL =
-          "/login?redirect=" + encodeURIComponent(route.fullPath);
-        redirect(REDIRECT_URL);
-      }
-  }
+const actions = {};
+
+export default {
+  getters,
+  actions,
 };

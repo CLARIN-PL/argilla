@@ -1,7 +1,9 @@
 import { type NuxtAxiosInstance } from "@nuxtjs/axios";
 import { Store } from "vuex";
+import _ from "lodash";
 import { Dataset } from "@/v1/domain/entities/Dataset";
 import { IDatasetRepository } from "@/v1/domain/services/IDatasetRepository";
+import { GeneralSettings } from "~/models/GeneralSettings";
 
 export const DATASET_API_ERRORS = {
   ERROR_FETCHING_FEEDBACK_DATASETS: "ERROR_FETCHING_FEEDBACK_DATASETS",
@@ -69,7 +71,21 @@ export class DatasetRepository implements IDatasetRepository {
       }
     );
 
-    return [...otherDatasets, ...feedbackDatasets];
+    // TODO: check dataset status and filter out datasets that are already completed (status: "completed")
+    // and show only one dataset (the first one) that is in progress (status: "in_progress")
+    const datasets = [...otherDatasets, ...feedbackDatasets]
+      .filter((dataset) => dataset.status !== "completed")
+      .splice(0, 1);
+
+    GeneralSettings.update({
+      where: this.store.$auth.$state.user.id,
+      data: {
+        current_dataset_id: datasets[0].id,
+        current_dataset_name: datasets[0].name,
+      },
+    });
+
+    return _.sortBy(datasets, (dataset) => dataset.name.toLowerCase());
   }
 
   private async getDatasetById(datasetId: string) {
