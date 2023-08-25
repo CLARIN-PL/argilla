@@ -21,6 +21,13 @@
         <NuxtLink class="user__link" :to="{ name: 'user-settings' }">
           {{ $t("userSettings.mySettings") }}
         </NuxtLink>
+        <NuxtLink
+          v-if="user.role === 'admin'"
+          class="user__link"
+          :to="{ name: 'general-settings' }"
+        >
+          {{ $t("userSettings.generalSettings") }}
+        </NuxtLink>
         <a
           class="user__link"
           :href="$config.documentationSite"

@@ -27,7 +27,7 @@ import { RecordField } from "@/models/feedback-task-model/record-field/RecordFie
 import { RecordResponse } from "@/models/feedback-task-model/record-response/RecordResponse.model";
 import { Pagination, DatasetViewSettings } from "@/models/DatasetViewSettings";
 import { Notification } from "@/models/Notifications";
-import { GeneralSettings } from "~/models/GeneralSettings";
+import { GeneralSettings } from "@/models/GeneralSettings";
 import { AnnotationProgress } from "@/models/AnnotationProgress";
 import { ObservationDataset } from "@/models/Dataset";
 import { Text2TextDataset } from "@/models/Text2Text";
