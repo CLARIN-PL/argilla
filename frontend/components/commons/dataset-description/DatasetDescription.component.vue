@@ -1,6 +1,6 @@
 <template>
   <div class="description">
-    <h2 class="--heading5 --semibold description__title" v-text="title" />
+    <h2 class="--heading5 --semibold description__title" >{{  title | capitalize }}</h2>
     <RenderMarkdownBaseComponent
       class="--body1 description__text"
       :class="{ '--light': isColorLight }"
@@ -22,7 +22,7 @@ export default {
     },
   },
   created() {
-    this.title = this.$options.filters.capitalize(this.$t("dataset.settings.annotationGuidelines"));
+    this.title = this.$t("dataset.settings.annotationGuidelines")
   },
 };
 </script>

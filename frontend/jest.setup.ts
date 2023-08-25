@@ -25,6 +25,11 @@ config.mocks.$i18n = () => {
   };
 };
 config.mocks.localePath = (i) => i;
+config.mocks.$options = {
+  filters: {
+    capitalize: (i) => i,
+  }
+}
 
 // these boolean switches turn off the build for all but the store
 const resetConfig = {
