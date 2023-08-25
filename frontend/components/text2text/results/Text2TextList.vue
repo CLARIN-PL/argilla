@@ -82,6 +82,7 @@
 import { IdState } from "vue-virtual-scroller";
 import { mapActions } from "vuex";
 import { getText2TextDatasetById } from "@/models/text2text.queries";
+import { GeneralSettings } from "~/models/GeneralSettings";
 
 export default {
   mixins: [
@@ -203,6 +204,7 @@ export default {
           id: "validate",
           name: this.$t("common.validate"),
           allow: true,
+          show: true,
           active: !this.allowValidation,
           disable: !this.defaultText,
         },
@@ -210,17 +212,20 @@ export default {
           id: "discard",
           name: this.$t("common.discard"),
           allow: true,
+          show: GeneralSettings.find(this.$auth.user.id)?.show_discard_button,
           active: this.recordStatusIs("Discarded"),
         },
         {
           id: "clear",
           name: this.$t("common.clear"),
+          show: true,
           allow: true,
           disable: !showClean,
         },
         {
           id: "reset",
           name: this.$t("common.reset"),
+          show: true,
           allow: true,
           disable: !this.recordStatusIs("Edited"),
         },

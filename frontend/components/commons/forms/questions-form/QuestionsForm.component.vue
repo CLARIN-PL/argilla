@@ -94,6 +94,7 @@
         <BaseButton
           type="button"
           class="primary outline"
+          v-if="showDiscardButton"
           @on-click="onDiscard"
           :disabled="record.isDiscarded"
         >
@@ -115,6 +116,7 @@
 import "assets/icons/external-link";
 import { isEqual, cloneDeep } from "lodash";
 import { useQuestionFormViewModel } from "./useQuestionsFormViewModel";
+import { GeneralSettings } from "@/models/GeneralSettings";
 
 export default {
   name: "QuestionsFormComponent",
@@ -139,6 +141,10 @@ export default {
   computed: {
     isFormUntouched() {
       return isEqual(this.originalRecord, this.record);
+    },
+    showDiscardButton() {
+      const settings = GeneralSettings.find(this.$auth.user.id);
+      return settings?.show_discard_button;
     },
     questionAreCompletedCorrectly() {
       return this.record.questionAreCompletedCorrectly();
