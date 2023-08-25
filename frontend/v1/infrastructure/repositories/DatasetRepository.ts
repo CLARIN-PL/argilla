@@ -75,11 +75,6 @@ export class DatasetRepository implements IDatasetRepository {
     );
 
     let datasets = [...otherDatasets, ...feedbackDatasets];
-    if (this.store.$auth.$state.user.role !== "admin") {
-      datasets = datasets
-        .filter((dataset) => dataset.status !== "completed")
-        .splice(0, 1);
-    }
 
     GeneralSettings.update({
       where: this.store.$auth.$state.user.id,
