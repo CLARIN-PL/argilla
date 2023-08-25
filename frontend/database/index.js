@@ -27,6 +27,7 @@ import { RecordField } from "@/models/feedback-task-model/record-field/RecordFie
 import { RecordResponse } from "@/models/feedback-task-model/record-response/RecordResponse.model";
 import { Pagination, DatasetViewSettings } from "@/models/DatasetViewSettings";
 import { Notification } from "@/models/Notifications";
+import { GeneralSettings } from "~/models/GeneralSettings";
 import { AnnotationProgress } from "@/models/AnnotationProgress";
 import { ObservationDataset } from "@/models/Dataset";
 import { Text2TextDataset } from "@/models/Text2Text";
@@ -42,6 +43,7 @@ import text_classification from "@/database/modules/text_classification";
 import token_classification from "@/database/modules/token_classification";
 
 import notifications from "@/database/modules/notifications";
+import general_settings from "@/database/modules/general_settings";
 
 const database = new Database();
 
@@ -57,6 +59,7 @@ database.register(DatasetViewSettings);
 database.register(Pagination);
 database.register(AnnotationProgress);
 database.register(Notification, notifications);
+database.register(GeneralSettings, general_settings);
 database.register(ObservationDataset, datasets);
 database.register(Text2TextDataset);
 database.register(TextClassificationDataset, text_classification);

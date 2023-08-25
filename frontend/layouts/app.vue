@@ -31,6 +31,14 @@ export default {
       return this.$nuxt.isOffline;
     },
   },
+  created() {
+    // if(this.$auth.loggedIn) {
+    //   GeneralSettings.insertOrUpdate({data: {
+    //       id: this.$auth.user.id,
+    //       agent: this.$auth.user.username
+    //   }})
+    // }
+  },
   watch: {
     imOffline() {
       return Notification.dispatch("notify", {
