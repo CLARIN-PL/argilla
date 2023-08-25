@@ -34,16 +34,16 @@ export default {
   computed: {
     showDiscardButton: {
       get() {
-        const settings = GeneralSettings.find(this.$auth.user.id)
+        const settings = GeneralSettings.find(this.$auth.user.id);
         return settings?.show_discard_button;
       },
       set(value) {
         GeneralSettings.update({
           where: this.$auth.user.id,
           data: {
-            show_discard_button: value
-          }
-        })
+            show_discard_button: value,
+          },
+        });
       },
     },
   },
