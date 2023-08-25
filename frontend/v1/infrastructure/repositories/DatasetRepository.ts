@@ -74,11 +74,19 @@ export class DatasetRepository implements IDatasetRepository {
       }
     );
 
-    const datasets = [...otherDatasets, ...feedbackDatasets].map((dataset) => {
-      return {
-        ...dataset,
-        createdAt: dataset.createdAt || dataset.insertedAt,
-      };
+    let datasets = [...otherDatasets, ...feedbackDatasets];
+    if (this.store.$auth.$state.user.role !== "admin") {
+      datasets = datasets
+        .filter((dataset) => dataset.status !== "completed")
+        .splice(0, 1);
+    }
+
+    GeneralSettings.update({
+      where: this.store.$auth.$state.user.id,
+      data: {
+        current_dataset_id: datasets[0].id,
+        current_dataset_name: datasets[0].name,
+      },
     });
     const orderedDatasets = sortBy(
       datasets,
