@@ -37,9 +37,14 @@ export default async ({ $auth, route, redirect }: Context) => {
       }
       settings = GeneralSettings.find(userId);
       const isNotOnCorrectDataset =
+        route.name.startsWith("datasets-") &&
         settings.current_dataset_name &&
         !route.fullPath.includes(settings.current_dataset_name);
-      if (route.name.startsWith("datasets-") && isNotOnCorrectDataset) {
+      const isNotOnCorrectDatasetFeedback =
+        route.name.startsWith("dataset-") &&
+        settings.current_dataset_id &&
+        !route.fullPath.includes(settings.current_dataset_id);
+      if (isNotOnCorrectDataset || isNotOnCorrectDatasetFeedback) {
         redirect("/datasets");
       }
     }
