@@ -22,10 +22,16 @@ import { GetDatasetsUseCase } from "@/v1/domain/usecases/get-datasets-use-case";
 
 export default async ({ $auth, route, redirect }: Context) => {
   const getDatasetsUseCase = useResolve(GetDatasetsUseCase);
-  if ($auth && $auth.user && $auth.user.role !== "admin") {
+  if ($auth && $auth.user) {
+    GeneralSettings.insertOrUpdate({
+      data: {
+        id: $auth.user.id,
+        agent: $auth.user.username,
+      },
+    });
     const userId: any = $auth.user.id || "";
     let settings: any = GeneralSettings.find(userId);
-    if (settings) {
+    if ($auth.user.role !== "admin" && settings) {
       if (!settings.current_dataset_name) {
         await getDatasetsUseCase.execute();
       }
