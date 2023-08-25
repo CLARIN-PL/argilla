@@ -243,7 +243,9 @@ export default {
           message: this.$t("datasets.yourChangesWillBeLostOnSearch"),
           numberOfChars: 500,
           type: "warning",
-          buttonText: LABEL_PROPERTIES.CONTINUE,
+          buttonText: this.$t(
+          `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+        ),
           async onClick() {
             await localApplySearchFilter(newSearchValue);
           },
@@ -266,7 +268,9 @@ export default {
           message: this.$t("datasets.yourChangesWillBeLostOnViewChange"),
           numberOfChars: 500,
           type: "warning",
-          buttonText: LABEL_PROPERTIES.CONTINUE,
+          buttonText: this.$t(
+          `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+        ),
           async onClick() {
             await localApplyStatusFilter(newStatus);
           },

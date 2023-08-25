@@ -18,8 +18,10 @@
 import { Model } from "@vuex-orm/core";
 import { ExpiredAuthSessionError } from "@nuxtjs/auth-next/dist/runtime";
 import { Notification } from "@/models/Notifications";
-
 import { currentWorkspace } from "@/models/Workspace";
+
+const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
+
 
 export default ({ $axios, app }) => {
   Model.setAxios($axios);
@@ -53,7 +55,7 @@ export default ({ $axios, app }) => {
       case 400:
         Notification.dispatch("notify", {
           message: Object.entries(messageDetail.params)
-            .map(([k, v]) => `Error ${k}: ${v}`)
+            .map(([k, v]) => `${$t("common.errorLabel")} ${k}: ${v}`)
             .join("\n"),
           type: "error",
         });
@@ -61,20 +63,20 @@ export default ({ $axios, app }) => {
       case 422:
         (messageDetail.params.errors || [undefined]).forEach(({ msg }) => {
           Notification.dispatch("notify", {
-            message: "Error: " + (msg || "Unknown"),
+            message: $t("common.errorLabel") + ": " + (msg || "Unknown"),
             type: "error",
           });
         });
         break;
       case 404:
         Notification.dispatch("notify", {
-          message: `Warning: ${messageDetail.params.detail}`,
+          message: $t("common.warningLabel") + ": " + `${messageDetail.params.detail}`,
           type: "warning",
         });
         break;
       default:
         Notification.dispatch("notify", {
-          message: `Error:  ${messageDetail.params.detail}`,
+          message: `$t("common.errorLabel):  ${messageDetail.params.detail}`,
           type: "error",
         });
     }

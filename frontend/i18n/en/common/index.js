@@ -1,4 +1,9 @@
 export default {
+  yes: "Yes",
+  no: "No",
+  errorLabel: "Error",
+  warningLabel: "Warning",
+  successLabel: "Success",
   home: "Home",
   refresh: "Refresh",
   viewDocs: "View docs",

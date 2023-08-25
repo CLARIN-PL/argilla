@@ -1,4 +1,9 @@
 export default {
+  yes: "Tak",
+  no: "Nie",
+  errorLabel: "Błąd",
+  warningLabel: "Ostrzeżenie",
+  successLabel: "Sukces",
   home: " Strona główna",
   refresh: " Odśwież",
   viewDocs: "Wyświetl dokumentację",

@@ -20,6 +20,8 @@ import { BaseRecord, BaseSearchQuery, BaseSearchResults } from "./Common";
 import { Notification } from "@/models/Notifications";
 import _ from "lodash";
 
+const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
+
 class TextClassificationRecord extends BaseRecord {
   inputs;
 
@@ -455,7 +457,7 @@ class TextClassificationDataset extends ObservationDataset {
       });
     } catch (err) {
       console.log(err);
-      message = `Rule '${query}' can't be deleted`;
+      message = $t("datasets.ruleCantBeDeleted", { query });
       typeOfToast = "error";
     } finally {
       Notification.dispatch("notify", {

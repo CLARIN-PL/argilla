@@ -95,7 +95,9 @@ export default {
     this.toastMessageOnLeavingRoute = this.$t(
       "dataset.yourChangesWillBeLostOnLeaving"
     );
-    this.buttonMessage = LABEL_PROPERTIES.CONTINUE;
+    this.buttonMessage = this.$t(
+          `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+        );
   },
   methods: {
     checkIfUrlHaveRecordStatusOrInitiateQueryParams() {
