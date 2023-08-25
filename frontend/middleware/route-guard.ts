@@ -21,8 +21,8 @@ import { GeneralSettings } from "~/models/GeneralSettings";
 import { GetDatasetsUseCase } from "@/v1/domain/usecases/get-datasets-use-case";
 
 export default async ({ $auth, route, redirect }: Context) => {
-  const getDatasetsUseCase = useResolve(GetDatasetsUseCase);
   if ($auth && $auth.user) {
+    const getDatasetsUseCase = useResolve(GetDatasetsUseCase);
     GeneralSettings.insertOrUpdate({
       data: {
         id: $auth.user.id,

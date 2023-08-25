@@ -73,10 +73,11 @@ export class DatasetRepository implements IDatasetRepository {
 
     // TODO: check dataset status and filter out datasets that are already completed (status: "completed")
     // and show only one dataset (the first one) that is in progress (status: "in_progress")
-    let datasets = [...otherDatasets, ...feedbackDatasets]
-    if(this.store.$auth.$state.user.role !== "admin") {
-      datasets = datasets.filter((dataset) => dataset.status !== "completed")
-      .splice(0, 1);
+    let datasets = [...otherDatasets, ...feedbackDatasets];
+    if (this.store.$auth.$state.user.role !== "admin") {
+      datasets = datasets
+        .filter((dataset) => dataset.status !== "completed")
+        .splice(0, 1);
     }
 
     GeneralSettings.update({
