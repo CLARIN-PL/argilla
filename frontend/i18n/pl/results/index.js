@@ -5,5 +5,5 @@ export default {
   copyText: "Kopiuj tekst",
   toUseThis:
     "Aby użyć tej funkcji, musisz mieć wektor powiązany z tym rekordem",
-  eventTimestamp: "Event Timestamp",
+  eventTimestamp: "Znacznik czasu zdarzenia",
 };

@@ -22,7 +22,7 @@ export default {
     },
   },
   created() {
-    this.title = this.$t("dataset.settings.annotationGuidelines");
+    this.title = this.$options.filters.capitalize(this.$t("dataset.settings.annotationGuidelines"));
   },
 };
 </script>
