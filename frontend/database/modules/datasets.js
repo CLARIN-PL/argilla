@@ -34,8 +34,10 @@ import {
   isLabelTextExistInGlobalLabelAndSavedInBack,
 } from "@/models/globalLabel.queries";
 import { getDatasetFromORM } from "@/models/dataset.utilities";
+import Vue from "vue";
 
 const isObject = (obj) => obj && typeof obj === "object";
+
 const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
 
 function initializeObjectDeep(object, defaultValue = 0) {
@@ -570,7 +572,9 @@ const actions = {
       typeOfNotification = "success";
     } catch (err) {
       console.log(err);
-      message = `${newRecords.length} ${$t("datasets.recordsCouldHaveNotBeenDiscarded")}`;
+      message = `${newRecords.length} ${$t(
+        "datasets.recordsCouldHaveNotBeenDiscarded"
+      )}`;
       numberOfChars = 43;
       typeOfNotification = "error";
     } finally {
@@ -664,7 +668,9 @@ const actions = {
       });
     } catch (err) {
       console.log(err);
-      message = `${numberOfRecords} ${$t("datasets.recordsCouldHaveNotBeenValidated")}`;
+      message = `${numberOfRecords} ${$t(
+        "datasets.recordsCouldHaveNotBeenValidated"
+      )}`;
       typeOfNotification = "error";
     } finally {
       Notification.dispatch("notify", {
@@ -741,7 +747,7 @@ const actions = {
         }
       } else {
         Notification.dispatch("notify", {
-          message: $t("datasets.labelsAlreadyExist", {newLabels}),
+          message: $t("datasets.labelsAlreadyExist", { newLabels }),
           type: "info",
         });
         throw new Error({ response: TYPE_OF_FEEDBACK.LABEL_ALREADY_EXIST });
@@ -768,7 +774,9 @@ const actions = {
     } catch (err) {
       const { status } = err.response;
       message = $t("datasets.labelsCouldntBeSaved", {
-        status, datasetName, datasetTask
+        status,
+        datasetName,
+        datasetTask,
       });
       typeOfNotification = "error";
       statusCall = status;

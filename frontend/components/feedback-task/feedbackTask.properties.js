@@ -1,7 +1,3 @@
-import Vue from "vue"
-
-const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
-
 // questions
 const COMPONENT_TYPE = Object.freeze({
   FREE_TEXT: "FREE_TEXT",

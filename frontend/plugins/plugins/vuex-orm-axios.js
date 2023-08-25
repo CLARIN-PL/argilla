@@ -19,9 +19,9 @@ import { Model } from "@vuex-orm/core";
 import { ExpiredAuthSessionError } from "@nuxtjs/auth-next/dist/runtime";
 import { Notification } from "@/models/Notifications";
 import { currentWorkspace } from "@/models/Workspace";
+import Vue from "vue";
 
 const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
-
 
 export default ({ $axios, app }) => {
   Model.setAxios($axios);
@@ -70,13 +70,16 @@ export default ({ $axios, app }) => {
         break;
       case 404:
         Notification.dispatch("notify", {
-          message: $t("common.warningLabel") + ": " + `${messageDetail.params.detail}`,
+          message:
+            $t("common.warningLabel") + ": " + `${messageDetail.params.detail}`,
           type: "warning",
         });
         break;
       default:
         Notification.dispatch("notify", {
-          message: `$t("common.errorLabel):  ${messageDetail.params.detail}`,
+          message: `${$t("common.errorLabel")}:  ${
+            messageDetail.params.detail
+          }`,
           type: "error",
         });
     }

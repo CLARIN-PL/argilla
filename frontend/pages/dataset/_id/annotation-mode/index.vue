@@ -96,8 +96,8 @@ export default {
       "dataset.yourChangesWillBeLostOnLeaving"
     );
     this.buttonMessage = this.$t(
-          `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
-        );
+      `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+    );
   },
   methods: {
     checkIfUrlHaveRecordStatusOrInitiateQueryParams() {

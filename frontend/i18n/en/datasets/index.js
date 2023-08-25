@@ -80,7 +80,8 @@ export default {
   permanentlyDeleteRule: "Permanently delete rule",
   youAreAboutToDelete: "You are about to delete the rule",
   fromYourDatasetThis: "from your dataset. This action cannot be undone.",
-  pendingActionsWillBeLost: "Pending actions will be lost when the page is refreshed",
+  pendingActionsWillBeLost:
+    "Pending actions will be lost when the page is refreshed",
   okGotIt: "Ok, got it!",
   notFoundDatasetNamed: "Not found dataset named",
   recordsAreDiscarded: "records are discarded",
@@ -91,9 +92,10 @@ export default {
   recordsCouldHaveNotBeenValidated: "records could have not been validated",
   labelsAlreadyExist: `The labels <b>{newLabels}</b> already exist in the list of labels`,
   labelsAreUpdated: "The labels are updated!",
-  labelsCouldNotBeSaved:  `STATUS:{status} The labels of the dataset {datasetName} with task {datasetTask} could not be saved`,
+  labelsCouldntBeSaved: `STATUS:{status} The labels of the dataset {datasetName} with task {datasetTask} could not be saved`,
   hasBeenDeleted: "has been deleted",
   itsNotPossibleToDelete: "It is not possible to delete ",
   ruleCantBeDeleted: "Rule '{query}' can't be deleted",
+  ruleIsDeleted: "Rule '{query}' is deleted",
   oneRecordCouldntBeSetAsNot: "1 record couldn't be set as not ",
 };

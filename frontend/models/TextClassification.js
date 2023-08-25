@@ -19,6 +19,7 @@ import { ObservationDataset, USER_DATA_METADATA_KEY } from "./Dataset";
 import { BaseRecord, BaseSearchQuery, BaseSearchResults } from "./Common";
 import { Notification } from "@/models/Notifications";
 import _ from "lodash";
+import Vue from "vue";
 
 const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
 
@@ -431,7 +432,7 @@ class TextClassificationDataset extends ObservationDataset {
     let typeOfToast = "";
     try {
       await this._deleteRule({ query });
-      message = `Rule '${query}' is deleted`;
+      message = $t("datasets.ruleIsDeleted", { query });
       typeOfToast = "success";
 
       const currentRule = this.getCurrentLabelingRule();

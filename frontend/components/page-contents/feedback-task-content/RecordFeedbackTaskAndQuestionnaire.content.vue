@@ -244,8 +244,8 @@ export default {
           numberOfChars: 500,
           type: "warning",
           buttonText: this.$t(
-          `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
-        ),
+            `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+          ),
           async onClick() {
             await localApplySearchFilter(newSearchValue);
           },
@@ -269,8 +269,8 @@ export default {
           numberOfChars: 500,
           type: "warning",
           buttonText: this.$t(
-          `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
-        ),
+            `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+          ),
           async onClick() {
             await localApplyStatusFilter(newStatus);
           },
