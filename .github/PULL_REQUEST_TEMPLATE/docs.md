@@ -27,3 +27,11 @@ Closes #<issue_number>
 - [ ] My changes generate no new warnings
 - [ ] I filled out [the contributor form](https://tally.so/r/n9XrxK) (see text above)
 - [ ] I have added relevant notes to the `CHANGELOG.md` file (See https://keepachangelog.com/)
+
+**New files**
+
+-  `filename.js`: Why this file was added, the impact of the code in the file, what this file contains
+
+**Modified files**
+
+- `filename.js`: Changes done on that file, why the changes were added
