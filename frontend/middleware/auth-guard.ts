@@ -19,12 +19,14 @@ import { Context } from "@nuxt/types";
 import { GeneralSettings } from "~/models/GeneralSettings";
 
 export default ({ $auth, route, redirect }: Context) => {
-  GeneralSettings.insertOrUpdate({
-    data: {
-      id: $auth.user.id,
-      agent: $auth.user.username,
-    },
-  });
+  if ($auth && $auth.user) {
+    GeneralSettings.insertOrUpdate({
+      data: {
+        id: $auth.user.id,
+        agent: $auth.user.username,
+      },
+    });
+  }
   switch (route.name) {
     case "login":
       break;

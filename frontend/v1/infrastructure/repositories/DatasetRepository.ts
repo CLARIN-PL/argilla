@@ -78,15 +78,17 @@ export class DatasetRepository implements IDatasetRepository {
       datasets = datasets
         .filter((dataset) => dataset.status !== "completed")
         .splice(0, 1);
-    }
 
-    GeneralSettings.update({
-      where: this.store.$auth.$state.user.id,
-      data: {
-        current_dataset_id: datasets[0].id,
-        current_dataset_name: datasets[0].name,
-      },
-    });
+      if (datasets.length) {
+        GeneralSettings.update({
+          where: this.store.$auth.$state.user.id,
+          data: {
+            current_dataset_id: datasets[0].id,
+            current_dataset_name: datasets[0].name,
+          },
+        });
+      }
+    }
 
     return _.sortBy(datasets, (dataset) => dataset.name.toLowerCase());
   }
