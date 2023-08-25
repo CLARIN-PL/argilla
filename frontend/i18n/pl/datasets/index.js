@@ -18,7 +18,7 @@ export default {
   seeYourDataset: "Zobacz swój zbiór danych",
   recordsPerPage: "Liczba rekordów na stronie:",
   youHaveReached:
-    "Dotarłeś/łaś do końca danych dla kolejki {recordStatusToFilterWith}",
+    "Dotarłeś/łaś do końca danych dla kolejki: {recordStatusToFilterWith}",
   youHaveNoRecords: "Nie masz żadnych rekordów: {recordStatusToFilterWith}",
   youHaveNoRecordsMatchingSearch:
     "Nie masz rekordów pasujących do danych wejściowych wyszukiwania: {recordStatusToFilterWith}",

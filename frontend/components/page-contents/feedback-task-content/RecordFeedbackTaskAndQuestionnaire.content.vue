@@ -66,7 +66,7 @@ export default {
     },
     noMoreDataMessage() {
       return this.$t("datasets.youHaveReached", {
-        recordStatusToFilterWith: this.recordStatusToFilterWith,
+        recordStatusToFilterWith: this.$t(`common.status.${this.recordStatusToFilterWith}`),
       });
     },
     recordStatusFilterValueForGetRecords() {
