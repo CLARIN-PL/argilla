@@ -18,6 +18,9 @@
 import { NuxtConfig } from "@nuxt/types";
 import Mode from "frontmatter-markdown-loader/mode";
 import pkg from "./package.json";
+import i18n from "./i18n";
+
+require("dotenv").config();
 
 const LOCAL_ENVIRONMENT = "http://localhost:6900";
 const BASE_URL = process.env.API_BASE_URL ?? LOCAL_ENVIRONMENT;
@@ -93,6 +96,7 @@ const config: NuxtConfig = {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    "@nuxtjs/i18n",
     "@nuxtjs/style-resources",
     "@nuxtjs/axios",
     "@nuxtjs/auth-next",
@@ -178,6 +182,8 @@ const config: NuxtConfig = {
     resetOnError: true,
     redirect: { login: "/login", logout: "/login" },
   },
+
+  i18n,
 
   router: {
     middleware: ["auth-guard"],

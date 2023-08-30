@@ -1,5 +1,10 @@
 import { shallowMount } from "@vue/test-utils";
 import DatasetDelete from "./DatasetDelete.component";
+
+const $t = () => {
+  return "text";
+};
+
 const $route = {
   params: {
     workspace: "argilla",
@@ -13,6 +18,7 @@ jest.mock("@/models/dataset.utilities", () => ({
     name: "settings_textclass_no_labels",
   }),
 }));
+
 let wrapper = null;
 const options = {
   stubs: ["base-button", "base-card", "base-modal"],
@@ -23,6 +29,7 @@ const options = {
   },
   mocks: {
     $route,
+    $t,
   },
 };
 beforeEach(() => {
@@ -30,7 +37,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper && wrapper.destroy();
 });
 
 describe("DatasetDeleteComponent", () => {

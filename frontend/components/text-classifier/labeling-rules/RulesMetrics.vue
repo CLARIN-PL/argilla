@@ -79,10 +79,10 @@ export default {
     metrics() {
       return [
         {
-          name: "Coverage",
+          name: this.$t("common.coverage"),
           rule: {
             value: this.formatNumber(this.ruleMetrics.coverage),
-            tooltip: "Percentage of records labeled by the rule",
+            tooltip: this.$t("common.coverageTooltip"),
           },
           records: {
             value: this.$options.filters.formatNumber(
@@ -96,10 +96,10 @@ export default {
           },
         },
         {
-          name: "Annotated coverage",
+          name: this.$t("common.annotatedCoverage"),
           rule: {
             value: this.formatNumber(this.ruleMetrics.coverage_annotated),
-            tooltip: "Percentage of annotated records labeled by the rule",
+            tooltip: this.$t("common.annotatedCoverageTooltip"),
           },
           records: {
             value: this.$options.filters.formatNumber(
@@ -114,22 +114,20 @@ export default {
           },
         },
         {
-          name: "Precision",
+          name: this.$t("common.precision"),
           rule: {
             value: this.formatNumber(this.ruleMetrics.precision),
-            tooltip:
-              "Percentage of correct labels given by the rule with respect to the annotations",
+            tooltip: this.$t("common.precisionTooltip"),
           },
         },
         {
-          name: "Correct/incorrect",
+          name: this.$t("common.correctIncorrect"),
           rule: {
             value:
               this.ruleMetrics.correct !== undefined
                 ? `${this.ruleMetrics.correct}/${this.ruleMetrics.incorrect}`
                 : "-/-",
-            tooltip:
-              "Number of labels the rule predicted correctly/incorrectly with respect to the annotations",
+            tooltip: this.$t("common.correctIncorrectTooltip"),
           },
         },
       ];

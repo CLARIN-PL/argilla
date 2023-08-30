@@ -8,17 +8,23 @@
     </div>
 
     <div class="form-group user-first_name">
-      <h2 class="--heading5 --semibold description__title">Username</h2>
+      <h2 class="--heading5 --semibold description__title">
+        {{ $t("userSettings.username") }}
+      </h2>
       <p class="--body1 description__text" v-text="userInfo.username" />
     </div>
 
     <div class="form-group user-first_name">
-      <h2 class="--heading5 --semibold description__title">Name</h2>
+      <h2 class="--heading5 --semibold description__title">
+        {{ $t("userSettings.name") }}
+      </h2>
       <p class="--body1 description__text" v-text="userInfo.first_name" />
     </div>
 
     <div class="form-group user-last_name">
-      <h2 class="--heading5 --semibold description__title">Surname</h2>
+      <h2 class="--heading5 --semibold description__title">
+        {{ $t("userSettings.surname") }}
+      </h2>
       <p
         class="--body1 description__text"
         v-if="userInfo.last_name"
@@ -28,16 +34,35 @@
     </div>
 
     <div class="form-group">
-      <h2 class="--heading5 --semibold description__title">Workspaces</h2>
+      <h2 class="--heading5 --semibold description__title">
+        {{ $t("userSettings.workspace") }}
+      </h2>
       <div class="workspaces" v-if="userInfo.workspaces.length">
         <div
           class="bubble clickable"
-          v-for="workspace in userInfo.workspaces"
+          v-for="(workspace, idx) in userInfo.workspaces"
+          :key="`workspace_${idx}`"
           v-text="workspace"
           @click="goToWorkspace(workspace)"
         />
       </div>
       <p v-else class="--body1 description__text">-</p>
+    </div>
+
+    <div class="form-group user-language">
+      <h2
+        class="--heading5 --semibold description__title"
+        v-text="$t('userSettings.language')"
+      />
+      <select v-model="selectedLocale" class="description__lang-selector">
+        <option
+          v-for="(locale, idx) in $i18n.locales"
+          :key="'option_' + idx"
+          :value="locale.code"
+        >
+          {{ locale.name }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
@@ -49,6 +74,21 @@ export default {
     userInfo: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    selectedLocale: {
+      get() {
+        const locales = this.$i18n.locales || [];
+        const locale = locales.find(
+          (locale) => locale.code == this.$i18n.locale
+        );
+        return locale?.code || "pl";
+      },
+      set(val) {
+        this.$i18n.setLocale(val);
+        window.location.reload(true);
+      },
     },
   },
   methods: {
@@ -128,6 +168,15 @@ export default {
   }
   &__text {
     margin: 0;
+  }
+
+  &__lang-selector {
+    border: 1px solid palette(grey, 600);
+    border-radius: $border-radius;
+    padding: 0 1em;
+    outline: none;
+    background: transparent;
+    min-height: 40px;
   }
 }
 </style>

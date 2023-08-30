@@ -17,7 +17,7 @@
 
 <template>
   <div>
-    <p class="metrics__title">Stats</p>
+    <p class="metrics__title">{{ $t("common.stats") }}</p>
     <stats-selector
       :selected-option="selectedOption"
       :options="options"
@@ -55,6 +55,9 @@ export default {
       },
     };
   },
+  created() {
+    this.selectedOption.name = this.$t("common.keywords");
+  },
   computed: {
     getKeywords() {
       const words = this.dataset.results.aggregations.words;
@@ -66,7 +69,7 @@ export default {
       const options = [];
       options.push({
         id: "keywords",
-        name: "Keywords",
+        name: this.$t("common.keywords"),
       });
       return options;
     },

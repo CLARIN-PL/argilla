@@ -60,12 +60,12 @@
           ></base-range>
         </div>
         <div class="filter__buttons">
-          <base-button class="primary outline" @click="onClose()"
-            >Cancel</base-button
-          >
-          <base-button class="primary" @click="onApplyscoreRange"
-            >Apply</base-button
-          >
+          <base-button class="primary outline" @click="onClose()">{{
+            $t("common.cancel")
+          }}</base-button>
+          <base-button class="primary" @click="onApplyscoreRange">{{
+            $t("common.apply")
+          }}</base-button>
         </div>
       </div>
     </filter-dropdown>

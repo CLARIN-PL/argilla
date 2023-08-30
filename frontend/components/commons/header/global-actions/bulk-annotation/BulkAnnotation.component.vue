@@ -1,7 +1,7 @@
 <template>
   <filter-dropdown :visible="showDropdown" @visibility="toggleDropdown">
     <template #dropdown-header>
-      <span data-title="Annotate">
+      <span :data-title="$t('common.annotate')">
         <svgicon name="pen" />
       </span>
     </template>
@@ -11,7 +11,7 @@
           allow-clear
           @clear="resetSearchText"
           v-model="searchText"
-          placeholder="Search label..."
+          :placeholder="$t('common.searchLabel') + '...'"
         />
         <div class="form" v-if="isInputsNotEmpty && showDropdown">
           <BulkAnnotationFormComponent
@@ -25,7 +25,7 @@
           />
         </div>
         <div class="no-inputs-text" v-else>
-          <span>0 results</span>
+          <span>{{ $t("common.zeroResults") }}</span>
         </div>
       </div>
     </template>

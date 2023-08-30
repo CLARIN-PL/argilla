@@ -5,13 +5,13 @@
         <p class="dataset-name" v-html="datasetName" />
         <p class="dataset-task" v-html="datasetTask" />
       </div>
-      <base-action-tooltip tooltip="Copied">
+      <base-action-tooltip :tooltip="$t('common.copied')">
         <base-button
-          title="Copy to clipboard"
+          :title="$t('common.copyKeyToClipboard')"
           class="secondary small"
           @click.prevent="$copyToClipboard(datasetSettingsUrl)"
         >
-          Copy link
+          {{ $t("common.copyLink") }}
         </base-button>
       </base-action-tooltip>
     </div>
@@ -78,7 +78,7 @@ export default {
       return this.datasetTask === "TextClassification";
     },
     settingsDescription() {
-      return "Soon you will be able to edit your information";
+      return this.$t("dataset.settings.soonYouWillBeAble");
     },
     isLoading() {
       return this.$fetchState.pending;

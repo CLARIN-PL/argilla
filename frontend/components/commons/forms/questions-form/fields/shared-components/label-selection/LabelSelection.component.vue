@@ -7,7 +7,7 @@
           v-if="showSearch"
           v-model="searchInput"
           :searchRef="searchRef"
-          :placeholder="placeholder"
+          :placeholder="searchPlaceholder"
         />
       </div>
       <div class="right-header">
@@ -83,7 +83,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: () => "Search labels",
+      default: () => "",
     },
     componentId: {
       type: String,
@@ -108,6 +108,12 @@ export default {
     this.searchRef = `${this.componentId}SearchFilterRef`;
   },
   computed: {
+    searchPlaceholder() {
+      if (this.placeholder) {
+        return this.placeholder;
+      }
+      return this.$t("common.searchLabels");
+    },
     filteredOptions() {
       return this.options.filter((option) =>
         String(option.text)
@@ -129,7 +135,9 @@ export default {
         .concat(this.remainingVisibleOptions);
     },
     noResultMessage() {
-      return `There is no result matching: ${this.searchInput}`;
+      return `${this.$t("common.thereIsNoResultMatching")}: ${
+        this.searchInput
+      }`;
     },
     numberToShowInTheCollapseButton() {
       return this.filteredOptions.length - this.visibleOptions.length;
@@ -146,7 +154,7 @@ export default {
     },
     textToShowInTheCollapseButton() {
       if (this.isExpanded) {
-        return "Less";
+        return this.$t("common.less");
       }
       return `+${this.numberToShowInTheCollapseButton}`;
     },

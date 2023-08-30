@@ -42,7 +42,7 @@
       <base-button
         class="clear validate-discard-actions__button"
         @click="onValidate"
-        data-title="Validate"
+        :data-title="$t('common.validate')"
       >
         <i
           id="validateButton"
@@ -60,7 +60,7 @@
       <base-button
         class="clear validate-discard-actions__button"
         @click="onDiscard"
-        data-title="Discard"
+        :data-title="$t('common.discard')"
       >
         <svgicon name="discard" />
       </base-button>
@@ -68,14 +68,14 @@
         <base-button
           class="clear validate-discard-actions__button"
           @click="onClear"
-          data-title="Clear"
+          :data-title="$t('common.clear')"
         >
           <svgicon name="clear" />
         </base-button>
         <base-button
           class="clear validate-discard-actions__button"
           @click="onReset"
-          data-title="Reset"
+          :data-title="$t('common.reset')"
         >
           <svgicon name="reset" />
         </base-button>
@@ -169,22 +169,24 @@ export default {
       let pendingSentence = "";
       let nonPendingSentence = "";
       const dynamicText = (number, text) => {
-        return `${number} record${number === 1 ? ` is` : `s are`} ${text}`;
+        return `${number} record${
+          number === 1 ? this.$t("common.is") : this.$t("common.are")
+        } ${text}`;
       };
       if (this.isAnyPendingStatusRecord) {
         pendingSentence = `${dynamicText(
           this.selectedPendingRecords.length,
-          "pending validation"
+          this.$t("common.pendingValidation")
         )}`;
       }
       if (this.selectedNonPendingRecords.length) {
         nonPendingSentence = `${dynamicText(
           this.selectedRecords.length,
-          "selected"
+          this.$t("common.selected")
         )}`;
       }
       return `${nonPendingSentence} ${
-        nonPendingSentence && pendingSentence && "and "
+        nonPendingSentence && pendingSentence && this.$t("common.and")
       } ${pendingSentence}`;
     },
   },

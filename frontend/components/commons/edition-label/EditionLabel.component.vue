@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper">
     <div class="header">
-      <h2 class="--heading5 --semibold description__title" v-html="title" />
+      <h2
+        class="--heading5 --semibold description__title"
+        v-html="editionLabelTitle"
+      />
     </div>
     <div class="content">
       <BaseSpinner v-if="isLoading" />
@@ -29,7 +32,7 @@
 
       <div class="buttons-area">
         <CreateNewAction
-          text="+ Create label"
+          :text="'+ ' + $t('datasets.createLabel')"
           v-if="allowAddNewLabel"
           @new-label="onAddNewLabels"
         />
@@ -52,7 +55,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: () => "Labels",
+      default: () => "",
     },
     datasetId: {
       type: Array,
@@ -73,26 +76,30 @@ export default {
       sortBy: "order",
       allowAddNewLabel: true,
       characterToSeparateLabels: null,
-      saveLabelsButtonLabel: "Save labels",
-      inputForSaveSchemaFeedback: {
-        message: `Action needed: Save labels to validate the annotation schema. More in
-            <a target='_blank' href='${this.$config.documentationSiteLabelScheme}'>
-              docs</a>.
-          `,
-        buttonLabels: [{ label: "Save labels", value: "SAVE_LABEL_SCHEMA" }],
-        feedbackType: "ERROR",
-      },
-      inputForEmptyLabelsFeedback: {
-        message:
-          "You still have no labels in your dataset, start by creating some",
-        feedbackType: "ERROR",
-      },
       showAllLabels: false,
     };
   },
   computed: {
+    editionLabelTitle() {
+      return this.title || this.$t("datasets.labels");
+    },
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask, false);
+    },
+    inputForEmptyLabelsFeedback() {
+      return {
+        message: this.$t("datasets.youHaveNoLabels"),
+        feedbackType: "ERROR",
+      };
+    },
+    inputForSaveSchemaFeedback() {
+      return {
+        message: this.$t("datasets.actionNeeded"),
+        buttonLabels: [
+          { label: this.$t("datasets.saveLabels"), value: "SAVE_LABEL_SCHEMA" },
+        ],
+        feedbackType: "ERROR",
+      };
     },
     datasetName() {
       return this.dataset?.name;

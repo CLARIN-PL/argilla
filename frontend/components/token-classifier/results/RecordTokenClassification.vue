@@ -168,25 +168,25 @@ export default {
       return [
         {
           id: "validate",
-          name: "Validate",
+          name: this.$t("common.validate"),
           allow: true,
           active: this.record.status === "Validated",
         },
         {
           id: "discard",
-          name: "Discard",
+          name: this.$t("common.discard"),
           allow: true,
           active: this.record.status === "Discarded",
         },
         {
           id: "clear",
-          name: "Clear",
+          name: this.$t("common.clear"),
           allow: true,
           disable: !this.record.annotatedEntities?.length || false,
         },
         {
           id: "reset",
-          name: "Reset",
+          name: this.$t("common.reset"),
           allow: true,
           disable: this.record.status !== "Edited",
         },

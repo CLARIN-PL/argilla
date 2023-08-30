@@ -1,11 +1,11 @@
 <template>
   <div class="dataset-delete">
-    <h2 class="--heading5 --semibold" v-text="sectionTitle" />
+    <h2 class="--heading5 --semibold" v-text="$t('common.dangerZone')" />
     <BaseCard
       card-type="danger"
       :title="datasetDeleteTitle"
-      text="Be careful, this action is not reversible"
-      buttonText="Delete dataset"
+      :text="$t('common.beCarefulThisActionIsNotReversible')"
+      :buttonText="$t('common.deleteDataset')"
       @card-action="toggleDeleteModal(true)"
     />
 
@@ -22,10 +22,10 @@
         <p v-html="modalDescription"></p>
         <div class="modal-buttons">
           <BaseButton class="primary outline" @click="toggleDeleteModal(false)">
-            Cancel
+            {{ $t("common.cancel") }}
           </BaseButton>
           <BaseButton class="primary" @click="onConfirmDeleteDataset">
-            Yes, delete
+            {{ $t("common.yesDelete") }}
           </BaseButton>
         </div>
       </div>
@@ -54,14 +54,29 @@ export default {
   data() {
     return {
       showDeleteModal: false,
-      sectionTitle: "Danger zone",
       datasetId: this.dataset.id,
       datasetName: this.dataset.name,
       workspace: this.dataset.workspace,
-      datasetDeleteTitle: `Delete <strong>${this.dataset.name}</strong>`,
-      modalTitle: `Delete confirmation`,
-      modalDescription: `You are about to delete: <strong>${this.dataset.name}</strong> from workspace <strong>${this.dataset.workspace}</strong>. This action cannot be undone`,
     };
+  },
+  computed: {
+    datasetDeleteTitle() {
+      return this.$t("dataset.deleteDataset", {
+        dataset_name: this.dataset.name,
+      });
+    },
+    modalTitle() {
+      return this.$t("common.deleteConfirmation");
+    },
+    modalDescription() {
+      return (
+        this.$t("common.youAreAboutToDelete") +
+        ` <strong>${this.dataset.name}</strong> ` +
+        this.$t("common.fromThisWorkspace") +
+        ` <strong>${this.dataset.workspace}</strong>. ` +
+        this.$t("common.thisActionCannotBeUndone")
+      );
+    },
   },
   methods: {
     toggleDeleteModal(show) {
@@ -93,12 +108,14 @@ export default {
         // DELETE dataset from the orm
         deleteDatasetById(this.datasetId);
 
-        message = `${this.datasetName} has been deleted`;
+        message = `${this.datasetName} ${this.$t("common.hasBeenDeleted")} `;
         typeOfNotification = "success";
       } catch ({ response }) {
         const { status } = response;
         statusCall = status;
-        message = `It is not possible to delete ${this.datasetName}`;
+        message = `${this.$t("common.itsNotPossibleToDelete")} ${
+          this.datasetName
+        }`;
         typeOfNotification = "error";
         if (status === 403) {
           throw {

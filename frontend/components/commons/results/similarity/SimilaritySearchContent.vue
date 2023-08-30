@@ -1,6 +1,6 @@
 <template>
   <div class="similarity-search__options">
-    <p class="similarity-search__title">Select vector:</p>
+    <p class="similarity-search__title">{{ $t("results.selectVector") }}</p>
     <base-radio-button
       v-for="vector in formattedVectors"
       :key="vector.vectorName"

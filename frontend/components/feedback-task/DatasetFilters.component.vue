@@ -73,8 +73,9 @@ export default {
     additionalInfoForSearchComponent() {
       if (isNil(this.totalRecords) || this.totalRecords === 0) return null;
 
-      if (this.totalRecords === 1) return `${this.totalRecords} record`;
-      return `${this.totalRecords} records`;
+      if (this.totalRecords === 1)
+        return `${this.totalRecords} ${this.$t("dataset.recordNoun")}`;
+      return `${this.totalRecords} ${this.$t("dataset.recordsNoun")}`;
     },
     filtersFromVuex() {
       return getFiltersByDatasetId(
@@ -102,28 +103,28 @@ export default {
     this.filters = {
       searchText: {
         id: "searchText",
-        name: "Search",
+        name: this.$t("common.search"),
         componentType: "searchBar",
         order: 1,
-        placeholder: "Introduce a query",
+        placeholder: this.$t("common.introduceAQuery"),
       },
       statusSelector: {
         id: "statusSelector",
-        name: "Status Selector",
+        name: this.$t("common.statusSelector"),
         componentType: "statusSelector",
         order: 0,
         options: [
           {
             id: "pending",
-            name: "Pending",
+            name: this.$t("common.status.pending"),
           },
           {
             id: "submitted",
-            name: "Submitted",
+            name: this.$t("common.status.submitted"),
           },
           {
             id: "discarded",
-            name: "Discarded",
+            name: this.$t("common.status.discarded"),
           },
         ],
       },

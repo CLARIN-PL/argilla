@@ -19,13 +19,13 @@
         </rule-labels-definition>
       </div>
       <div class="rule__metrics">
-        <rules-metrics title="Rule Metrics" :dataset="dataset">
+        <rules-metrics :title="$t('dataset.ruleMetrics')" :dataset="dataset">
           <template #button-bottom>
             <base-button
               class="rule__button primary light"
               @click="showRulesList"
-              >Manage rules</base-button
-            >
+              >{{ $t("dataset.manageRules") }}
+            </base-button>
           </template>
         </rules-metrics>
       </div>
@@ -121,8 +121,12 @@ export default {
     },
   },
   created() {
-    this.TOAST_MESSAGE_ONSAVE_RULE_IN_SUCCESS = "The rule is saved";
-    this.TOAST_MESSAGE_ONSAVE_RULE_IN_ERROR = "The rule could not be saved";
+    this.TOAST_MESSAGE_ONSAVE_RULE_IN_SUCCESS = this.$t(
+      "dataset.theRuleIsSaved"
+    );
+    this.TOAST_MESSAGE_ONSAVE_RULE_IN_ERROR = this.$t(
+      "dataset.theRuleCouldNotBeSaved"
+    );
   },
   methods: {
     async updateCurrentRule({ query, labels }) {

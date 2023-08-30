@@ -1,7 +1,7 @@
 <template>
   <BaseIconWithBadge
     class="button-settings"
-    tooltip="Dataset settings"
+    :tooltip="$t('dataset.settings.datasetSettings')"
     :show-badge="showBadge"
     badge-vertical-position="top"
     badge-horizontal-position="right"

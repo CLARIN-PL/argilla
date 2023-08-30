@@ -37,7 +37,7 @@
           ref="input"
           v-model="query"
           class="searchbar__input"
-          placeholder="Introduce a query"
+          :placeholder="$t('common.introduceAQuery')"
         />
       </base-input-container>
     </div>

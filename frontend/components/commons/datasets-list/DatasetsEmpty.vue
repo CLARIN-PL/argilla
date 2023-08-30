@@ -7,14 +7,11 @@
         height="46"
         name="unavailable"
       />
-      <p class="datasets-empty__title">There aren't any datasets yet</p>
-      <p class="datasets-empty__subtitle">
-        The Argilla web app allows you to log, explore and annotate your
-        data.<br />
-        Start logging data with our Python client, or
-        <a :href="$config.documentationSite" target="_blank">see the docs</a>
-        for more information.
-      </p>
+      <p class="datasets-empty__title">{{ $t("datasets.datasetsEmpty") }}</p>
+      <p
+        class="datasets-empty__subtitle"
+        v-html="$t('datasets.datasetsEmptyDescription')"
+      ></p>
     </div>
     <base-spinner v-if="$fetchState.pending" />
     <documentation-viewer v-else :content="content" />

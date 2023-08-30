@@ -35,9 +35,6 @@ export default {
     },
     buttonType: {
       type: String,
-      validator: (value) => {
-        return ["Mode", "Metrics", "Refresh"].includes(value);
-      },
     },
   },
   computed: {

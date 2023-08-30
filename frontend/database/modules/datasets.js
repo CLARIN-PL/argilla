@@ -34,8 +34,11 @@ import {
   isLabelTextExistInGlobalLabelAndSavedInBack,
 } from "@/models/globalLabel.queries";
 import { getDatasetFromORM } from "@/models/dataset.utilities";
+import Vue from "vue";
 
 const isObject = (obj) => obj && typeof obj === "object";
+
+const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
 
 function initializeObjectDeep(object, defaultValue = 0) {
   const result = {};
@@ -507,10 +510,10 @@ async function chooseContinueOrCancel(action, dataset, query, sort, size) {
     });
   };
   const notificationSettings = {
-    message: "Pending actions will be lost when the page is refreshed",
+    message: $t("datasets.pendingActionsWillBeLost"),
     type: "warning",
     numberOfChars: 20000,
-    buttonText: "Ok, got it!",
+    buttonText: $t("datasets.okGotIt"),
     async onClick() {
       notificationAction();
     },
@@ -523,7 +526,7 @@ const getters = {
     const workspace = currentWorkspace($nuxt.$route);
     const ds = ObservationDataset.find([workspace, name]);
     if (ds === null) {
-      throw Error("Not found dataset named " + name);
+      throw Error($t("datasets.notFoundDatasetNamed") + name);
     }
 
     return ds
@@ -562,14 +565,16 @@ const actions = {
 
       message =
         newRecords.length > 1
-          ? `${newRecords.length} records are discarded`
-          : `1 record is discarded`;
+          ? `${newRecords.length} ${$t("datasets.recordsAreDiscarded")}`
+          : $t("datasets.oneRecordIsDiscarded");
 
       numberOfChars = 30;
       typeOfNotification = "success";
     } catch (err) {
       console.log(err);
-      message = `${newRecords.length} record(s) could not have been discarded`;
+      message = `${newRecords.length} ${$t(
+        "datasets.recordsCouldHaveNotBeenDiscarded"
+      )}`;
       numberOfChars = 43;
       typeOfNotification = "error";
     } finally {
@@ -609,9 +614,9 @@ const actions = {
         records: newRecords,
         persistBackend: true,
       });
-      message = `1 record is un${currentStatus}`;
+      message = `${$t("datasets.oneRecordCouldntBeSetAsNot")}${currentStatus}`;
     } catch (err) {
-      message = `1 record could not be un${currentStatus}`;
+      message = `${$t("datasets.oneRecordCouldntBeSetAsNot")}${currentStatus}`;
       typeOfNotification = "error";
     } finally {
       Notification.dispatch("notify", {
@@ -652,8 +657,8 @@ const actions = {
 
       message =
         numberOfRecords > 1
-          ? `${numberOfRecords} records are validated`
-          : `1 record is validated`;
+          ? `${numberOfRecords} ${$t("datasets.recordsAreValidated")}`
+          : $t("datasets.oneRecordIsValidated");
       numberOfChars = 25;
       typeOfNotification = "success";
       return _updateDatasetRecords({
@@ -663,7 +668,9 @@ const actions = {
       });
     } catch (err) {
       console.log(err);
-      message = `${numberOfRecords} record(s) could not have been validated`;
+      message = `${numberOfRecords} ${$t(
+        "datasets.recordsCouldHaveNotBeenValidated"
+      )}`;
       typeOfNotification = "error";
     } finally {
       Notification.dispatch("notify", {
@@ -740,7 +747,7 @@ const actions = {
         }
       } else {
         Notification.dispatch("notify", {
-          message: `The labels <b>"${newLabels}"</b> already exist in the list of labels`,
+          message: $t("datasets.labelsAlreadyExist", { newLabels }),
           type: "info",
         });
         throw new Error({ response: TYPE_OF_FEEDBACK.LABEL_ALREADY_EXIST });
@@ -762,11 +769,15 @@ const actions = {
         data
       );
 
-      message = "The labels are updated!";
+      message = $t("datasets.labelsAreUpdated");
       typeOfNotification = "success";
     } catch (err) {
       const { status } = err.response;
-      message = `STATUS:${status} The labels of the dataset ${datasetName} with task ${datasetTask} could not be saved`;
+      message = $t("datasets.labelsCouldntBeSaved", {
+        status,
+        datasetName,
+        datasetTask,
+      });
       typeOfNotification = "error";
       statusCall = status;
       if (status === 403) {
@@ -791,12 +802,12 @@ const actions = {
       await ObservationDataset.api().delete(url, {
         delete: [workspace, datasetName],
       });
-      message = `${datasetName} has been deleted`;
+      message = `${datasetName} ${$t("datasets.hasBeenDeleted")}}`;
       typeOfNotification = "success";
     } catch ({ response }) {
       const { status } = response;
       statusCall = status;
-      message = `It is not possible to delete ${datasetName}`;
+      message = `${$t("datasets.itsNotPossibleToDelete")} ${datasetName}`;
       typeOfNotification = "error";
       if (status === 403) {
         throw { response: TYPE_OF_FEEDBACK.NOT_ALLOWED_TO_UPDATE_LABELS };
@@ -906,8 +917,8 @@ const actions = {
         {
           id: "status",
           key: "status",
-          group: "Status",
-          name: "Status",
+          group: $t("common.statusLabel"),
+          name: $t("common.statusLabel"),
           order: "desc",
         },
       ],

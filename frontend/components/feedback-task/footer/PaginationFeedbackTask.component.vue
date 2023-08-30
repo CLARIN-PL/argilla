@@ -67,10 +67,12 @@ export default {
     showNotificationBeforePaginate(eventToFire) {
       // TODO - move logic to show notification in RecordFeedbackAndQuestionnaire component
       Notification.dispatch("notify", {
-        message: "Your changes will be lost if you move to another page",
+        message: this.$t("common.messages.yourChanges"),
         numberOfChars: 500,
         type: "warning",
-        buttonText: LABEL_PROPERTIES.CONTINUE,
+        buttonText: this.$t(
+          `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+        ),
         async onClick() {
           eventToFire();
         },

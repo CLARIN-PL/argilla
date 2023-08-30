@@ -13,8 +13,8 @@ export default {
   name: "TopDatasetSettingsContent",
   data() {
     return {
-      title: "Dataset settings",
-      goToDatasetPageLabel: "See your dataset",
+      title: this.$t("dataset.settings.datasetSettings"),
+      goToDatasetPageLabel: this.$t("dataset.settings.seeYourDataset"),
     };
   },
   computed: {

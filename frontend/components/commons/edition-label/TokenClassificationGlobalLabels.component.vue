@@ -81,7 +81,7 @@ export default {
     },
     titleShowLessMoreButton() {
       if (this.showAllLabels) {
-        return `Show less`;
+        return this.$t("common.showLess");
       }
       return `+${this.numberOfLabels - PROPERTIES.MAX_LABELS_TO_SHOW}`;
     },

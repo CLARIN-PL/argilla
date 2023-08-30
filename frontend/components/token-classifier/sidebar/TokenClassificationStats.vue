@@ -17,7 +17,7 @@
 
 <template>
   <div>
-    <p class="metrics__title">Stats</p>
+    <p class="metrics__title">{{ $t("common.stats") }}</p>
     <stats-selector
       :selected-option="selectedOption"
       :options="options"
@@ -29,19 +29,19 @@
           href="#"
           :class="activeTab === 'predicted_mentions' ? 'active' : ''"
           @click.prevent="filteredMentionsBy('predicted_mentions')"
-          >Predicted as</a
+          >{{ $t("common.predictedAs") }}</a
         >
         <a
           href="#"
           :class="activeTab === 'mentions' ? 'active' : ''"
           @click.prevent="filteredMentionsBy('mentions')"
-          >Annotated as</a
+          >{{ $t("common.annotatedAs") }}</a
         >
       </div>
       <div class="scroll">
         <div v-if="!existMentions">
           <span class="sidebar__tabs__empty"
-            >There are no
+            >{{ $t("common.thereAreNo") }}
             {{ activeTab === "mentions" ? "annotations" : "predictions" }}</span
           >
         </div>
@@ -103,7 +103,7 @@ export default {
       const options = [];
       options.push({
         id: "mentions",
-        name: "Mentions",
+        name: this.$t("common.mentions"),
       });
       return options;
     },
@@ -121,6 +121,14 @@ export default {
     query() {
       this.filteredMentions = this.dataset.results.aggregations[this.activeTab];
     },
+  },
+  created() {
+    this.selectedOption = {
+      ...this.selectedOption,
+      ...{
+        name: this.$t("common.mentions"),
+      },
+    };
   },
   mounted() {
     this.filteredMentions = this.dataset.results.aggregations[this.activeTab];

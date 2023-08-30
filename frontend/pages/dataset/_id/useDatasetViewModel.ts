@@ -1,3 +1,4 @@
+import Vue from "vue";
 import { computed, ref, useRoute, useRouter } from "@nuxtjs/composition-api";
 import { useResolve } from "ts-injecty";
 import { Notification } from "@/models/Notifications";
@@ -5,6 +6,8 @@ import { GetDatasetByIdUseCase } from "@/v1/domain/usecases/get-dataset-by-id-us
 import { DATASET_API_ERRORS } from "@/v1/infrastructure/repositories/DatasetRepository";
 import { useDataset } from "@/v1/infrastructure/storage/DatasetStorage";
 import { Dataset } from "@/v1/domain/entities/Dataset";
+
+const $t = (sign) => Vue.prototype.$nuxt.$options.i18n.t(sign);
 
 export const useDatasetViewModel = () => {
   const isLoadingDataset = ref(false);
@@ -21,14 +24,13 @@ export const useDatasetViewModel = () => {
     let message = "";
     switch (response) {
       case DATASET_API_ERRORS.ERROR_FETCHING_DATASET_INFO:
-        message = `Can't get dataset info for dataset_id: ${datasetId}`;
+        message = `${$t("dataset.cantGetDatasetInfo")} ${datasetId}`;
         break;
       case DATASET_API_ERRORS.ERROR_FETCHING_WORKSPACE_INFO:
-        message = `Can't get workspace info for dataset_id: ${datasetId}`;
+        message = `${$t("dataset.cantGetWorkspaceInfo")} ${datasetId}`;
         break;
       default:
-        message =
-          "There was an error on fetching dataset info and workspace info. Please try again";
+        message = $t("dataset.cantGetInfo");
     }
 
     const paramsForNotification = {
@@ -42,7 +44,7 @@ export const useDatasetViewModel = () => {
 
   const createBreadcrumbs = (dataset: Dataset) => {
     return [
-      { link: { name: "datasets" }, name: "Home" },
+      { link: { name: "datasets" }, name: $t("common.home") },
       {
         link: { path: `/datasets?workspace=${dataset.workspace}` },
         name: dataset.workspace,

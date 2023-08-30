@@ -1,12 +1,12 @@
 <template>
   <div class="top-content">
-    <h1>Dataset settings</h1>
+    <h1>{{ $t("dataset.settings.datasetSettings") }}</h1>
     <base-button
       :to="{ name: 'dataset-id-annotation-mode', params: { id: datasetId } }"
       class="secondary text"
     >
       <svgicon name="chevron-left" width="10" height="10" color="#4C4EA3" />
-      See your dataset
+      {{ $t("dataset.settings.seeYourDataset") }}
     </base-button>
   </div>
 </template>

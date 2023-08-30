@@ -47,7 +47,7 @@ export default {
         buttons: [
           {
             id: "metrics",
-            tooltip: "Progress",
+            tooltip: this.$t("common.progress"),
             icon: "progress",
             action: "show-metrics",
             type: "expandable",
@@ -60,9 +60,9 @@ export default {
         buttons: [
           {
             id: "refresh",
-            tooltip: "Refresh",
+            tooltip: this.$t("common.refresh"),
             icon: "refresh",
-            group: "Refresh",
+            group: this.$t("common.refresh"),
             type: "non-expandable",
             action: "refresh",
           },

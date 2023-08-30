@@ -1,9 +1,11 @@
 <template>
   <div class="similarity-search__buttons">
     <base-button class="primary outline small" @click="cancel">
-      Cancel
+      {{ $t("common.cancel") }}
     </base-button>
-    <base-button class="primary small" @click="findSimilar"> Find </base-button>
+    <base-button class="primary small" @click="findSimilar">
+      {{ $t("common.find") }}
+    </base-button>
   </div>
 </template>
 <script>

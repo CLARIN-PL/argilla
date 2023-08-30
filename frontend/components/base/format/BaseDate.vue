@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     timeAgo(date) {
-      const formatter = new Intl.RelativeTimeFormat("en", {
+      const formatter = new Intl.RelativeTimeFormat(this.$i18n.locale, {
         numeric: "auto",
       });
       const ranges = {

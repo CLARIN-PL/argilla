@@ -27,35 +27,35 @@ export default {
       switch (this.title.toUpperCase()) {
         case "PENDING":
           statusInfo = {
-            name: "Pending",
+            name: this.$t("common.status.pending"),
             icon: null,
             class: "--pending",
           };
           break;
         case "EDITED":
           statusInfo = {
-            name: "Pending",
+            name: this.$t("common.status.edited"),
             icon: "time",
             class: "--edited",
           };
           break;
         case "DISCARDED":
           statusInfo = {
-            name: "Discarded",
+            name: this.$t("common.status.discarded"),
             icon: "discard",
             class: "--discarded",
           };
           break;
         case "VALIDATED":
           statusInfo = {
-            name: "Validate",
+            name: this.$t("common.status.validated"),
             icon: "validate",
             class: "--validated",
           };
           break;
         case "SUBMITTED":
           statusInfo = {
-            name: "Submitted",
+            name: this.$t("common.status.submitted"),
             icon: "validate",
             class: "--submitted",
           };

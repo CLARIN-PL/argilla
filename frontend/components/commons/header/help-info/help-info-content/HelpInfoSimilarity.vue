@@ -17,27 +17,19 @@
 
 <template>
   <div>
-    <p>
-      Since <code>1.2.0</code> Argilla supports adding vectors to Argilla
-      records which can then be used for finding the most similar records to a
-      given one.
-    </p>
+    <p v-html="$t('helpInfo.sinceCode')"></p>
     <img src="images/help-info/similarity.png" alt="token attributions" />
     <p>
-      This feature uses vector or semantic search combined with more traditional
-      search (keyword and filter based). Vector search leverages machine
-      learning to capture rich semantic features by embedding items (text,
-      video, images, etc.) into a vector space, which can be then used to find
-      "semantically" similar items.
+      {{ $t("helpInfo.thisFeature") }}
     </p>
     <p>
-      To benefit from this feature, your data team must include vectors
-      associated with each record when they create the dataset. More in
+      {{ $t("helpInfo.toBenefit") }}
       <a
         class="link"
         :href="$config.documentationSiteSemanticSearch"
         target="_blank"
-        >docs
+      >
+        {{ $t("helpInfo.docs") }}
       </a>
     </p>
   </div>

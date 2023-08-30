@@ -21,7 +21,7 @@
       v-if="!showLabelCreation"
       class="new-label__main-button secondary text"
       @click="openLabelCreation()"
-      >{{ text }}</base-button
+      >{{ buttonText }}</base-button
     >
     <div v-else class="new-label">
       <input
@@ -30,7 +30,7 @@
         autofocus
         class="new-label__input"
         type="text"
-        placeholder="New label"
+        :placeholder="$t('common.newLabel')"
         @keyup.enter="createNewLabel(label)"
       />
       <svgicon class="new-label__close" name="close" @click="reset()" />
@@ -38,8 +38,9 @@
         class="new-label__button primary small"
         :disabled="!label"
         @click="createNewLabel(label)"
-        >Create</base-button
       >
+        {{ $t("common.createLabel") }}
+      </base-button>
     </div>
   </div>
 </template>
@@ -49,13 +50,20 @@ export default {
     text: {
       type: String,
       required: false,
-      default: "Create label",
+      default: "",
     },
   },
+
   data: () => ({
     label: undefined,
     showLabelCreation: false,
   }),
+
+  computed: {
+    buttonText() {
+      return this.text || this.$t("common.createLabel");
+    },
+  },
 
   methods: {
     createNewLabel(label) {

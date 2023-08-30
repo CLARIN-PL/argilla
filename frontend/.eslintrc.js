@@ -57,6 +57,7 @@ module.exports = {
         "space-before-function-paren": 0,
         "no-throw-literal": 0,
         "no-new": 0,
+        "@typescript-eslint/no-var-requires": 0,
       },
     },
   ],

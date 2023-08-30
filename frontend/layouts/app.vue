@@ -16,7 +16,7 @@
   -->
 
 <template>
-  <div lang="en">
+  <div :lang="$i18n.locale">
     <Nuxt v-if="!$slots.default" />
     <slot />
   </div>
@@ -34,7 +34,7 @@ export default {
   watch: {
     imOffline() {
       return Notification.dispatch("notify", {
-        message: "You are offline",
+        message: this.$t("error.youAreOffline"),
         type: "error",
       });
     },

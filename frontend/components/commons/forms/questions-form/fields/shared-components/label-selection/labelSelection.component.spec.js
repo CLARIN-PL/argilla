@@ -9,12 +9,13 @@ const options = {
     options: [],
   },
 };
+
 beforeEach(() => {
   wrapper = shallowMount(LabelSelectionComponent, options);
 });
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper && wrapper.destroy();
 });
 
 describe("LabelSelectionComponent in Single Selection mode", () => {
@@ -231,6 +232,7 @@ describe("LabelSelectionComponent in Single Selection mode", () => {
         isSelected: false,
       },
     ]);
+
     const checkbox = wrapper.find("#sentiment_positive");
     await checkbox.setChecked();
     expect(checkbox.element.checked).toBeTruthy();

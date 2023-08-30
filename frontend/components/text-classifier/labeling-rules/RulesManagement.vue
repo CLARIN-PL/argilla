@@ -4,7 +4,7 @@
     <div v-else-if="!$fetchState.error">
       <div class="rules-management__header">
         <p class="rules-management__title">
-          Rules
+          {{ $t("dataset.rules") }}
           <span v-if="formattedRules.length"
             >({{ formattedRules.length }})</span
           >
@@ -13,13 +13,13 @@
           class="rules-management__button primary outline small"
           @click="hideList"
         >
-          <svgicon name="chevron-left" width="12" height="12"></svgicon>Back to
-          query view</base-button
-        >
+          <svgicon name="chevron-left" width="12" height="12"></svgicon>
+          {{ $t("dataset.backTo") }}
+        </base-button>
       </div>
       <base-search-bar
         v-if="formattedRules.length"
-        placeholder="Search rule by name"
+        :placeholder="$t('dataset.searchRule')"
         @input="onSearch"
       />
 
@@ -80,19 +80,6 @@ export default {
       visibleModalId: undefined,
       sortedOrder: "desc",
       sortedByField: "created_at",
-      feedbackInputInMetricsPendingState: {
-        message: "Calculating rule metrics",
-        feedbackType: "ERROR",
-      },
-      actions: [{ name: "delete", icon: "trash-empty", title: "Delete rule" }],
-      noDataInfo: {
-        title: "0 rules defined",
-        message: `You have not defined any rules for this dataset yet.`,
-        icon: "unavailable",
-      },
-      emptySearchInfo: {
-        title: "0 rules found",
-      },
     };
   },
   async fetch() {
@@ -101,6 +88,33 @@ export default {
     }
   },
   computed: {
+    actions() {
+      return [
+        {
+          name: "delete",
+          icon: "trash-empty",
+          title: this.$t("datasets.deleteRule"),
+        },
+      ];
+    },
+    emptySearchInfo() {
+      return {
+        title: this.$t("datasets.zeroRulesFound"),
+      };
+    },
+    noDataInfo() {
+      return {
+        title: this.$t("datasets.zeroRulesDefined"),
+        message: this.$t("datasets.noDataInfo"),
+        icon: "unavailable",
+      };
+    },
+    feedbackInputInMetricsPendingState() {
+      return {
+        message: this.$t("dataset.calculatingRule"),
+        feedbackType: "ERROR",
+      };
+    },
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask);
     },
@@ -110,50 +124,55 @@ export default {
     tableColumns() {
       return [
         {
-          name: "Query",
+          name: this.$t("datasets.query"),
           field: "query",
           class: "table-info__title",
           type: "action",
         },
-        { name: "Labels", field: "labels", class: "array", type: "array" },
         {
-          name: "Coverage",
+          name: this.$t("datasets.labels"),
+          field: "labels",
+          class: "array",
+          type: "array",
+        },
+        {
+          name: this.$t("datasets.coverage"),
           field: "coverage",
           class: "text",
           type: "percentage",
-          tooltip: "Percentage of records labeled by the rule",
+          tooltip: this.$t("datasets.coverageDescription"),
         },
         {
-          name: this.$mq >= "sm" ? "An. Cover." : "Annot. Cover.",
+          name:
+            this.$mq >= "sm"
+              ? this.$t("datasets.anCoverage")
+              : this.$t("datasets.annotationCoverage"),
           field: "coverage_annotated",
           class: "text",
           type: "percentage",
-          tooltip: "Percentage of annotated records labeled by the rule",
+          tooltip: this.$t("datasets.annotationCoverageDescription"),
         },
         {
-          name: "Correct",
+          name: this.$t("datasets.correct"),
           field: "correct",
           class: "text",
-          tooltip:
-            "Number of labels the rule predicted correctly with respect to the annotations",
+          tooltip: this.$t("datasets.correctDescription"),
         },
         {
-          name: "Incorrect",
+          name: this.$t("datasets.incorrect"),
           field: "incorrect",
           class: "text",
-          tooltip:
-            "Number of labels the rule predicted incorrectly with respect to the annotations",
+          tooltip: this.$t("datasets.incorrectDescription"),
         },
         {
-          name: "Precision",
+          name: this.$t("datasets.precision"),
           field: "precision",
           class: "text",
           type: "percentage",
-          tooltip:
-            "Percentage of correct labels given by the rule with respect to the annotations",
+          tooltip: this.$t("datasets.precisionDescription"),
         },
         {
-          name: "Created at",
+          name: this.$t("datasets.createdAt"),
           field: "created_at",
           class: "date",
           type: "date",
@@ -188,8 +207,10 @@ export default {
     },
     getDeleteModalText() {
       return {
-        title: "Permanently delete rule",
-        text: `You are about to delete the rule <strong>"${this.visibleModalId}"</strong> from your dataset. This action cannot be undone.`,
+        title: this.$t("datasets.permanentlyDeleteRule"),
+        text: `${this.$t("datasets.youAreAboutToDelete")} <strong>"${
+          this.visibleModalId
+        }"</strong> ${this.$t("datasets.fromYourDatasetThis")}`,
       };
     },
     areMetricsInPending() {

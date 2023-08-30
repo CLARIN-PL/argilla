@@ -29,7 +29,7 @@
     </div>
     <div class="record-info__buttons">
       <base-button class="primary" @click="$emit('close-modal')">
-        Close
+        {{ $t("common.close") }}
       </base-button>
     </div>
   </div>
@@ -47,19 +47,24 @@ export default {
     return {
       tableColumns: [
         {
-          name: "Field Name",
+          name: this.$t("common.fieldName"),
           field: "name",
           type: "text",
           sortable: false,
         },
-        { name: "Value", field: "value", type: "text", sortable: false },
+        {
+          name: this.$t("common.value"),
+          field: "value",
+          type: "text",
+          sortable: false,
+        },
       ],
       actions: [
         {
           name: "copy-text",
           icon: "copy",
-          title: "Copy info",
-          tooltip: "Copied",
+          title: this.$t("common.copyInfo"),
+          tooltip: this.$t("common.copied"),
         },
       ],
     };

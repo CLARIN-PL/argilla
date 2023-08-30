@@ -18,15 +18,15 @@
 <template>
   <div class="error">
     <div class="panel panel--warning">
-      <p class="panel__title">Warning</p>
+      <p class="panel__title">{{ $t("error.warning") }}</p>
       <p class="panel__text">
-        We cannot currently access <strong>{{ where }}</strong> due to the
-        following error: <strong>{{ error.message }}</strong>
+        {{ $t("error.weCannotCurrently") }}<strong>{{ where }}</strong>
+        {{ $t("error.dueToFollowing") }} <strong>{{ error.message }}</strong>
       </p>
     </div>
     <base-button v-if="link" class="secondary outline" :to="link">
       <svgicon name="chevron-left" width="14" height="14" color="#4A4A4A" />
-      Back
+      {{ $t("error.back") }}
     </base-button>
   </div>
 </template>

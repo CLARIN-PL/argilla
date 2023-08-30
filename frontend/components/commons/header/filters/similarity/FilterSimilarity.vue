@@ -5,7 +5,7 @@
       id="filter-active"
       class="filter__similarity__content"
       :class="filterIsActive ? '--active' : null"
-      data-title="Remove similar records filter"
+      :data-title="$t('datasets.removeSimilarRecordsFilter')"
     >
       <base-button
         class="filter__similarity__button"
@@ -21,9 +21,7 @@
       ></svgicon>
     </div>
     <div v-else class="filter__similarity__content">
-      <div
-        data-title="If you have vectors in your records, you can find the most similar records to a given one"
-      >
+      <div :data-title="$t('datasets.ifYouHaveVectors')">
         <svgicon
           class="filter__similarity__icon"
           width="28"
@@ -32,7 +30,9 @@
         ></svgicon>
       </div>
       <div>
-        <span class="filter__similarity__new">NEW</span>
+        <span class="filter__similarity__new" style="text-style: capitalize">
+          {{ $t("common.new") }}
+        </span>
       </div>
     </div>
   </div>

@@ -49,7 +49,7 @@
       </ul>
       <div v-else class="entities__selector--empty">
         <svgicon name="danger" width="17" height="17" />
-        <p>No labels available</p>
+        <p>{{ $t("common.noLabelsAvailable") }}</p>
       </div>
     </div>
   </span>

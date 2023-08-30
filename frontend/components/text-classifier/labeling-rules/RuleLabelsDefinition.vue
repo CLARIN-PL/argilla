@@ -20,7 +20,7 @@
     <div class="rule-labels-definition__info">
       <p class="rule__description">{{ query }}</p>
       <p class="rule__records">
-        Records:
+        {{ $t("dataset.records") }}
         <strong>{{ coveredRecords }}</strong>
         <svgicon
           class="rule__records__info"
@@ -31,7 +31,7 @@
         />
         <span
           class="rule__records__tooltip"
-          data-title="Filters are not part of the rule, but are applied to the record list below"
+          :data-title="$t('dataset.filtersAreNot')"
         />
       </p>
     </div>
@@ -64,7 +64,7 @@
         v-else-if="visibleLabels.length > maxVisibleLabels"
         class="feedback-interactions__more secondary text"
         @click="collapseLabels"
-        >Show less</base-button
+        >{{ $t("common.showLess") }}</base-button
       >
     </div>
     <div class="rule__no-label" v-else>
@@ -95,7 +95,7 @@
       class="feedback-interactions__button primary"
       @click="saveRule"
     >
-      Save rule</base-button
+      {{ $t("dataset.saveRule") }}</base-button
     >
   </div>
 </template>
@@ -132,12 +132,13 @@ export default {
         feedbackType: "ERROR",
       },
       inputForFeedbackComponent: {
-        message: "Action needed: Create labels in the dataset settings",
-        buttonLabels: [{ label: "Create labels", value: "CREATE_LABELS" }],
+        message: this.$t("dataset.actionNeeded"),
+        buttonLabels: [
+          { label: this.$t("dataset.createLabels"), value: "CREATE_LABELS" },
+        ],
         feedbackType: "ERROR",
       },
-      messageNotLabels:
-        "To create new rules, you need at least two labels. <br />We highly recommend starting by annotating some records with these labels.",
+      messageNotLabels: this.$t("dataset.toCreateNewRules"),
     };
   },
   computed: {
@@ -174,12 +175,14 @@ export default {
     },
     ruleInfo() {
       if (this.isSaved) {
-        return "Rule saved";
+        return this.$t("dataset.ruleSaved");
       }
       if (this.selectedLabels && this.queryWithLabelsIsStored) {
-        return `This query with ${
-          this.selectedLabels.length > 1 ? "these labels" : "this label"
-        } is already saved as rule`;
+        const label =
+          this.selectedLabels.length > 1
+            ? this.$t("dataset.theseLabels")
+            : this.$t("dataset.thisLabel");
+        return this.$t("dataset.thisQueryWith", { label });
       }
     },
     coveredRecords() {

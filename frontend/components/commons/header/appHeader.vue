@@ -33,7 +33,7 @@
           @on-click="onClickTrain"
           v-if="isAdminOrOwnerRole"
         >
-          <svgicon name="code" width="20" height="20" />Train
+          <svgicon name="code" width="20" height="20" />{{ $t("common.train") }}
         </BaseButton>
         <DatasetSettingsIcon
           :datasetId="datasetId"

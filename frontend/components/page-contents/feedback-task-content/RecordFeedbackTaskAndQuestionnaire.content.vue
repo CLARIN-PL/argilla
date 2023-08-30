@@ -37,7 +37,6 @@ import {
 } from "@/models/feedback-task-model/record/record.queries";
 import { LABEL_PROPERTIES } from "../../feedback-task/feedbackTask.properties";
 import { useRecordFeedbackTaskViewModel } from "./useRecordFeedbackTaskViewModel";
-
 export default {
   name: "RecordFeedbackTaskAndQuestionnaireComponent",
   props: {
@@ -66,7 +65,11 @@ export default {
       };
     },
     noMoreDataMessage() {
-      return `You've reached the end of the data for the ${this.recordStatusToFilterWith} queue.`;
+      return this.$t("datasets.youHaveReached", {
+        recordStatusToFilterWith: this.$t(
+          `common.status.${this.recordStatusToFilterWith}`
+        ),
+      });
     },
     recordStatusFilterValueForGetRecords() {
       // NOTE - this is only used to fetch record, this is why the return value is in lowercase
@@ -95,8 +98,16 @@ export default {
         isNil(this.searchTextToFilterWith) ||
         this.searchTextToFilterWith.length === 0
       )
-        return `You have no ${this.recordStatusToFilterWith} records`;
-      return `You have no ${this.recordStatusToFilterWith} records matching the search input`;
+        return this.$t("datasets.youHaveNoRecords", {
+          recordStatusToFilterWith: this.$t(
+            `common.status.${this.recordStatusToFilterWith}`
+          ),
+        });
+      return this.$t("datasets.youHaveNoRecordsMatchingSearch", {
+        recordStatusToFilterWith: this.$t(
+          `common.status.${this.recordStatusToFilterWith}`
+        ),
+      });
     },
     statusClass() {
       return `--${this.record.status.toLowerCase()}`;
@@ -114,24 +125,19 @@ export default {
   },
   async fetch() {
     if (this.fetching) return Promise.resolve();
-
     this.fetching = true;
     this.clearRecords();
-
     await this.loadRecords(
       this.datasetId,
       this.currentPage,
       this.recordStatusFilterValueForGetRecords,
       this.searchTextToFilterWith
     );
-
     const isRecordExistForCurrentPage = this.records.existsRecordOn(
       this.currentPage
     );
-
     if (!isRecordExistForCurrentPage && this.currentPage !== 1) {
       this.currentPage = 1;
-
       await this.loadRecords(
         this.datasetId,
         this.currentPage,
@@ -139,7 +145,6 @@ export default {
         this.searchTextToFilterWith
       );
     }
-
     this.numberOfFetch++;
     this.fetching = false;
   },
@@ -184,7 +189,6 @@ export default {
     this.recordStatusToFilterWith = this.statusFilterFromQuery;
     this.searchTextToFilterWith = this.searchFilterFromQuery;
     this.currentPage = this.pageFromQuery;
-
     this.loadMetrics(this.datasetId);
   },
   mounted() {
@@ -201,9 +205,7 @@ export default {
     async applyStatusFilter(status) {
       this.currentPage = 1;
       this.recordStatusToFilterWith = status;
-
       await this.$fetch();
-
       this.checkAndEmitTotalRecords({
         searchFilter: this.searchTextToFilterWith,
         value: this.records.total,
@@ -212,9 +214,7 @@ export default {
     async applySearchFilter(searchFilter) {
       this.currentPage = 1;
       this.searchTextToFilterWith = searchFilter;
-
       await this.$fetch();
-
       this.checkAndEmitTotalRecords({
         searchFilter,
         value: this.records.total,
@@ -237,16 +237,17 @@ export default {
     async onSearchFilterChanged(newSearchValue) {
       const localApplySearchFilter = this.applySearchFilter;
       const localEmitResetSearchFilter = this.emitResetSearchFilter;
-
       if (
         this.questionFormTouched &&
         newSearchValue !== this.searchFilterFromQuery
       ) {
         Notification.dispatch("notify", {
-          message: "Your changes will be lost if you apply the search filter",
+          message: this.$t("datasets.yourChangesWillBeLostOnSearch"),
           numberOfChars: 500,
           type: "warning",
-          buttonText: LABEL_PROPERTIES.CONTINUE,
+          buttonText: this.$t(
+            `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+          ),
           async onClick() {
             await localApplySearchFilter(newSearchValue);
           },
@@ -262,16 +263,16 @@ export default {
       if (this.recordStatusToFilterWith === newStatus) {
         return;
       }
-
       const localApplyStatusFilter = this.applyStatusFilter;
       const localEmitResetStatusFilter = this.emitResetStatusFilter;
-
       if (this.questionFormTouched) {
         Notification.dispatch("notify", {
-          message: "Your changes will be lost if you move to another view",
+          message: this.$t("datasets.yourChangesWillBeLostOnViewChange"),
           numberOfChars: 500,
           type: "warning",
-          buttonText: LABEL_PROPERTIES.CONTINUE,
+          buttonText: this.$t(
+            `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+          ),
           async onClick() {
             await localApplyStatusFilter(newStatus);
           },
@@ -288,11 +289,8 @@ export default {
     },
     async setCurrentPage(newPage) {
       if (this.fetching) return Promise.resolve();
-
       this.fetching = true;
-
       let isNextRecordExist = this.records.existsRecordOn(newPage);
-
       if (!isNextRecordExist) {
         await this.loadRecords(
           this.datasetId,
@@ -300,10 +298,8 @@ export default {
           this.recordStatusFilterValueForGetRecords,
           this.searchTextToFilterWith
         );
-
         isNextRecordExist = this.records.existsRecordOn(newPage);
       }
-
       if (isNextRecordExist) {
         this.currentPage = newPage;
       } else if (this.currentPage < newPage) {
@@ -313,7 +309,6 @@ export default {
           type: "info",
         });
       }
-
       this.fetching = false;
     },
     goToNext() {
@@ -331,7 +326,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .wrapper {
   display: flex;

@@ -37,7 +37,7 @@
       type="text"
       v-model.trim="searchValue"
       :placeholder="placeholder"
-      :aria-description="description"
+      :aria-description="inputDescription"
       autocomplete="off"
       @focus="searchHasFocus = true"
       @blur="searchHasFocus = false"
@@ -89,7 +89,7 @@ export default {
     },
     description: {
       type: String,
-      default: "Introduce a text",
+      default: "",
     },
   },
   data() {
@@ -100,6 +100,9 @@ export default {
     };
   },
   computed: {
+    inputDescription() {
+      return this.description || this.$t("common.introduceAText");
+    },
     isSearchActive() {
       return !(isNil(this.value) || this.value.length === 0);
     },

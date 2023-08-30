@@ -37,48 +37,48 @@ export default {
       type: String,
     },
   },
-  data: () => {
-    return {
-      sidebarItems: [
+  computed: {
+    sidebarItems() {
+      return [
         {
           id: "annotate",
-          tooltip: "Hand labeling",
+          tooltip: this.$t("common.handLabeling"),
           icon: "hand-labeling",
-          group: "Mode",
+          group: this.$t("common.mode"),
           action: "change-view-mode",
           relatedMetrics: ["progress", "stats"],
         },
         {
           id: "explore",
-          tooltip: "Exploration",
+          tooltip: this.$t("common.exploration"),
           icon: "exploration",
-          group: "Mode",
+          group: this.$t("common.mode"),
           action: "change-view-mode",
           relatedMetrics: ["progress", "stats"],
         },
         {
           id: "progress",
-          tooltip: "Progress",
+          tooltip: this.$t("common.progress"),
           icon: "progress",
           action: "show-metrics",
-          group: "Metrics",
+          group: this.$t("common.metrics"),
         },
         {
           id: "stats",
-          tooltip: "Stats",
+          tooltip: this.$t("common.stats"),
           icon: "stats",
           action: "show-metrics",
-          group: "Metrics",
+          group: this.$t("common.metrics"),
         },
         {
           id: "refresh",
-          tooltip: "Refresh",
+          tooltip: this.$t("common.refresh"),
           icon: "refresh",
-          group: "Refresh",
+          group: this.$t("common.refresh"),
           action: "refresh",
         },
-      ],
-    };
+      ];
+    },
   },
   beforeMount() {
     this.$emit("set-sidebar-items", this.sidebarItems);

@@ -1,11 +1,11 @@
 <template>
   <div class="dataset-delete" v-if="datasetName">
-    <h2 class="--heading5 --semibold">{{ sectionTitle }}</h2>
+    <h2 class="--heading5 --semibold">{{ $t("common.dangerZone") }}</h2>
     <base-card
       card-type="danger"
       :title="datasetDeleteTitle"
-      text="Be careful, this action is not reversible"
-      buttonText="Delete dataset"
+      :text="$t('common.beCarefulThisActionIsNotReversible')"
+      :buttonText="$t('common.deleteDataset')"
       @card-action="toggleDeleteModal(true)"
     />
     <base-modal
@@ -24,10 +24,10 @@
             class="primary outline"
             @click="toggleDeleteModal(false)"
           >
-            Cancel
+            {{ $t("common.cancel") }}
           </base-button>
           <base-button class="primary" @click="onConfirmDeleteDataset">
-            Yes, delete
+            {{ $t("common.yesDelete") }}
           </base-button>
         </div>
       </div>
@@ -52,7 +52,6 @@ export default {
   },
   data: () => {
     return {
-      sectionTitle: "Danger zone",
       showDeleteModal: false,
     };
   },
@@ -64,13 +63,17 @@ export default {
       return this.dataset?.name;
     },
     datasetDeleteTitle() {
-      return `Delete <strong>${this.datasetName}</strong>`;
+      return `${this.$t("common.delete")} <strong>${this.datasetName}</strong>`;
     },
     modalTitle() {
-      return `Delete confirmation`;
+      return `${this.$t("common.deleteConfirmation")}`;
     },
     modalDescription() {
-      return `You are about to delete: <strong>${this.datasetName}</strong> from workspace <strong>${this.workspace}</strong>. This action cannot be undone`;
+      return `${this.$t("common.youAreAboutToDelete")}: <strong>${
+        this.datasetName
+      }</strong> ${this.$t("common.fromWorkspace")} <strong>${
+        this.workspace
+      }</strong>. ${this.$t("common.thisActionCannotBeUndone")}`;
     },
     workspace() {
       return currentWorkspace(this.$route);

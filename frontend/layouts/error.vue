@@ -26,13 +26,13 @@
     <div class="error__container">
       <div class="error__content">
         <div class="error__pill">{{ error.message }}</div>
-        <h1 class="error__title">Something went wrong.</h1>
+        <h1 class="error__title">{{ $t("error.somethingWentWrong") }}</h1>
         <h2 class="error__text">
-          We can't seem to find the page you are looking for
+          {{ $t("error.weCantSeemToFind") }}
         </h2>
         <div class="error__buttons">
-          <nuxt-link class="error__button" :to="`/`"
-            >Back to home page
+          <nuxt-link class="error__button" :to="`/`">
+            {{ $t("error.backToHomepage") }}
             <svgicon name="chevron-right" width="20" height="20"></svgicon>
           </nuxt-link>
         </div>

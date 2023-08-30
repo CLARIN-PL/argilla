@@ -52,7 +52,7 @@
           "
           class="feedback-interactions__more secondary text"
           @click="collapseLabels()"
-          >Show less</base-button
+          >{{ $t("common.showLess") }}</base-button
         >
       </template>
     </div>

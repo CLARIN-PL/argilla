@@ -92,7 +92,7 @@
             "
             class="filters__list__button secondary light small"
             @click="removeFiltersByGroup(group)"
-            >Remove all filters</base-button
+            >{{ $t("common.removeAllFilters") }}</base-button
           >
         </div>
       </div>
@@ -112,65 +112,67 @@ export default {
   data: () => {
     return {
       initialVisibleGroup: undefined,
-      filters: [
-        {
-          key: "predicted_as",
-          name: "Predicted as",
-          type: "select",
-          group: "Predictions",
-          placeholder: "Select labels",
-        },
-        {
-          key: "predicted",
-          name: "Predicted ok",
-          type: "select",
-          group: "Predictions",
-          placeholder: "Select yes/no",
-        },
-        {
-          key: "score",
-          name: "Score",
-          type: "score",
-          group: "Predictions",
-        },
-        {
-          key: "predicted_by",
-          name: "Predicted by",
-          type: "select",
-          group: "Predictions",
-          placeholder: "Select agents",
-        },
-        {
-          key: "annotated_as",
-          name: "Annotated as",
-          type: "select",
-          group: "Annotations",
-          placeholder: "Select labels",
-        },
-        {
-          key: "annotated_by",
-          name: "Annotated by",
-          type: "select",
-          group: "Annotations",
-          placeholder: "Select labels",
-        },
-        {
-          key: "status",
-          name: "Status",
-          type: "select",
-          group: "Status",
-          placeholder: "Select options",
-        },
-        {
-          key: "sort",
-          name: "Sort",
-          type: "sort",
-          group: "Sort",
-        },
-      ],
     };
   },
   computed: {
+    filters() {
+      return [
+        {
+          key: "predicted_as",
+          name: this.$t("common.predictedAs"),
+          type: "select",
+          group: this.$t("common.predictions"),
+          placeholder: this.$t("common.selectLabels"),
+        },
+        {
+          key: "predicted",
+          name: this.$t("common.predictedOk"),
+          type: "select",
+          group: this.$t("common.predictions"),
+          placeholder: this.$t("common.selectYesNo"),
+        },
+        {
+          key: "score",
+          name: this.$t("common.score"),
+          type: "score",
+          group: this.$t("common.predictions"),
+        },
+        {
+          key: "predicted_by",
+          name: this.$t("common.predictedBy"),
+          type: "select",
+          group: this.$t("common.predictions"),
+          placeholder: this.$t("common.selectAgents"),
+        },
+        {
+          key: "annotated_as",
+          name: this.$t("common.annotatedAs"),
+          type: "select",
+          group: this.$t("common.annotations"),
+          placeholder: this.$t("common.selectLabels"),
+        },
+        {
+          key: "annotated_by",
+          name: this.$t("common.annotatedBy"),
+          type: "select",
+          group: this.$t("common.annotations"),
+          placeholder: this.$t("common.selectLabels"),
+        },
+        {
+          key: "status",
+          name: this.$t("common.statusLabel"),
+          type: "select",
+          group: this.$t("common.statusLabel"),
+          placeholder: this.$t("common.selectOptions"),
+        },
+        {
+          key: "sort",
+          name: this.$t("common.sort"),
+          type: "sort",
+          group: this.$t("common.sort"),
+        },
+      ];
+    },
     searchableFilterList() {
       return this.filterList.filter((f) => {
         return f.options && Object.keys(f.options).length > 0;
@@ -179,7 +181,7 @@ export default {
     groups() {
       return [
         ...new Set(this.searchableFilterList.map((f) => f.group)),
-        "Sort",
+        this.$t("common.sort"),
       ];
     },
     isMultiLabel() {
@@ -194,7 +196,7 @@ export default {
     },
     filterList() {
       const aggregations = this.dataset.results.aggregations;
-      const filters = this.filters
+      const filters = (this.filters || [])
         .map((filter) => {
           return {
             ...filter,
@@ -220,8 +222,8 @@ export default {
             key: key,
             name: key,
             type: "select",
-            group: "Metadata",
-            placeholder: "Select options",
+            group: this.$t("common.metadata"),
+            placeholder: this.$t("common.selectOptions"),
             id: key,
             options: Object.keys(filterContent).includes("argilla:stats")
               ? null
@@ -236,14 +238,17 @@ export default {
           )) ||
         [];
       const dateFields = [
-        this.sortByDateFilter("last_updated", "Last Updated"),
-        this.sortByDateFilter("event_timestamp", "Event Timestamp"),
+        this.sortByDateFilter("last_updated", this.$t("common.lastUpdated")),
+        this.sortByDateFilter(
+          "event_timestamp",
+          this.$t("common.eventTimestamp")
+        ),
       ].filter(({ disabled }) => !disabled);
       const uncoveredByRules = {
         id: "uncovered_by_rules",
         key: "uncovered_by_rules",
-        group: "Annotations",
-        name: "Uncovered by rules",
+        group: this.$t("common.annotations"),
+        name: this.$t("common.uncoveredByRules"),
         options: [true, false],
         selected:
           this.dataset.query.uncovered_by_rules &&

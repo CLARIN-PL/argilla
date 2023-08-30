@@ -19,45 +19,64 @@
   <div class="container">
     <BaseLoading v-if="hasAuthToken" />
     <form class="form" @submit.prevent="onLoginUser">
-      <brand-logo class="form__logo" />
+      <div class="form__header">
+        <brand-logo class="form__logo" />
+        <select v-model="selectedLocale" class="form__lang-selector">
+          <option
+            v-for="(locale, idx) in $i18n.locales"
+            :key="'option_' + idx"
+            :value="locale.code"
+          >
+            {{ locale.name }}
+          </option>
+        </select>
+      </div>
       <div class="form__content">
-        <p class="form__title">Welcome</p>
-        <p class="form__text">Please enter your details to login.</p>
+        <p class="form__title">{{ $t("login.messages.welcome") }}</p>
+        <p class="form__text">
+          {{ $t("login.messages.pleaseEnterYourDetails") }}
+        </p>
         <div class="form__input" :class="{ active: login.username }">
-          <label class="form__label">Username</label>
+          <label class="form__label">{{ $t("login.username") }}</label>
           <input
             v-model="login.username"
             type="text"
-            placeholder="Enter your username"
+            :placeholder="$t('login.guides.enterUsername')"
           />
         </div>
         <div class="form__input" :class="{ active: login.password }">
-          <label class="form__label">Password</label>
+          <label class="form__label">{{ $t("login.password") }}</label>
           <input
             v-model="login.password"
             type="password"
-            placeholder="Enter your password"
+            :placeholder="$t('login.guides.enterPassword')"
           />
         </div>
         <p v-if="deployment === 'quickstart'">
-          You are using the Quickstart version of Argilla. Check
-          <a :href="$config.documentationSiteQuickStart" target="_blank"
-            >this guide</a
+          {{ $t("login.guides.youAreUsingQuickstartVersion") }}
+          <a
+            href="https://docs.argilla.io/en/latest/getting_started/quickstart.html"
+            target="_blank"
+            >{{ $t("login.guides.thisGuide") }}</a
           >
-          to learn more about usage and configuration options.
+          {{ $t("login.guides.toLearnMore") }}
         </p>
-        <base-button type="submit" class="form__button primary"
-          >Enter</base-button
-        >
+        <base-button type="submit" class="form__button primary">
+          {{ $t("login.enter") }}
+        </base-button>
         <p class="form__error" v-if="error">{{ formattedError }}</p>
       </div>
     </form>
     <div class="login--right">
-      <p class="login__claim">Build, improve, and monitor data for NLP</p>
+      <p class="login__claim">{{ $t("login.messages.slogan") }}</p>
       <geometric-shape-a />
       <p class="login__text">
-        To get support from the community, join us on
-        <a :href="$config.slackCommunity" target="_blank">Slack</a>
+        {{ $t("login.messages.slackSupport") }}
+        <a
+          href="https://join.slack.com/t/rubrixworkspace/shared_invite/zt-whigkyjn-a3IUJLD7gDbTZ0rKlvcJ5g"
+          target="_blank"
+          >Slack</a
+        >
       </p>
     </div>
   </div>
@@ -110,10 +129,22 @@ export default {
     }
   },
   computed: {
+    selectedLocale: {
+      get() {
+        const locales = this.$i18n.locales || [];
+        const locale = locales.find(
+          (locale) => locale.code == this.$i18n.locale
+        );
+        return locale?.code || "pl";
+      },
+      set(val) {
+        this.$i18n.setLocale(val);
+      },
+    },
     formattedError() {
       if (this.error) {
         return this.error.toString().includes("401")
-          ? "Wrong username or password. Try again"
+          ? this.$t("login.messages.wrongCredentials")
           : this.error;
       }
     },
@@ -211,6 +242,7 @@ export default {
     position: relative;
     display: block;
     margin-bottom: 1em;
+
     input {
       border: 1px solid palette(grey, 600);
       border-radius: $border-radius;
@@ -221,6 +253,22 @@ export default {
       width: 100%;
     }
   }
+
+  &__header {
+    display: flex;
+  }
+
+  &__lang-selector {
+    border: 1px solid palette(grey, 600);
+    border-radius: $border-radius;
+    padding: 0 1em;
+    outline: none;
+    background: transparent;
+    min-height: 40px;
+    width: 7vw;
+    margin-left: auto;
+  }
+
   &__error {
     color: #ff4f46;
   }

@@ -13,14 +13,16 @@
 import { ROUTES } from "@/v1/infrastructure/services";
 export default {
   name: "HeaderUserSettingsComponent",
-  created() {
-    this.breadcrumbs = [
-      { link: { name: ROUTES.datasets }, name: "Home" },
-      {
-        link: {},
-        name: "my settings",
-      },
-    ];
+  computed: {
+    breadcrumbs() {
+      return [
+        { link: { name: ROUTES.datasets }, name: this.$t("common.home") },
+        {
+          link: null,
+          name: this.$t("userSettings.mySettings"),
+        },
+      ];
+    },
   },
 };
 </script>

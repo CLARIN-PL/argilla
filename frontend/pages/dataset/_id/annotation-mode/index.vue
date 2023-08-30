@@ -89,11 +89,15 @@ export default {
     this.onBusEventAreResponsesUntouched();
     this.checkIfUrlHaveRecordStatusOrInitiateQueryParams();
 
-    this.toastMessageOnRefresh =
-      "Your changes will be lost if you refresh the page";
-    this.toastMessageOnLeavingRoute =
-      "Your changes will be lost if you leave the current page";
-    this.buttonMessage = LABEL_PROPERTIES.CONTINUE;
+    this.toastMessageOnRefresh = this.$t(
+      "dataset.yourChangesWillBeLostOnRefresh"
+    );
+    this.toastMessageOnLeavingRoute = this.$t(
+      "dataset.yourChangesWillBeLostOnLeaving"
+    );
+    this.buttonMessage = this.$t(
+      `common.${LABEL_PROPERTIES.CONTINUE.toLowerCase()}`
+    );
   },
   methods: {
     checkIfUrlHaveRecordStatusOrInitiateQueryParams() {

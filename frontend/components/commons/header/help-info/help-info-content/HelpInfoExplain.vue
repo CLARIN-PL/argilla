@@ -18,27 +18,24 @@
 <template>
   <div>
     <p>
-      Argilla enables you to register token attributions as part of the dataset
-      records. For getting token attributions, you can use methods such as
-      Integrated Gradients or SHAP. These methods try to provide a mechanism to
-      interpret model predictions. More in
+      {{ $t("helpInfo.argillaEnablesYou") }}
       <a
         class="primary link"
         href="https://docs.argilla.io/en/latest/tutorials/notebooks/monitoring-textclassification-shaptransformersinterpret-explainability.html"
         target="_blank"
-        >docs
+      >
+        {{ $t("helpInfo.docs") }}
       </a>
     </p>
     <img src="images/help-info/explain.png" alt="token attributions" />
-    <p>The attributions work as follows:</p>
+    <p>{{ $t("helpInfo.theAttributionsWork") }}</p>
     <p>
-      [0,1] <strong>Positive attributions</strong> (in blue) reflect those
-      tokens that are making the model predict the specific predicted label.
+      [0,1] <strong>{{ $t("helpInfo.positiveAttributions") }} </strong>
+      {{ $t("helpInfo.inBlue") }}
     </p>
     <p>
-      [-1, 0] <strong>Negative attributions</strong> (in red) reflect those
-      tokens that can influence the model to predict a label other than the
-      specific predicted label.
+      [-1, 0] <strong>{{ $t("helpInfo.negativeAttributions") }} </strong>
+      {{ $t("helpInfo.inRed") }}
     </p>
   </div>
 </template>

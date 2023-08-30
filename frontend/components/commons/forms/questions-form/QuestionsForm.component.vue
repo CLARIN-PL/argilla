@@ -7,17 +7,18 @@
     <div class="questions-form__content">
       <div class="questions-form__header">
         <p class="questions-form__title --heading5 --medium">
-          Submit your feedback
+          {{ $t("commons.forms.submitYourFeedback") }}
         </p>
         <p class="questions-form__guidelines-link">
-          Read the
+          {{ $t("common.readThe") }}
           <NuxtLink
             :to="{
               name: 'dataset-id-settings',
               params: { id: datasetId },
             }"
             target="_blank"
-            >annotation guidelines <svgicon name="external-link" width="12" />
+            >{{ $t("commons.forms.annotationGuidelines") }}
+            <svgicon name="external-link" width="12" />
           </NuxtLink>
         </p>
       </div>
@@ -80,8 +81,13 @@
     </div>
     <div class="footer-form">
       <div class="footer-form__left-footer">
-        <BaseButton type="button" class="primary text" @click.prevent="onClear">
-          <span v-text="'Clear'" />
+        <BaseButton
+          type="button"
+          ref="clearButton"
+          class="primary text"
+          @click.prevent="onClear"
+        >
+          <span v-text="$t('common.clear')" />
         </BaseButton>
       </div>
       <div class="footer-form__right-area">
@@ -91,14 +97,14 @@
           @on-click="onDiscard"
           :disabled="record.isDiscarded"
         >
-          <span v-text="'Discard'" />
+          <span v-text="$t('common.discard')" />
         </BaseButton>
         <BaseButton
           type="submit"
           class="primary"
           :disabled="isSubmitButtonDisabled"
         >
-          <span v-text="'Submit'" />
+          <span v-text="$t('common.submit')" />
         </BaseButton>
       </div>
     </div>

@@ -19,7 +19,9 @@
   <div class="pagination__container">
     <template v-if="!onePage">
       <div v-click-outside="closePageSizeSelector" class="pagination__selector">
-        <span class="pagination__selector__title">Records per page:</span>
+        <span class="pagination__selector__title">{{
+          $t("datasets.recordsPerPage")
+        }}</span>
         <div class="pagination__selector__content">
           <a href="#" @click.prevent="showOptions = !showOptions">
             {{ paginationSize }}
@@ -39,7 +41,8 @@
           :class="currentPage <= 1 ? 'is-disabled' : null"
           @click.prevent="prevPage"
         >
-          <svgicon name="chevron-left" width="8" height="8" /> Prev
+          <svgicon name="chevron-left" width="8" height="8" />
+          {{ $t("datasets.prev") }}
         </a>
         <ul class="pagination__numbers">
           <li v-if="totalPages > 1 && !pages.includes(1)">
@@ -85,7 +88,8 @@
           :class="currentPage >= totalPages ? 'is-disabled' : null"
           @click.prevent="nextPage"
         >
-          Next <svgicon name="chevron-right" width="8" height="8" />
+          {{ $t("datasets.next") }}
+          <svgicon name="chevron-right" width="8" height="8" />
         </a>
       </div>
     </template>
@@ -94,10 +98,10 @@
         <strong>
           {{ currentPaginationPosition }}
         </strong>
-        of
+        {{ $t("datasets.of") }}
       </template>
       <span class="total-records">{{ totalItems | formatNumber }} </span>
-      records
+      {{ $t("datasets.records") }}
     </div>
   </div>
 </template>
@@ -192,17 +196,9 @@ export default {
       return this.$options.filters.formatNumber(this.maxRecordsLimit);
     },
     message() {
-      return `<p>
-                You cannot go through more than ${this.formattedLimit} records.
-                To explore more records, you can combine queries, filters, and sorting to reduce your search results.
-                Visit this
-                <a
-                  href="${this.$config.documentationSiteQueryDatasets}"
-                  target="_blank"
-                >
-                  guide</a
-                > for using advanced queries.
-              </p>`;
+      return this.$t("datasets.youCannotGoThrough", {
+        formatted_limit: this.formattedLimit,
+      });
     },
   },
   watch: {
