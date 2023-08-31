@@ -3,7 +3,7 @@ import { settingsFake } from "./ranking-fakes";
 
 describe("Ranking adapter should", () => {
   it("get the same slots quantity that questions has", () => {
-    const { slots, questions } = adaptQuestionsToSlots(settingsFake);
+    const { slots } = adaptQuestionsToSlots(settingsFake);
 
     expect(slots.length).toBe(5);
   });
