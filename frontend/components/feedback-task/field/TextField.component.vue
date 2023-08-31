@@ -1,7 +1,7 @@
 <template>
   <div class="text_field_component">
     <div class="title-area --body2">
-      <span v-text="title" />
+      <span class="title" v-text="title" />
       <BaseActionTooltip :tooltip="$t('common.copied')" tooltip-position="left">
         <BaseButton
           :title="$t('common.copyToClipboard')"
@@ -55,6 +55,10 @@ export default {
     justify-content: space-between;
     gap: $base-space;
     color: $black-87;
+
+    .title {
+      font-weight: bold;
+    }
   }
   .content-area {
     white-space: pre-wrap;
