@@ -4,7 +4,13 @@ import DndSelectionComponent from "./DndSelection.component";
 let wrapper = null;
 const options = {
   stubs: ["draggable"],
-  propsData: { ranking: {} },
+  propsData: {
+    ranking: {
+      slots: {
+        reverse: jest.fn(),
+      },
+    },
+  },
 };
 
 beforeEach(() => {
@@ -12,7 +18,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper && wrapper.destroy();
 });
 
 describe("DndSelectionComponent", () => {
