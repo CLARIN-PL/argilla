@@ -32,7 +32,8 @@ export class DatasetRepository implements IDatasetRepository {
       workspace,
       {},
       dataset.inserted_at,
-      dataset.updated_at
+      dataset.updated_at,
+      dataset.is_completed
     );
   }
 
@@ -50,7 +51,8 @@ export class DatasetRepository implements IDatasetRepository {
         dataset.workspace,
         dataset.tags,
         dataset.created_at,
-        dataset.last_updated
+        dataset.last_updated,
+        dataset.is_completed
       );
     });
 
@@ -66,31 +68,32 @@ export class DatasetRepository implements IDatasetRepository {
           datasetFromBackend.workspace_name,
           {},
           datasetFromBackend.inserted_at,
-          datasetFromBackend.updated_at
+          datasetFromBackend.updated_at,
+          datasetFromBackend.is_completed
         );
       }
     );
 
-    // TODO: check dataset status and filter out datasets that are already completed (status: "completed")
-    // and show only one dataset (the first one) that is in progress (status: "in_progress")
-    let datasets = [...otherDatasets, ...feedbackDatasets];
+    const datasets = [...otherDatasets, ...feedbackDatasets];
+    let filteredDatasets = datasets;
     if (this.store.$auth.$state.user.role !== "admin") {
-      datasets = datasets
-        .filter((dataset) => dataset.status !== "completed")
-        .splice(0, 1);
+      const completedDatasets = datasets.filter(
+        (dataset) => !dataset.isCompleted
+      );
+      filteredDatasets = completedDatasets.splice(0, 1);
 
-      if (datasets.length) {
+      if (filteredDatasets.length) {
         GeneralSettings.update({
           where: this.store.$auth.$state.user.id,
           data: {
-            current_dataset_id: datasets[0].id,
-            current_dataset_name: datasets[0].name,
+            current_dataset_id: filteredDatasets[0].id,
+            current_dataset_name: filteredDatasets[0].name,
           },
         });
       }
     }
 
-    return _.sortBy(datasets, (dataset) => dataset.name.toLowerCase());
+    return _.sortBy(filteredDatasets, (dataset) => dataset.name.toLowerCase());
   }
 
   private async getDatasetById(datasetId: string) {
@@ -124,6 +127,18 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
+      if (data.items && data.items.length) {
+        const promises = data.items.map((item) => {
+          const apiLink = `/v1/me/datasets/${item.id}/metrics`;
+          return axios.get(apiLink).then((response) => {
+            item.metrics = response.data;
+            item.is_completed =
+              item.metrics.records.count === item.metrics.responses.count;
+            return item;
+          });
+        });
+        await Promise.all(promises);
+      }
 
       return data;
     } catch (err) {

@@ -140,10 +140,13 @@ export default {
     yourChanges: "Your changes will be lost if you move to another page",
   },
   status: {
+    default: "Default",
     pending: "Pending",
     edited: "Edited",
     discarded: "Discarded",
     submitted: "Submitted",
     validated: "Validated",
+    negative: "Negative",
+    positive: "Positive",
   },
 };

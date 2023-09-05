@@ -94,5 +94,5 @@ export default {
   itsNotPossibleToDelete: "Usunięcie nie jest możliwe",
   ruleCantBeDeleted: "Nie można usunąć reguły '{query}'",
   ruleIsDeleted: "Reguła '{query}' została usunięta",
-  oneRecordCouldntBeSetAsNot: "1 rekord nie mógł zostać ustawiony jako nie",
+  oneRecordCouldntBeSetAsNot: "1 rekord nie mógł zostać ustawiony jako nie ",
 };

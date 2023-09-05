@@ -72,5 +72,26 @@ export const useDatasetViewModel = () => {
     }
   };
 
-  return { dataset, datasetId, isLoadingDataset, loadDataset, breadcrumbs };
+  const loadDatasetWithMetrics = async () => {
+    try {
+      isLoadingDataset.value = true;
+
+      await getDatasetUseCase.execute(datasetId);
+    } catch (error) {
+      handleError(error.response);
+
+      router.push("/");
+    } finally {
+      isLoadingDataset.value = false;
+    }
+  };
+
+  return {
+    dataset,
+    datasetId,
+    isLoadingDataset,
+    loadDataset,
+    loadDatasetWithMetrics,
+    breadcrumbs,
+  };
 };

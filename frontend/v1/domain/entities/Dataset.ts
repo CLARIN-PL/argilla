@@ -9,7 +9,8 @@ export class Dataset {
     public readonly workspaceName: string,
     public readonly tags: unknown,
     public readonly createdAt: string,
-    public readonly updatedAt: string
+    public readonly updatedAt: string,
+    public readonly isCompleted: boolean
   ) {}
 
   public get workspace() {
