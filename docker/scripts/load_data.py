@@ -24,7 +24,7 @@ from datasets import load_dataset
 
 class LoadDatasets:
     def __init__(self, api_key: str):
-        rg.init(api_key=api_key)
+        rg.init(api_key=api_key, workspace="argilla")
 
     @staticmethod
     def load_sst_sentiment_explainability():

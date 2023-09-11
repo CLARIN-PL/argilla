@@ -80,7 +80,7 @@ def list_users(client: httpx.Client) -> Response[Union[List[UserModel], ErrorMes
     url = "/api/users"
 
     response = client.get(url=url)
-
+    print(response)
     if response.status_code == 200:
         parsed_response = [UserModel(**user) for user in response.json()]
         return Response(
@@ -130,6 +130,38 @@ def create_user(
     )
 
     response = client.post(
+        url=url,
+        json=user.dict(exclude_none=True),
+    )
+
+    if response.status_code == 200:
+        parsed_response = UserModel(**response.json())
+        return Response(
+            status_code=response.status_code,
+            content=response.content,
+            headers=response.headers,
+            parsed=parsed_response,
+        )
+    return handle_response_error(response)
+
+
+def update_user(
+    client: httpx.Client, user_id: UUID, user
+) -> Response[Union[UserModel, ErrorMessage, HTTPValidationError]]:
+    """Sends a PATCH request to `/api/users/{user_id}` endpoint to update a user.
+
+    Args:
+        client: the authenticated Argilla client to be used to send the request to the API.
+        user_id: the id of the user to be updated.
+        user: the new user information.
+
+    Returns:
+        A `Response` object containing a `parsed` attribute with the parsed response if
+        the request was successful, which is an instance of `UserModel`.
+    """
+    url = f"/api/users/{user_id}"
+
+    response = client.patch(
         url=url,
         json=user.dict(exclude_none=True),
     )

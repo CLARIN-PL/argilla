@@ -81,6 +81,7 @@ class User(BaseModel):
     role: UserRole
     workspaces: Optional[List[str]]
     api_key: str
+    show_discard_button: Optional[bool]
     inserted_at: datetime
     updated_at: datetime
 

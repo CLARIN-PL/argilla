@@ -32,6 +32,7 @@ class UserCreateModel(BaseModel):
     username: str = Field(min_length=1, regex=r"^(?!-|_)[a-z0-9-_]+$")
     role: UserRole = UserRole.annotator
     password: str = Field(min_length=8, max_length=100)
+    show_discard_button: Optional[bool] = True
     workspaces: Optional[List[str]] = None
 
     # TODO(alvarobartt): confirm with @frascuchon
@@ -48,5 +49,6 @@ class UserModel(BaseModel):
     role: UserRole
     workspaces: List[str]
     api_key: str
+    show_discard_button: Optional[bool]
     inserted_at: datetime
     updated_at: datetime

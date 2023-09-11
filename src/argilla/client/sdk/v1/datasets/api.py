@@ -80,6 +80,7 @@ def get_dataset(
     url = f"/api/v1/datasets/{id}"
 
     response = client.get(url=url)
+    print(response)
 
     if response.status_code == 200:
         parsed_response = FeedbackDatasetModel(**response.json())

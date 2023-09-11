@@ -39,6 +39,7 @@ def upgrade() -> None:
         sa.Column("role", sa.String, nullable=False, index=True),
         sa.Column("api_key", sa.Text, nullable=False, unique=True, index=True),
         sa.Column("password_hash", sa.Text, nullable=False),
+        sa.Column("show_discard_button", sa.Boolean, nullable=False, server_default=sa.true()),
         sa.Column("inserted_at", sa.DateTime, nullable=False),
         sa.Column("updated_at", sa.DateTime, nullable=False),
     )
