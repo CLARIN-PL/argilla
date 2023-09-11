@@ -65,6 +65,7 @@
 
 <script>
 import { useDatasetsViewModel } from "./useDatasetsViewModel";
+import _ from "lodash";
 
 export default {
   layout: "app",
