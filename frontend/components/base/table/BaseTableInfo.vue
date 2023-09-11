@@ -203,6 +203,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    originalData: {
+      type: Array,
+      default: () => [],
+    },
     actions: {
       type: Array,
       default: () => [],
@@ -306,7 +310,10 @@ export default {
         if (a[this.sortedBy] > b[this.sortedBy]) return 1 * modifier;
         return 0;
       };
-      const results = this.data.filter(matchSearch).filter(matchFilters);
+      let results = this.data.filter(matchSearch).filter(matchFilters);
+      if (!results.length) {
+        results = this.originalData.filter(matchSearch).filter(matchFilters);
+      }
       return results.sort(itemComparator);
     },
   },

@@ -13,6 +13,7 @@
         search-on="name"
         :global-actions="false"
         :data="datasets"
+        :original-data="originalDatasets"
         :sorted-order="sortedOrder"
         :sorted-by-field="sortedByField"
         :actions="actions"
@@ -35,6 +36,10 @@ import { useRoutes } from "@/v1/infrastructure/services";
 
 export default {
   props: {
+    originalDatasets: {
+      type: Array,
+      default: () => [],
+    },
     datasets: {
       type: Array,
       required: true,
@@ -151,6 +156,7 @@ export default {
     },
     onSearch(event) {
       this.querySearch = event;
+      this.$emit("search", this.querySearch);
     },
     onSortColumns(by, order) {
       this.sortedByField = by;
