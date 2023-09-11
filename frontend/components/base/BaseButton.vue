@@ -198,6 +198,7 @@ export default {
 .secondary {
   background-color: palette(grey, 600);
   color: palette(grey, 200);
+
   .svg-icon {
     fill: palette(grey, 200);
   }
@@ -229,6 +230,11 @@ export default {
     padding-right: 0;
     background: none;
     color: $black-54;
+
+    @include media("<=tablet") {
+      white-space: pre-wrap;
+    }
+
     &:hover {
       background: none;
       color: $black-87;

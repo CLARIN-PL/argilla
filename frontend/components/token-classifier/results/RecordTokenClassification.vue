@@ -294,6 +294,10 @@ export default {
   margin-bottom: 0;
   @include font-size(16px);
   line-height: 34px;
+
+  @include media("<=tablet") {
+    padding: $base-space * 4 20px;
+  }
   .list__item--selectable & {
     padding-left: $base-space * 7;
   }
@@ -304,6 +308,10 @@ export default {
   white-space: pre-line;
   &__input {
     padding-right: 200px;
+
+    @include media("<=tablet") {
+      padding-right: 20px;
+    }
   }
   .record--image-area {
     margin-bottom: 1em;

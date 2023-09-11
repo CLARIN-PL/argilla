@@ -68,6 +68,12 @@ export default {
     flex-shrink: 0;
     margin-left: $base-space * 2;
     width: 80px;
+
+    @include media("<=tablet") {
+      margin-left: 0;
+      margin-right: auto;
+    }
+
     &__content {
       display: flex;
       gap: calc($base-space / 2);

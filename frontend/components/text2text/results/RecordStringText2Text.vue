@@ -99,6 +99,10 @@ export default {
     display: block;
     color: $black-54;
     width: calc(100% - 200px);
+
+    @include media("<=tablet") {
+      width: 100%;
+    }
   }
 }
 </style>

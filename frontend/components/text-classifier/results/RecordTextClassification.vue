@@ -292,6 +292,10 @@ export default {
     .list__item--selectable & {
       padding-right: 240px;
       padding-left: $base-space * 7;
+
+      @include media("<=tablet") {
+        padding-right: $base-space * 7;
+      }
     }
   }
   &__labels {
@@ -304,6 +308,10 @@ export default {
     text-align: right;
     padding: 1em 1.4em 1em 1em;
     @extend %hide-scrollbar;
+
+    @include media("<=tablet") {
+      width: 200px;
+    }
   }
 }
 </style>

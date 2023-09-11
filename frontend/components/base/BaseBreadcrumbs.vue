@@ -81,10 +81,27 @@ export default {
     padding-left: 0;
     font-weight: normal;
     list-style: none;
+
+    @include media("<=tablet") {
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+    }
   }
   li {
     margin: auto 0.5em auto auto;
     white-space: nowrap;
+
+    @include media("<=tablet") {
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      &:not(:last-child) {
+        max-width: 100px;
+      }
+    }
+
     &:not(:last-child):after {
       content: "/";
       margin-left: 0.5em;
@@ -93,6 +110,10 @@ export default {
       word-break: break-all;
       white-space: pre-line;
       font-weight: 600;
+
+      @include media("<=tablet") {
+        margin-left: 0;
+      }
       a {
         cursor: default;
         pointer-events: none;

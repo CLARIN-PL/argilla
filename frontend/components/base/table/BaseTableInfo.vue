@@ -75,7 +75,9 @@
                       >{{ itemValue(item, column) }}
                     </a>
                     <span v-else-if="column.type === 'link'">
-                      <nuxt-link v-if="item.link" :to="item.link"
+                      <nuxt-link
+                        v-if="itemLink(item, column.type)"
+                        :to="itemLink(item, column.type)"
                         >{{ itemValue(item, column) }}
                       </nuxt-link>
                       <span v-else>{{ itemValue(item, column) }}</span>
@@ -344,6 +346,13 @@ export default {
   methods: {
     isObject(obj) {
       return Object.prototype.toString.call(obj) === "[object Object]";
+    },
+    itemLink(item, columnType) {
+      if (item.link) {
+        return item.link;
+      } else if (!item.link && columnType === "link") {
+        return `datasets/${item.workspace}/${item.name}`;
+      }
     },
     itemValue(item, column) {
       if (column.subfield) {

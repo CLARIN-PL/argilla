@@ -346,6 +346,10 @@ $number-size: 18px;
       padding: 20px 20px 10px 20px;
       border-radius: $border-radius;
       z-index: 2;
+      @include media("<=tablet") {
+        left: 0.5em;
+      }
+
       @include media(">desktop") {
         left: 0;
         right: 0;

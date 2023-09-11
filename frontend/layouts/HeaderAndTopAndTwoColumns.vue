@@ -35,6 +35,10 @@ export default {
   overflow: auto;
   height: calc(100vh - $topbarHeight);
   background: palette(white);
+
+  @include media("<=tablet") {
+    grid-template-columns: 56px 2fr 1fr 56px;
+  }
 }
 .header {
   grid-area: 1 / 1 / 2 / 6;

@@ -324,8 +324,14 @@ export default {
   display: flex;
   gap: $base-space * 2;
   margin-top: 1em;
+
   &--separator {
     padding-top: 1em;
+
+    @include media("<=tablet") {
+      flex-direction: column;
+    }
+
     &:before {
       width: 100%;
       content: "";
@@ -367,6 +373,11 @@ export default {
   padding: $base-space;
   border: 1px solid $black-20;
   border-radius: $border-radius-s;
+
+  @include media("<=tablet") {
+    width: calc(100% - 50px);
+  }
+
   &.--focused {
     border-color: $primary-color;
   }
