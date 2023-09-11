@@ -102,7 +102,7 @@
         <BaseButton
           type="submit"
           class="primary"
-          :disabled="isSubmitButtonDisabled"
+          :disabled="isSubmitButtonDisabled || isSubmitButtonLoading"
         >
           <span v-text="$t('common.submit')" />
         </BaseButton>
@@ -132,7 +132,7 @@ export default {
     return {
       originalRecord: null,
       isDiscardButtonDisabled: false,
-      isSubmitButtonDisabled: false,
+      isSubmitButtonLoading: false,
     };
   },
   setup() {
@@ -198,11 +198,11 @@ export default {
       if (!this.questionAreCompletedCorrectly) {
         return;
       }
-      this.isSubmitButtonDisabled = true;
+      this.isSubmitButtonLoading = true;
       await this.submit(this.record);
       this.$emit("on-submit-responses");
       this.onReset();
-      this.isSubmitButtonDisabled = false;
+      this.isSubmitButtonLoading = false;
     },
     async onClear() {
       await this.clear(this.record);
