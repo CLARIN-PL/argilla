@@ -20,9 +20,9 @@
     <div class="table-info">
       <div class="table-info__header">
         <slot name="columns">
-          <div class="table-info__item">
+          <div class="table-info__item" :class="{ '--mobile': $mq <= 'md' }">
             <div
-              v-for="(column, key) in columns"
+              v-for="(column, key) in tableColumns"
               :key="key"
               class="table-info__item__col"
             >
@@ -63,7 +63,7 @@
                   @change="onCheckboxChanged($event, item.id)"
                 />
                 <span
-                  v-for="(column, idx) in columns"
+                  v-for="(column, idx) in tableColumns"
                   :key="idx"
                   class="table-info__item__col"
                 >
@@ -269,6 +269,21 @@ export default {
     };
   },
   computed: {
+    tableColumns() {
+      const smMobileColumns = [this.$t("datasets.name")];
+      const mmMobileColumns = [
+        this.$t("datasets.name"),
+        this.$t("datasets.workspace"),
+        this.$t("datasets.task"),
+      ];
+      const allowedMobileColumns =
+        this.$mq === "sm" ? smMobileColumns : mmMobileColumns;
+      const mobileColumns = this.columns.filter((column) =>
+        allowedMobileColumns.includes(column.name)
+      );
+      const columns = this.$mq < "mm" ? this.columns : mobileColumns;
+      return columns;
+    },
     tableIsEmpty() {
       return this.filteredResults && this.filteredResults.length === 0;
     },
@@ -451,10 +466,16 @@ export default {
     }
   }
   &__body {
-    overflow: auto;
-    height: calc(100vh - 203px);
+    overflow-y: scroll;
+    height: calc(100vh - 303px);
     padding-bottom: 0.5em;
-    @extend %hide-scrollbar;
+
+    @include media("<=tablet") {
+      height: calc(100vh - 303px - 5em);
+      overflow-y: scroll;
+      padding-bottom: 5em;
+    }
+
     #{$this}__item {
       margin-bottom: -1px;
       &:hover,
@@ -474,6 +495,8 @@ export default {
     text-decoration: none;
     outline: none;
     border: 1px solid palette(grey, 700);
+    word-break: break-word;
+
     &__col {
       text-align: left;
       margin-right: 1em;

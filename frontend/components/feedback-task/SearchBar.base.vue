@@ -159,6 +159,11 @@ export default {
   background: palette(white);
   box-shadow: $shadow-300;
   transition: all 0.2s ease;
+
+  @include media("<=tablet") {
+    min-width: auto;
+  }
+
   &:hover {
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: $shadow-500;

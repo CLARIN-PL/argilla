@@ -193,6 +193,11 @@ export default {
   min-height: 100vh;
   background: $brand-secondary-color;
   display: flex;
+
+  @include media("<=tablet") {
+    flex-direction: column;
+  }
+
   a {
     outline: none;
     color: $brand-primary-color;
@@ -210,6 +215,11 @@ export default {
   min-height: 100vh;
   width: 50vw;
   flex-flow: column;
+
+  @include media("<=tablet") {
+    width: 100%;
+  }
+
   &__content {
     max-width: 300px;
     margin: auto;
@@ -272,7 +282,7 @@ export default {
     outline: none;
     background: transparent;
     min-height: 40px;
-    width: 7vw;
+    width: auto;
     margin-left: auto;
   }
 

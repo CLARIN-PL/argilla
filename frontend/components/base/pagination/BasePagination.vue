@@ -295,6 +295,13 @@ $pagination-size: 30px;
     z-index: 99;
     padding-right: 56px;
     padding-left: 4em;
+
+    @include media("<=tablet") {
+      flex-direction: column;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
     .--metrics & {
       @include media(">desktop") {
         padding-right: calc(294px + 10px);
@@ -373,6 +380,9 @@ $pagination-size: 30px;
     display: flex;
     align-items: center;
     color: $black-54;
+    @include media("<=tablet") {
+      margin: auto;
+    }
     &__content {
       position: relative;
       & > a {
@@ -436,6 +446,10 @@ $pagination-size: 30px;
     color: $black-54;
     font-weight: 400;
     @include font-size(13px);
+
+    @include media("<=tablet") {
+      margin: auto;
+    }
   }
 }
 </style>
