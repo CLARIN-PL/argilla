@@ -77,6 +77,9 @@ async def create(
         help=f"Password as a string with a minimum length of {USER_PASSWORD_MIN_LENGTH} characters.",
     ),
     last_name: str = typer.Option(default=None, help="Last name as a string."),
+    show_discard_button: Optional[bool] = typer.Option(
+        default=True, help="Show discard button as a boolean. If not specified the default will be True."
+    ),
     api_key: Optional[str] = typer.Option(
         default=None,
         callback=api_key_callback,
@@ -101,6 +104,7 @@ async def create(
             last_name=last_name,
             username=username,
             role=role,
+            show_discard_button=show_discard_button,
             password=password,
             api_key=api_key,
             workspaces=[WorkspaceCreate(name=workspace_name) for workspace_name in workspace],
@@ -112,6 +116,7 @@ async def create(
             last_name=user_create.last_name,
             username=user_create.username,
             role=user_create.role,
+            show_discard_button=show_discard_button,
             password_hash=accounts.hash_password(user_create.password),
             api_key=user_create.api_key,
             workspaces=[await get_or_new_workspace(session, workspace.name) for workspace in user_create.workspaces],
@@ -122,8 +127,10 @@ async def create(
         if user.last_name:
             typer.echo(f"• last_name: {user.last_name!r}")
         typer.echo(f"• username: {user.username!r}")
+
         typer.echo(f"• role: {user.role.value!r}")
         typer.echo(f"• api_key: {user.api_key!r}")
+        typer.echo(f"• show_discard_button: {user.show_discard_button!r}")
         typer.echo(f"• workspaces: {[workspace.name for workspace in user.workspaces]!r}")
 
 

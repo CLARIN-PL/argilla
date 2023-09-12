@@ -146,7 +146,7 @@ def create_user(
 
 
 def update_user(
-    client: httpx.Client, user_id: UUID, user
+    client: httpx.Client, user_id: UUID, user_data
 ) -> Response[Union[UserModel, ErrorMessage, HTTPValidationError]]:
     """Sends a PATCH request to `/api/users/{user_id}` endpoint to update a user.
 
@@ -160,10 +160,11 @@ def update_user(
         the request was successful, which is an instance of `UserModel`.
     """
     url = f"/api/users/{user_id}"
+    print(user_data)
 
     response = client.patch(
         url=url,
-        json=user.dict(exclude_none=True),
+        json=user_data.dict(exclude_none=True),
     )
 
     if response.status_code == 200:
@@ -174,6 +175,7 @@ def update_user(
             headers=response.headers,
             parsed=parsed_response,
         )
+    print(response)
     return handle_response_error(response)
 
 
@@ -201,3 +203,7 @@ def delete_user(client: httpx.Client, user_id: UUID) -> Response[Union[UserModel
             parsed=parsed_response,
         )
     return handle_response_error(response)
+
+
+if __name__ == "__main__":
+    update_user()
