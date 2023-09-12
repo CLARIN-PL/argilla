@@ -127,6 +127,10 @@ export default {
   @include font-size(16px);
   white-space: pre-line;
   display: inline;
+
+  @include media("<=tablet") {
+    @include font-size(14px);
+  }
 }
 
 .highlight {
@@ -154,6 +158,10 @@ export default {
     white-space: pre-line;
     display: inline;
     padding-bottom: 1px;
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
   }
   &:hover .remove-button {
     opacity: 1;

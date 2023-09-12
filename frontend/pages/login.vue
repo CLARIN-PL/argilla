@@ -327,6 +327,10 @@ input:-webkit-autofill {
     @include font-size(16px);
     line-height: 1.4em;
     font-weight: 400;
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
   }
 }
 </style>

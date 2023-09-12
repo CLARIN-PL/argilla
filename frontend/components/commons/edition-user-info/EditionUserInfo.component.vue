@@ -146,6 +146,10 @@ export default {
 
 .user-username {
   @include font-size(16px);
+
+  @include media("<=tablet") {
+    @include font-size(14px);
+  }
 }
 
 .capitalized {

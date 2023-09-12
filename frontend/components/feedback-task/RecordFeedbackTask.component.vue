@@ -42,6 +42,11 @@ export default {
   background: palette(white);
   border: 1px solid palette(grey, 600);
   border-radius: $border-radius-m;
+
+  @include media("<=tablet") {
+    height: 30vh;
+  }
+
   &__status {
     display: inline-flex;
     margin-right: auto;

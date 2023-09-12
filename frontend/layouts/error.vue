@@ -128,6 +128,10 @@ export default {
     @include media(">desktop") {
       margin-left: calc(4 / 12 * 100%);
     }
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
   }
   &__content {
     position: relative;

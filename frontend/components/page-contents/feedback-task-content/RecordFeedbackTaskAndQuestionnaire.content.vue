@@ -332,6 +332,12 @@ export default {
   flex-wrap: wrap;
   gap: $base-space * 2;
   height: 100%;
+
+  @include media("<=tablet") {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+
   &__text {
     color: $black-54;
   }

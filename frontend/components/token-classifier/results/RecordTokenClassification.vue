@@ -297,7 +297,10 @@ export default {
 
   @include media("<=tablet") {
     padding: $base-space * 4 20px;
+    @include font-size(14px);
+    @include line-height(30px);
   }
+
   .list__item--selectable & {
     padding-left: $base-space * 7;
   }

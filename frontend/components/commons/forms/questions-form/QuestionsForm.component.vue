@@ -231,6 +231,16 @@ export default {
   justify-content: space-between;
   border-radius: $border-radius-m;
   box-shadow: $shadow;
+
+  @include media("<=desktopSmall") {
+    flex-basis: 30em;
+  }
+
+  @include media("<=tablet") {
+    height: 40vh;
+    flex-basis: 0;
+  }
+
   &__header {
     align-items: baseline;
   }

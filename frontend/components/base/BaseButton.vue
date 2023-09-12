@@ -121,6 +121,12 @@ export default {
   padding: 12px 24px;
   transition: all 0.4s $cb-normal;
   cursor: pointer;
+
+  @include media("<=tablet") {
+    @include font-size(13px);
+    @include line-height(18px);
+  }
+
   &:focus {
     outline: 0;
   }

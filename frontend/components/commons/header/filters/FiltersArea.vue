@@ -84,11 +84,19 @@ export default {
   }),
   computed: {
     sortOptions() {
-      return  [
-      { filter: "annotated_as", text: this.$t("common.annotatedAs"), range: ["A", "Z"] },
-      { filter: "predicted_as", text: this.$t("common.predictedAs"), range: ["A", "Z"] },
-      { filter: "score", text: this.$t("common.score"), range: ["0", "1"] },
-    ]
+      return [
+        {
+          filter: "annotated_as",
+          text: this.$t("common.annotatedAs"),
+          range: ["A", "Z"],
+        },
+        {
+          filter: "predicted_as",
+          text: this.$t("common.predictedAs"),
+          range: ["A", "Z"],
+        },
+        { filter: "score", text: this.$t("common.score"), range: ["0", "1"] },
+      ];
     },
     viewMode() {
       return this.dataset.viewSettings.viewMode;

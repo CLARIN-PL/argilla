@@ -98,6 +98,11 @@ $annotation-button-size: 20px;
   margin: $base-space * 2 $base-space $base-space * 2 0;
   display: inline-flex;
   position: relative;
+
+  @include media("<=tablet") {
+    @include font-size(14px);
+  }
+
   .annotation-button-container {
     display: none;
   }
@@ -107,6 +112,10 @@ $annotation-button-size: 20px;
     padding: 0;
     transition: all 0.3s ease;
     max-width: 238px;
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
     .button {
       outline: none;
       cursor: pointer;
@@ -166,6 +175,10 @@ $annotation-button-size: 20px;
         white-space: nowrap;
         vertical-align: top;
         margin: auto;
+
+        @include media("<=tablet") {
+          @include font-size(14px);
+        }
       }
       &__info {
         margin-right: 0;

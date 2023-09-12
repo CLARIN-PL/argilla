@@ -306,9 +306,17 @@ export default {
     @include font-size(22px);
     font-weight: 600;
     margin-top: 0;
+    @include media("<=tablet") {
+      @include font-size(20px);
+    }
+
     span {
       @include font-size(16px);
       font-weight: normal;
+
+      @include media("<=tablet") {
+        @include font-size(14px);
+      }
     }
   }
   &__button {
