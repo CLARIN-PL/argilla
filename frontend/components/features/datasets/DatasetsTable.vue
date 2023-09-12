@@ -17,7 +17,7 @@
         :sorted-order="sortedOrder"
         :sorted-by-field="sortedByField"
         :actions="actions"
-        :columns="tableColumns"
+        :columns="filteredTableColumns"
         :query-search="querySearch"
         :empty-search-info="emptySearchInfo"
         :active-filters="activeFilters"
@@ -114,6 +114,21 @@ export default {
     };
   },
   computed: {
+    filteredTableColumns() {
+      const smMobileColumns = [this.$t("datasets.name")];
+      const mmMobileColumns = [
+        this.$t("datasets.name"),
+        this.$t("datasets.workspace"),
+        this.$t("datasets.task"),
+      ];
+      const allowedMobileColumns =
+        this.$mq === "sm" ? smMobileColumns : mmMobileColumns;
+      const mobileColumns = this.tableColumns.filter((column) =>
+        allowedMobileColumns.includes(column.name)
+      );
+      const columns = this.$mq < "mm" ? this.tableColumns : mobileColumns;
+      return columns;
+    },
     activeFilters() {
       const workspaces = this.workspaces;
       const tasks = this.tasks;

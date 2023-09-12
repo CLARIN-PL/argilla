@@ -22,7 +22,7 @@
         <slot name="columns">
           <div class="table-info__item" :class="{ '--mobile': $mq <= 'md' }">
             <div
-              v-for="(column, key) in tableColumns"
+              v-for="(column, key) in columns"
               :key="key"
               class="table-info__item__col"
             >
@@ -63,7 +63,7 @@
                   @change="onCheckboxChanged($event, item.id)"
                 />
                 <span
-                  v-for="(column, idx) in tableColumns"
+                  v-for="(column, idx) in columns"
                   :key="idx"
                   class="table-info__item__col"
                 >
@@ -271,21 +271,6 @@ export default {
     };
   },
   computed: {
-    tableColumns() {
-      const smMobileColumns = [this.$t("datasets.name")];
-      const mmMobileColumns = [
-        this.$t("datasets.name"),
-        this.$t("datasets.workspace"),
-        this.$t("datasets.task"),
-      ];
-      const allowedMobileColumns =
-        this.$mq === "sm" ? smMobileColumns : mmMobileColumns;
-      const mobileColumns = this.columns.filter((column) =>
-        allowedMobileColumns.includes(column.name)
-      );
-      const columns = this.$mq < "mm" ? this.columns : mobileColumns;
-      return columns;
-    },
     tableIsEmpty() {
       return this.filteredResults && this.filteredResults.length === 0;
     },
