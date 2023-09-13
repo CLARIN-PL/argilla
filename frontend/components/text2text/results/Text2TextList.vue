@@ -375,7 +375,7 @@ export default {
   border-radius: $border-radius-s;
 
   @include media("<=tablet") {
-    width: calc(100% - 50px);
+    width: 100%;
   }
 
   &.--focused {

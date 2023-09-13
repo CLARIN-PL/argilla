@@ -377,10 +377,17 @@ $number-size: 18px;
       @include font-size(14px);
       white-space: nowrap;
       font-weight: 500;
+
       @include media(">desktop") {
         padding: 0.8em 1em;
         margin-right: $base-space * 2;
       }
+
+      @include media("<=phoneLarge") {
+        @include font-size(12px);
+        padding: 0.6em;
+      }
+
       &:hover {
         background: $black-4;
       }

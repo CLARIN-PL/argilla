@@ -122,6 +122,11 @@ export default {
     border: 1px solid $black-10;
     transition: all 0.2s ease;
     max-height: $base-space * 7;
+
+    @include media("<=phoneLarge") {
+      width: 100%;
+    }
+
     &.--collapsed #{$this}__icon {
       opacity: 0;
     }

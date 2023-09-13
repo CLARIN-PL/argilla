@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     isMobile() {
-      const mobileViews = ["sm", "mm"];
+      const mobileViews = ["sm"];
       return mobileViews.includes(this.$mq);
     },
     getStatusInfo() {
