@@ -37,7 +37,7 @@ export default {
   background: palette(white);
 
   @include media("<=tablet") {
-    grid-template-columns: 56px 2fr 1fr 56px;
+    grid-template-columns: 26px 2fr 1fr 26px;
   }
 }
 .header {

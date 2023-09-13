@@ -1,5 +1,7 @@
 <template>
-  <span :class="['status-tag', getStatusInfo.class]">
+  <span
+    :class="['status-tag', getStatusInfo.class, isMobile ? '--mobile' : '']"
+  >
     <svgicon
       v-if="getStatusInfo.icon"
       :name="getStatusInfo.icon"
@@ -22,6 +24,10 @@ export default {
     },
   },
   computed: {
+    isMobile() {
+      const mobileViews = ["sm", "mm"];
+      return mobileViews.includes(this.$mq);
+    },
     getStatusInfo() {
       let statusInfo = null;
       switch (this.title.toUpperCase()) {
@@ -79,6 +85,15 @@ export default {
   @include font-size(13px);
   border-radius: 50px;
   font-weight: 600;
+
+  &.--mobile {
+    max-width: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+  }
+
   &.--validated {
     background: palette(green);
     border: 1px solid palette(green);

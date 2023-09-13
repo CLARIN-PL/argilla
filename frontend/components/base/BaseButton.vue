@@ -125,6 +125,7 @@ export default {
   @include media("<=tablet") {
     @include font-size(13px);
     @include line-height(18px);
+    padding: 8px 16px;
   }
 
   &:focus {

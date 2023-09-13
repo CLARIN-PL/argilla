@@ -200,6 +200,10 @@ export default {
     padding-bottom: 260px;
     transition: padding 0s ease-in-out 0.1s;
     @extend %hide-scrollbar;
+
+    @include media("<=tablet") {
+      padding-left: 2em;
+    }
   }
   &__li {
     position: relative;

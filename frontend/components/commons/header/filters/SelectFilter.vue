@@ -167,6 +167,10 @@ export default {
       margin-left: auto;
       width: 270px;
       flex-shrink: 0;
+
+      @include media("<=tablet") {
+        width: 200px;
+      }
     }
   }
   &__label {

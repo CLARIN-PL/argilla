@@ -348,6 +348,7 @@ $number-size: 18px;
       z-index: 2;
       @include media("<=tablet") {
         left: 0.5em;
+        width: 350px;
       }
 
       @include media(">desktop") {

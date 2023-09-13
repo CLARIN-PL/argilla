@@ -1,5 +1,6 @@
 export default {
   findSimilar: "Find similar",
+  similar: "Similar",
   selectVector: "Select vector:",
   viewRecordInfo: "View record info",
   copyText: "Copy text",

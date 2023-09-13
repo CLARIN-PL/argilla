@@ -254,6 +254,10 @@ export default {
   padding: 0.2em calc($sidebarMenuWidth + 4em) 0 4em;
   flex-grow: 1;
   overflow: auto;
+
+  @include media("<=tablet") {
+    padding: 0.2em calc($sidebarMenuWidth + 2em) 0 2em;
+  }
 }
 .dataset {
   &__table {

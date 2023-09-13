@@ -3,7 +3,7 @@
     <base-dropdown :visible="dropdownIsvisible" @visibility="onVisibility">
       <span slot="dropdown-header">
         <base-button class="small clear">
-          {{ $t("results.findSimilar") }}
+          {{ isMobile ? $t("results.similar") : $t("results.findSimilar") }}
         </base-button>
       </span>
       <span slot="dropdown-content" class="similarity-search__dropdown-content">
@@ -25,7 +25,7 @@
     v-else
     @click="findSimilar"
   >
-    {{ $t("results.findSimilar") }}
+    {{ isMobile ? $t("results.similar") : $t("results.findSimilar") }}
   </base-button>
 </template>
 
@@ -51,6 +51,10 @@ export default {
     this.applyFirstVectorByDefault();
   },
   computed: {
+    isMobile() {
+      const mobileViews = ["sm"];
+      return mobileViews.includes(this.$mq);
+    },
     multipleVectors() {
       return this.formattedVectors?.length > 1 || false;
     },

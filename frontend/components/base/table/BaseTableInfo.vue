@@ -25,6 +25,7 @@
               v-for="(column, key) in columns"
               :key="key"
               class="table-info__item__col"
+              :class="{ '--mobile': isMobile }"
             >
               <lazy-table-filtrable-column
                 :column="column"
@@ -66,6 +67,7 @@
                   v-for="(column, idx) in columns"
                   :key="idx"
                   class="table-info__item__col"
+                  :class="{ '--mobile': isMobile }"
                 >
                   <span :class="column.class">
                     <a
@@ -271,6 +273,10 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      const mobileViews = ["sm", "mm"];
+      return mobileViews.includes(this.$mq);
+    },
     tableIsEmpty() {
       return this.filteredResults && this.filteredResults.length === 0;
     },
@@ -409,6 +415,13 @@ export default {
   list-style: none;
   margin-bottom: 5em;
   color: $black-54;
+
+  @include font-size(14px);
+
+  @include media("<=phone") {
+    @include font-size(12px);
+  }
+
   ul {
     list-style: none;
     padding: 0;
@@ -448,12 +461,22 @@ export default {
       text-align: left;
       display: flex;
       align-items: center;
+
       @include media("<=desktop") {
         display: block;
         .svg-icon {
           display: block;
         }
       }
+
+      @include media("<=tablet") {
+        @include font-size(14px);
+      }
+
+      @include media("<=phoneLarge") {
+        @include font-size(12px);
+      }
+
       span {
         white-space: nowrap;
       }
@@ -495,6 +518,15 @@ export default {
       text-align: left;
       margin-right: 1em;
       flex: 1 1 0px;
+
+      &.--mobile {
+        max-width: 75px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
       &:nth-last-of-type(-n + 1) {
         max-width: 120px;
       }
@@ -521,6 +553,10 @@ export default {
     box-shadow: 0 1px 4px 1px rgba(222, 222, 222, 0.5);
     padding: 0.1em 0.5em;
     margin-left: 1em;
+
+    @include media("<=tablet") {
+      @include font-size(10px);
+    }
   }
   .empty {
     margin-top: 5em;
@@ -584,6 +620,14 @@ export default {
       display: inline;
       hyphens: auto;
       word-break: break-word;
+
+      @include media("<=tablet") {
+        @include font-size(14px);
+      }
+
+      @include media("<=phoneLarge") {
+        @include font-size(12px);
+      }
     }
   }
 

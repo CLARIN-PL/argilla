@@ -37,7 +37,7 @@
           </template>
           <base-date
             class="record__date"
-            v-if="record.event_timestamp"
+            v-if="record.event_timestamp && isDesktop"
             :date="record.event_timestamp"
             :data-title="$t('results.eventTimestamp')"
           />
@@ -53,7 +53,7 @@
             :data-title="$t('results.toUseThis')"
             class="small similarity-search__button--disabled"
           >
-            {{ $t("results.findSimilar") }}
+            {{ !isDesktop ? $t("results.similar") : $t("results.findSimilar") }}
           </base-button>
         </template>
         <record-extra-actions
@@ -126,6 +126,10 @@ export default {
     },
   },
   computed: {
+    isDesktop() {
+      const mobileViews = ["sm", "mm"];
+      return !mobileViews.includes(this.$mq);
+    },
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask);
     },
