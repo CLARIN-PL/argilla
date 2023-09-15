@@ -143,7 +143,7 @@ class User:
             raise RuntimeError(f"The `rg.active_client()` is not available or not respoding.") from e
 
     @allowed_for_roles(roles=[UserRole.owner])
-    def update(self, user_id, user_data) -> None:
+    def update(self, user_id, request) -> None:
         """Updates user in Argilla.
 
         Raises:
@@ -155,8 +155,7 @@ class User:
             >>> user.update()
         """
         try:
-            print(user_id, user_data)
-            users_api.update_user(self.__client, user_id=user_id, user_data=user_data)
+            users_api.update_user(self.__client, user_id=user_id, request=request)
         except NotFoundApiError as e:
             raise ValueError(
                 f"User with username=`{self.username}` doesn't exist in Argilla, so please"

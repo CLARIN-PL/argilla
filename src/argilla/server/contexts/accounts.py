@@ -20,6 +20,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
 from argilla.server.models import User, Workspace, WorkspaceUser
+from argilla.server.schemas.v0.users import UpdateUserRequest
 from argilla.server.security.model import UserCreate, WorkspaceCreate, WorkspaceUserCreate
 
 if TYPE_CHECKING:
@@ -133,6 +134,10 @@ async def create_user(db: "AsyncSession", user_create: UserCreate) -> User:
                 )
 
     return user
+
+
+async def update_user(db: "AsyncSession", user: User, request: UpdateUserRequest) -> User:
+    return await user.update(db, user.id, request)
 
 
 async def delete_user(db: "AsyncSession", user: User) -> User:

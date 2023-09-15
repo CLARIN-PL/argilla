@@ -25,6 +25,7 @@ from argilla.server.contexts import accounts
 from argilla.server.database import get_async_db
 from argilla.server.errors import EntityAlreadyExistsError, EntityNotFoundError
 from argilla.server.policies import UserPolicy, authorize
+from argilla.server.schemas.v0.users import UpdateUserRequest
 from argilla.server.security import auth
 from argilla.server.security.model import User, UserCreate
 from argilla.utils import telemetry
@@ -104,14 +105,13 @@ async def create_user(
     return User.from_orm(user)
 
 
-@router.patch("/users/{user_id}", response_model=User, response_model_exclude_none=True)
+@router.patch("/users/{user_id}", operation_id="update_user", response_model=User, response_model_exclude_none=True)
 async def update_user(
     *,
     db: AsyncSession = Depends(get_async_db),
     user_id: UUID,
-    user_data: UserCreate,
-    current_user: models.User = Security(auth.get_current_user),
-):
+    request: UpdateUserRequest,
+) -> User:
     user = await accounts.get_user_by_id(db, user_id)
     if not user:
         # TODO: Forcing here user_id to be an string.
@@ -120,8 +120,7 @@ async def update_user(
         # https://github.com/jazzband/django-push-notifications/issues/586
         raise EntityNotFoundError(name=str(user_id), type=User)
 
-    await authorize(current_user, UserPolicy.update(user))
-    await accounts.update_user(db, user_id, {"show_discard_button": False})
+    await accounts.update_user(db=db, user=user, request=request)
     return User.from_orm(user)
 
 

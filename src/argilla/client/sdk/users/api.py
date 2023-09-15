@@ -21,6 +21,7 @@ from argilla.client.sdk.client import AuthenticatedClient
 from argilla.client.sdk.commons.errors_handler import handle_response_error
 from argilla.client.sdk.commons.models import ErrorMessage, HTTPValidationError, Response
 from argilla.client.sdk.users.models import UserCreateModel, UserModel, UserRole
+from argilla.server.schemas.v0.users import UpdateUserRequest
 
 
 # TODO(alvarobartt,frascuchon): use ONLY `httpx.Client` instead of `AuthenticatedClient` and
@@ -146,25 +147,28 @@ def create_user(
 
 
 def update_user(
-    client: httpx.Client, user_id: UUID, user_data
+    client: httpx.Client, user_id: UUID, request: UpdateUserRequest
 ) -> Response[Union[UserModel, ErrorMessage, HTTPValidationError]]:
     """Sends a PATCH request to `/api/users/{user_id}` endpoint to update a user.
 
     Args:
         client: the authenticated Argilla client to be used to send the request to the API.
-        user_id: the id of the user to be updated.
-        user: the new user information.
+        user_id: the id of the user to be updated
+        request: the update request
 
     Returns:
         A `Response` object containing a `parsed` attribute with the parsed response if
         the request was successful, which is an instance of `UserModel`.
     """
     url = f"/api/users/{user_id}"
-    print(user_data)
+    print(request)
 
     response = client.patch(
         url=url,
-        json=user_data.dict(exclude_none=True),
+        headers=client.get_headers(),
+        cookies=client.get_cookies(),
+        timeout=client.get_timeout(),
+        json=request.dict(by_alias=True),
     )
 
     if response.status_code == 200:
@@ -175,7 +179,7 @@ def update_user(
             headers=response.headers,
             parsed=parsed_response,
         )
-    print(response)
+    return "test"
     return handle_response_error(response)
 
 
@@ -203,7 +207,3 @@ def delete_user(client: httpx.Client, user_id: UUID) -> Response[Union[UserModel
             parsed=parsed_response,
         )
     return handle_response_error(response)
-
-
-if __name__ == "__main__":
-    update_user()
