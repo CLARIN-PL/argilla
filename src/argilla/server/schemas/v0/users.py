@@ -18,10 +18,11 @@ Users models definition
 """
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+from argilla.server.schemas.base import UpdateSchema
 
 
-class UpdateUserRequest(BaseModel):
+class UpdateUserRequest(UpdateSchema):
     """
     Modifiable fields for users
 

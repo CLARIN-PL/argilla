@@ -109,19 +109,20 @@ async def create_user(
 async def update_user(
     *,
     db: AsyncSession = Depends(get_async_db),
-    user_id: UUID,
+    current_user: models.User = Security(auth.get_current_user),
     request: UpdateUserRequest,
 ) -> User:
-    user = await accounts.get_user_by_id(db, user_id)
-    if not user:
-        # TODO: Forcing here user_id to be an string.
-        # Not casting it is causing a `Object of type UUID is not JSON serializable`.
-        # Possible solution redefining JSONEncoder.default here:
-        # https://github.com/jazzband/django-push-notifications/issues/586
-        raise EntityNotFoundError(name=str(user_id), type=User)
+    
+    await authorize(current_user, UserPolicy.update)
 
-    await accounts.update_user(db=db, user=user, request=request)
-    return User.from_orm(user)
+    users = await accounts.list_users(db)
+    all_users = parse_obj_as(List[User], users)
+    for user in all_users:
+        user_to_update = await accounts.get_user_by_id(db, user.id)
+        await accounts.update_user(db, user_to_update, request)
+        await db.refresh(user_to_update, attribute_names=["show_discard_button"])
+        
+    return User.from_orm(current_user) 
 
 
 @router.delete("/users/{user_id}", response_model=User, response_model_exclude_none=True)

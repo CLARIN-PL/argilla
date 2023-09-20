@@ -20,11 +20,11 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
 from argilla.server.models import User, Workspace, WorkspaceUser
-from argilla.server.schemas.v0.users import UpdateUserRequest
 from argilla.server.security.model import UserCreate, WorkspaceCreate, WorkspaceUserCreate
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
+    from argilla.server.schemas.v0.users import UpdateUserRequest
 
 _CRYPT_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -136,8 +136,11 @@ async def create_user(db: "AsyncSession", user_create: UserCreate) -> User:
     return user
 
 
-async def update_user(db: "AsyncSession", user: User, request: UpdateUserRequest) -> User:
-    return await user.update(db, user.id, request)
+async def update_user(db: "AsyncSession", user: User, request: "UpdateUserRequest") -> User:
+    params = request.dict(exclude_unset=True)
+    await user.update(db, **params)
+    await db.refresh(user, attribute_names=["show_discard_button"])
+    return user
 
 
 async def delete_user(db: "AsyncSession", user: User) -> User:
