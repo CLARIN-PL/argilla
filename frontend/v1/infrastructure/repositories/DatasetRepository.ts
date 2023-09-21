@@ -1,6 +1,6 @@
 import { type NuxtAxiosInstance } from "@nuxtjs/axios";
 import { Store } from "vuex";
-import _ from "lodash";
+import _, { sortBy } from "lodash";
 import { Dataset } from "@/v1/domain/entities/Dataset";
 import { IDatasetRepository } from "@/v1/domain/services/IDatasetRepository";
 import { GeneralSettings } from "~/models/GeneralSettings";
@@ -74,11 +74,21 @@ export class DatasetRepository implements IDatasetRepository {
       }
     );
 
-    const datasets = [...otherDatasets, ...feedbackDatasets];
-    let filteredDatasets = datasets;
+    const datasets = [...otherDatasets, ...feedbackDatasets].map((dataset) => {
+      return {
+        ...dataset,
+        createdAt: dataset.createdAt || dataset.insertedAt,
+      };
+    });
+    const orderedDatasets = sortBy(
+      datasets,
+      [(dataset) => new Date(dataset.createdAt)],
+      ["asc"]
+    );
+    let filteredDatasets = _.cloneDeep(orderedDatasets);
     const allowedRoles: any[] = ["admin", "owner"];
     if (!allowedRoles.includes(this.store.$auth.$state.user.role)) {
-      const completedDatasets = datasets.filter(
+      const completedDatasets = filteredDatasets.filter(
         (dataset) => !dataset.isCompleted
       );
       filteredDatasets = completedDatasets.splice(0, 1);
@@ -94,7 +104,7 @@ export class DatasetRepository implements IDatasetRepository {
       }
     }
 
-    return _.sortBy(filteredDatasets, (dataset) => dataset.name.toLowerCase());
+    return filteredDatasets;
   }
 
   private async getDatasetById(datasetId: string) {
