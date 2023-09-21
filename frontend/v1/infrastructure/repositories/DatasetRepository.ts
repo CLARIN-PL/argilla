@@ -76,7 +76,8 @@ export class DatasetRepository implements IDatasetRepository {
 
     const datasets = [...otherDatasets, ...feedbackDatasets];
     let filteredDatasets = datasets;
-    if (this.store.$auth.$state.user.role !== "admin") {
+    const allowedRoles: any[] = ["admin", "owner"];
+    if (!allowedRoles.includes(this.store.$auth.$state.user.role)) {
       const completedDatasets = datasets.filter(
         (dataset) => !dataset.isCompleted
       );
