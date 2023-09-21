@@ -105,7 +105,7 @@ async def create_user(
     return User.from_orm(user)
 
 
-@router.patch("/users/{user_id}", operation_id="update_user", response_model=User, response_model_exclude_none=True)
+@router.patch("/users/update_discard", operation_id="update_user", response_model=User, response_model_exclude_none=True)
 async def update_user(
     *,
     db: AsyncSession = Depends(get_async_db),

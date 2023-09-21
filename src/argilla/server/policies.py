@@ -109,7 +109,7 @@ class UserPolicy:
     
     @classmethod
     async def update(cls, actor: User) -> bool:
-        return actor.is_owner
+        return actor.is_owner or actor.is_admin
 
     @classmethod
     def delete(cls, user: User) -> PolicyAction:
