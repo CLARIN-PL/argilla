@@ -22,6 +22,7 @@
 
 <script>
 import { GeneralSettings } from "@/models/GeneralSettings";
+import { setDiscardButtonAvailability } from "@/database/modules/users";
 
 export default {
   name: "EditionGeneralSettingsComponent",
@@ -38,6 +39,7 @@ export default {
         return settings?.show_discard_button;
       },
       set(value) {
+        setDiscardButtonAvailability(value);
         GeneralSettings.update({
           where: this.$auth.user.id,
           data: {
