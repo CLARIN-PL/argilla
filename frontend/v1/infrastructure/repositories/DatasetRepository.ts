@@ -74,14 +74,11 @@ export class DatasetRepository implements IDatasetRepository {
       }
     );
 
-    let datasets = [...otherDatasets, ...feedbackDatasets];
-
-    GeneralSettings.update({
-      where: this.store.$auth.$state.user.id,
-      data: {
-        current_dataset_id: datasets[0].id,
-        current_dataset_name: datasets[0].name,
-      },
+    const datasets = [...otherDatasets, ...feedbackDatasets].map((dataset) => {
+      return {
+        ...dataset,
+        createdAt: dataset.createdAt || dataset.insertedAt,
+      };
     });
     const orderedDatasets = sortBy(
       datasets,
