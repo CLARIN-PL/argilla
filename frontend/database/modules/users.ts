@@ -1,5 +1,8 @@
 import { Users } from "../../models/users";
 
+const getters = {};
+const actions = {};
+
 export async function setDiscardButtonAvailability(value: boolean) {
   try {
     const { response } = await Users.api().patch("/users/update_discard", {
@@ -14,8 +17,13 @@ export async function setDiscardButtonAvailability(value: boolean) {
 export async function getUserData() {
   try {
     const { response } = await Users.api().get("/me");
-    return response.data;
+    return { isLoadingUserData: false, userData: response.data };
   } catch (error) {
     return {};
   }
 }
+
+export default {
+  getters,
+  actions,
+};

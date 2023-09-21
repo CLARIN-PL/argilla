@@ -238,7 +238,7 @@ export default {
       this.$router.push({
         query: {
           ...this.$route.query,
-          record: this.record.id
+          record: this.record.id,
         },
       });
     },

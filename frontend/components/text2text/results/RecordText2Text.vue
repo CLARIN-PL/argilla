@@ -115,7 +115,7 @@ export default {
         agent: this.$auth.user.username,
         records: [newRecord],
       });
-      this.updateQuery()
+      this.updateQuery();
     },
     onDiscard() {
       this.$emit("discard");
@@ -127,7 +127,7 @@ export default {
       this.$router.push({
         query: {
           ...this.$route.query,
-          record: this.record.id
+          record: this.record.id,
         },
       });
     },

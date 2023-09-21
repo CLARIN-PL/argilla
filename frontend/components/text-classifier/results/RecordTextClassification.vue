@@ -232,13 +232,13 @@ export default {
           },
         ],
       });
-      this.updateQuery()
+      this.updateQuery();
     },
     updateQuery() {
       this.$router.push({
         query: {
           ...this.$route.query,
-          record: this.record.id
+          record: this.record.id,
         },
       });
     },

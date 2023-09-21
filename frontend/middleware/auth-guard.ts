@@ -20,8 +20,10 @@ import { GeneralSettings } from "~/models/GeneralSettings";
 import { getUserData } from "~/database/modules/users";
 
 export default async ({ $auth, route, redirect }: Context) => {
-  const userData = await getUserData();
-  if ($auth && $auth.user) {
+  let isLoading = true;
+  const { isLoadingUserData, userData } = await getUserData();
+  isLoading = isLoadingUserData;
+  if ($auth && $auth.user && !isLoading) {
     GeneralSettings.insertOrUpdate({
       data: {
         id: $auth.user.id,
