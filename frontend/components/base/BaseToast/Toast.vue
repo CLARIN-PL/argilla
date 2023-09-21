@@ -312,6 +312,11 @@ $toast-colors: map-merge(
   }
   &__button {
     margin: 0 3em;
+
+    @include media("<=tablet") {
+      margin: 0 2em;
+      min-width: fit-content !important;
+    }
   }
   &__close {
     margin-right: 1em;
