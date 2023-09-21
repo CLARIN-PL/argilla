@@ -188,6 +188,15 @@ export default {
         dataset: this.dataset,
         records: [this.record],
       });
+      this.updateQuery();
+    },
+    updateQuery() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          record: this.record.id
+        },
+      });
     },
     onShowRecordInfoModal() {
       this.$emit("show-record-info-modal", this.record);

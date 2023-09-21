@@ -17,13 +17,16 @@
 
 import { Context } from "@nuxt/types";
 import { GeneralSettings } from "~/models/GeneralSettings";
+import { getUserData } from "~/database/modules/users";
 
-export default ({ $auth, route, redirect }: Context) => {
+export default async ({ $auth, route, redirect }: Context) => {
+  const userData = await getUserData();
   if ($auth && $auth.user) {
     GeneralSettings.insertOrUpdate({
       data: {
         id: $auth.user.id,
         agent: $auth.user.username,
+        show_discard_button: userData.show_discard_button,
       },
     });
   }

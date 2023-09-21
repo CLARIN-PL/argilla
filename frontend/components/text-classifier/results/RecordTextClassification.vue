@@ -232,6 +232,15 @@ export default {
           },
         ],
       });
+      this.updateQuery()
+    },
+    updateQuery() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          record: this.record.id
+        },
+      });
     },
     async onChangeStatusToDefault() {
       const currentRecordAndDataset = {

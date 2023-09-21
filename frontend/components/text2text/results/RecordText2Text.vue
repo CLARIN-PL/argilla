@@ -115,12 +115,21 @@ export default {
         agent: this.$auth.user.username,
         records: [newRecord],
       });
+      this.updateQuery()
     },
     onDiscard() {
       this.$emit("discard");
     },
     getText2TextDataset() {
       return getText2TextDatasetById(this.datasetId);
+    },
+    updateQuery() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          record: this.record.id
+        },
+      });
     },
   },
 };

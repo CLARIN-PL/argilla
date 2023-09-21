@@ -234,6 +234,14 @@ export default {
         this.onDiscard();
       }
     },
+    updateQuery() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          record: this.record.id
+        },
+      });
+    },
     async onValidate() {
       await this.validate({
         // TODO: Move this as part of token classification dataset logic
@@ -250,6 +258,7 @@ export default {
           },
         ],
       });
+      this.updateQuery();
     },
     async onChangeStatusToDefault() {
       const currentRecordAndDataset = {
