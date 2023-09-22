@@ -143,28 +143,6 @@ class User:
             raise RuntimeError(f"The `rg.active_client()` is not available or not respoding.") from e
 
     @allowed_for_roles(roles=[UserRole.owner])
-    def update(self, user_id, request) -> None:
-        """Updates user in Argilla.
-
-        Raises:
-            BaseClientError: if the user cannot be edited in Argilla.
-
-        Examples:
-            >>> from argilla import rg
-            >>> user = rg.User.from_name("my-user")
-            >>> user.update()
-        """
-        try:
-            users_api.update_user(self.__client, user_id=user_id, request=request)
-        except NotFoundApiError as e:
-            raise ValueError(
-                f"User with username=`{self.username}` doesn't exist in Argilla, so please"
-                " make sure that the name you provided is a valid one."
-            ) from e
-        except BaseClientError as e:
-            raise RuntimeError(f"Error while updating user with username=`{self.username}` from Argilla.") from e
-
-    @allowed_for_roles(roles=[UserRole.owner])
     def delete(self) -> None:
         """Deletes the user from Argilla.
 
