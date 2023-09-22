@@ -37,7 +37,7 @@ def allowed_for_roles(roles: List[UserRole]) -> Callable[[Callable[_P, _R]], Cal
 
     Example:
         >>> @allowed_for_roles(["owner"])
-        >>> def (user_id: UUID) -> None:
+        >>> def delete_user(user_id: UUID) -> None:
         >>>     ...
     """
 

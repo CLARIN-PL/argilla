@@ -21,7 +21,6 @@ from argilla.client.sdk.client import AuthenticatedClient
 from argilla.client.sdk.commons.errors_handler import handle_response_error
 from argilla.client.sdk.commons.models import ErrorMessage, HTTPValidationError, Response
 from argilla.client.sdk.users.models import UserCreateModel, UserModel, UserRole
-from argilla.server.schemas.v0.users import UpdateUserRequest
 
 
 # TODO(alvarobartt,frascuchon): use ONLY `httpx.Client` instead of `AuthenticatedClient` and
