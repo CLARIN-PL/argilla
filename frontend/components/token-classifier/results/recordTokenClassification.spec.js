@@ -18,10 +18,25 @@ jest.mock("@/models/globalLabel.queries", () => ({
   ],
 }));
 
+jest.mock("@/models/GeneralSettings", () => ({
+  GeneralSettings: {
+    find: jest.fn().mockResolvedValue({
+      show_discard_button: false,
+    }),
+  },
+}));
+
 let wrapper = null;
 const options = {
   mocks: {
     $keywordsSpans: () => [],
+    $auth: {
+      user: {
+        id: "recognai",
+        username: "recognai",
+        show_discard_button: true,
+      },
+    },
   },
   stubs: ["text-spans", "record-action-buttons"],
   propsData: {

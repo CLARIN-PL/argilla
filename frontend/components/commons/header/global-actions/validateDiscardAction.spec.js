@@ -2,7 +2,25 @@ import { shallowMount } from "@vue/test-utils";
 import ValidateDiscardActionComponent from "./ValidateDiscardAction";
 
 let wrapper = null;
+
+jest.mock("@/models/GeneralSettings", () => ({
+  GeneralSettings: {
+    find: jest.fn().mockResolvedValue({
+      show_discard_button: false,
+    }),
+  },
+}));
+
 const options = {
+  mocks: {
+    $auth: {
+      user: {
+        id: "recognai",
+        username: "recognai",
+        show_discard_button: true,
+      },
+    },
+  },
   stubs: [
     "base-checkbox",
     "annotation-label-selector",
@@ -255,8 +273,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  wrapper.destroy();
+  wrapper && wrapper.destroy();
 });
+
 describe("ValidateDiscardAction", () => {
   it("render the component", () => {
     expect(wrapper.is(ValidateDiscardActionComponent)).toBe(true);
