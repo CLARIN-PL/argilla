@@ -21,6 +21,7 @@ class Users extends Model {
   static entity = "users";
   static fields() {
     return {
+      uid: this.uid(),
       api_key: this.string(null),
       first_name: this.string(null),
       full_name: this.string(null),

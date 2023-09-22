@@ -22,7 +22,7 @@
 
 <script>
 import { GeneralSettings } from "@/models/GeneralSettings";
-import { setDiscardButtonAvailability } from "@/database/modules/users";
+import { mapActions } from "vuex";
 
 export default {
   name: "EditionGeneralSettingsComponent",
@@ -39,7 +39,7 @@ export default {
         return settings?.show_discard_button;
       },
       set(value) {
-        setDiscardButtonAvailability(value);
+        this.setDiscardButtonAvailability(value);
         GeneralSettings.update({
           where: this.$auth.user.id,
           data: {
@@ -51,6 +51,12 @@ export default {
   },
   created() {
     GeneralSettings.new();
+  },
+  methods: {
+    ...mapActions({
+      setDiscardButtonAvailability:
+        "entities/users/actions/setDiscardButtonAvailability",
+    }),
   },
 };
 </script>

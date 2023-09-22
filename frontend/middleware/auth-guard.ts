@@ -17,11 +17,11 @@
 
 import { Context } from "@nuxt/types";
 import { GeneralSettings } from "~/models/GeneralSettings";
-import { getUserData } from "~/database/modules/users";
+import { getUserDataWithAxios } from "~/database/modules/users";
 
-export default async ({ $auth, route, redirect }: Context) => {
+export default async ({ $auth, $axios, route, redirect }: Context) => {
   let isLoading = true;
-  const { isLoadingUserData, userData } = await getUserData();
+  const { isLoadingUserData, userData } = await getUserDataWithAxios($axios);
   isLoading = isLoadingUserData;
   if ($auth && $auth.user && !isLoading) {
     GeneralSettings.insertOrUpdate({

@@ -22,6 +22,7 @@ class GeneralSettings extends Model {
 
   static fields() {
     return {
+      uid: this.uid(),
       id: this.attr(null),
       agent: this.attr(null),
       show_discard_button: this.boolean(false),

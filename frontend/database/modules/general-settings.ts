@@ -15,29 +15,10 @@
  * limitations under the License.
  */
 
-// const state = {
-//     showDiscardButton: true,
-// }
-
-// const mutations = {
-//     setShowDiscardButton: ((state, value) => { state.showDiscardButton = value; }),
-// }
-// const getters = {
-//     getShowDiscardButton: ((state)=> { return state.showDiscardButton; }),
-// };
-
-// const actions = {
-// setShowDiscardButton: ({ commit }, value) => {
-//     commit('setShowDiscardButton', value);
-// },
-// };
-
 const getters = {};
 const actions = {};
 
 export default {
-  // state,
   getters,
-  // mutations,
   actions,
 };
