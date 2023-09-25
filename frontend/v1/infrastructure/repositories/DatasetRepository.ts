@@ -83,7 +83,7 @@ export class DatasetRepository implements IDatasetRepository {
     const orderedDatasets = sortBy(
       datasets,
       [(dataset) => new Date(dataset.createdAt)],
-      ["asc"]
+      ["desc"]
     );
     let filteredDatasets = _.cloneDeep(orderedDatasets);
     const allowedRoles: any[] = ["admin", "owner"];
