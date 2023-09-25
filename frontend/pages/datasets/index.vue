@@ -34,7 +34,7 @@
         <datasets-table
           v-else
           ref="table"
-          :original-datasets="datasets.datasets"
+          :original-datasets="datasetsOriginal"
           :datasets="datasetsByPage"
           @search="onSearchDatasetsTable"
         />
@@ -80,7 +80,13 @@ export default {
   },
   computed: {
     datasetsCopy() {
-      return _.cloneDeep(this.datasets.datasets);
+      return _.cloneDeep(this.datasetsAll);
+    },
+    datasetsOriginal() {
+      return this.datasets.datasets.map((dataset) => {
+        dataset.link = this.getDatasetLink(dataset);
+        return dataset;
+      });
     },
     datasetsByPage() {
       const currentIndex =
@@ -114,6 +120,18 @@ export default {
       this.paginationSize = pageSize;
 
       this.$forceUpdate();
+    },
+    isOldTask(task) {
+      return [
+        "TokenClassification",
+        "TextClassification",
+        "Text2Text",
+      ].includes(task);
+    },
+    getDatasetLink({ task, name, workspace, id }) {
+      return this.isOldTask(task)
+        ? `/datasets/${workspace}/${name}`
+        : `/dataset/${id}/annotation-mode`;
     },
   },
   setup() {

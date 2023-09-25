@@ -45,15 +45,6 @@ export default {
       required: true,
     },
   },
-  created() {
-    this.originalDatasets.forEach((dataset) => {
-      dataset.link = this.getDatasetLink(dataset);
-    });
-
-    this.datasets.forEach((dataset) => {
-      dataset.link = this.getDatasetLink(dataset);
-    });
-  },
   data() {
     return {
       querySearch: undefined,
