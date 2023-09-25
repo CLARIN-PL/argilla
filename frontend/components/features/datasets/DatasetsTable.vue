@@ -114,8 +114,8 @@ export default {
         title: this.$t("datasets.noDatasetsFound"),
       },
       externalLinks: [],
-      sortedOrder: "desc",
-      sortedByField: "updatedAt",
+      sortedOrder: "asc",
+      sortedByField: "createdAt",
     };
   },
   computed: {
