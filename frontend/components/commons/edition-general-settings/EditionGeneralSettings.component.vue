@@ -17,12 +17,22 @@
         <option :value="false" v-text="$t('common.no')" />
       </select>
     </div>
+    <div class="form-group --actions">
+      <BaseButton
+        type="submit"
+        class="primary submit-button"
+        :disabled="isLoading"
+        @on-click="onClickSubmit"
+      >
+        <span v-text="$t('common.submit')" />
+      </BaseButton>
+    </div>
   </div>
 </template>
 
 <script>
 import { GeneralSettings } from "@/models/GeneralSettings";
-import { mapActions } from "vuex";
+import { setDiscardButtonAvailability } from "@/database/modules/users";
 
 export default {
   name: "EditionGeneralSettingsComponent",
@@ -32,31 +42,30 @@ export default {
       required: true,
     },
   },
-  computed: {
-    showDiscardButton: {
-      get() {
-        const settings = GeneralSettings.find(this.$auth.user.id);
-        return settings?.show_discard_button;
-      },
-      set(value) {
-        this.setDiscardButtonAvailability(value);
-        GeneralSettings.update({
-          where: this.$auth.user.id,
-          data: {
-            show_discard_button: value,
-          },
-        });
-      },
-    },
+  data() {
+    return {
+      showDiscardButton: false,
+      isLoading: false,
+    };
   },
   created() {
     GeneralSettings.new();
+    const settings = GeneralSettings.find(this.$auth.user.id);
+    this.showDiscardButton = settings?.show_discard_button;
   },
   methods: {
-    ...mapActions({
-      setDiscardButtonAvailability:
-        "entities/users/actions/setDiscardButtonAvailability",
-    }),
+    setDiscardButtonAvailability,
+    async onClickSubmit() {
+      this.isLoading = true;
+      await this.setDiscardButtonAvailability(this.showDiscardButton);
+      GeneralSettings.update({
+        where: this.$auth.user.id,
+        data: {
+          show_discard_button: this.showDiscardButton,
+        },
+      });
+      this.isLoading = false;
+    },
   },
 };
 </script>
@@ -139,6 +148,14 @@ export default {
     outline: none;
     background: transparent;
     min-height: 40px;
+  }
+}
+
+.form-group {
+  &.--actions {
+    .submit-button {
+      margin-left: auto;
+    }
   }
 }
 </style>

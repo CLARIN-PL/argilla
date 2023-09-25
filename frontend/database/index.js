@@ -31,6 +31,7 @@ import { GeneralSettings } from "@/models/GeneralSettings";
 import { AnnotationProgress } from "@/models/AnnotationProgress";
 import { ObservationDataset } from "@/models/Dataset";
 import { Text2TextDataset } from "@/models/Text2Text";
+import { Users } from "@/models/Users";
 import { TextClassificationDataset } from "@/models/TextClassification";
 import { TokenClassificationDataset } from "@/models/TokenClassification";
 import { GlobalLabel } from "@/models/GlobalLabel.model";
@@ -38,6 +39,7 @@ import { Vector } from "@/models/Vector";
 import { RefRecord } from "@/models/RefRecord";
 
 import datasets from "@/database/modules/datasets";
+import users from "@/database/modules/users";
 
 import text_classification from "@/database/modules/text_classification";
 import token_classification from "@/database/modules/token_classification";
@@ -58,6 +60,7 @@ database.register(RecordResponse);
 database.register(DatasetViewSettings);
 database.register(Pagination);
 database.register(AnnotationProgress);
+database.register(Users, users);
 database.register(Notification, notifications);
 database.register(GeneralSettings, general_settings);
 database.register(ObservationDataset, datasets);

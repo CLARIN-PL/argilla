@@ -19,6 +19,7 @@ import { Model } from "@vuex-orm/core";
 
 class Users extends Model {
   static entity = "users";
+
   static fields() {
     return {
       uid: this.uid(),

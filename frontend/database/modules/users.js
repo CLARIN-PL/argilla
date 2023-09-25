@@ -1,17 +1,20 @@
-import { Users } from "../../models/Users";
+import { Users } from "~/models/Users";
+
+export async function setDiscardButtonAvailability(discard_button) {
+  try {
+    console.log(discard_button);
+    const { response } = await Users.api().patch("/users/update_discard", {
+      show_discard_button: discard_button,
+    });
+    return response.data;
+  } catch (error) {
+    return { labels: [] };
+  }
+}
 
 const getters = {};
 const actions = {
-  async setDiscardButtonAvailability(value: boolean) {
-    try {
-      const { response } = await Users.api().patch("/users/update_discard", {
-        show_discard_button: value,
-      });
-      return response.data;
-    } catch (error) {
-      return { labels: [] };
-    }
-  },
+  setDiscardButtonAvailability,
   async getUserData() {
     try {
       const { response } = await Users.api().get("/me");
@@ -23,7 +26,7 @@ const actions = {
 };
 
 /* Hack, using the Users.api() will generate new error since the Vue & Vuex is not yet initialized on page load state */
-export async function getUserDataWithAxios($axios: any) {
+export async function getUserDataWithAxios($axios) {
   try {
     const { data } = await $axios.get("/me");
     return { isLoadingUserData: false, userData: data };
