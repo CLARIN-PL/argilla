@@ -40,7 +40,7 @@
         />
         <base-pagination
           :one-page="onePage"
-          :total-items="datasetsCopy.length"
+          :total-items="datasetsOriginal.length"
           :pagination-settings="paginationSettings"
           :visible-page-range="5"
           @changePage="onClickChangePage"
@@ -79,9 +79,6 @@ export default {
     };
   },
   computed: {
-    datasetsCopy() {
-      return _.cloneDeep(this.datasetsAll);
-    },
     datasetsOriginal() {
       return this.datasets.datasets.map((dataset) => {
         dataset.link = this.getDatasetLink(dataset);
@@ -94,7 +91,7 @@ export default {
           ? 0
           : (this.currentPage - 1) * this.paginationSize;
       const nextIndex = currentIndex + this.paginationSize;
-      return this.datasetsCopy.slice(currentIndex, nextIndex);
+      return this.datasetsOriginal.slice(currentIndex, nextIndex);
     },
     paginationSettings() {
       return {
