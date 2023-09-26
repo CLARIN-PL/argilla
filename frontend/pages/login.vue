@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import { GeneralSettings } from "~/models/GeneralSettings";
 export default {
   layout: "app",
   data() {
@@ -161,6 +162,12 @@ export default {
       await this.$store.dispatch("entities/deleteAll");
       await this.$auth.loginWith("authProvider", {
         data: this.encodedLoginData(authData),
+      });
+      GeneralSettings.insertOrUpdate({
+        data: {
+          id: this.$auth.user.id,
+          agent: this.$auth.user.username,
+        },
       });
 
       this.nextRedirect();

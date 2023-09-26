@@ -606,6 +606,9 @@ const actions = {
     const [currentStatus] = records.map((record) =>
       record.status.toLowerCase()
     );
+    const currentStatusTranslated = $t(
+      "common.status." + currentStatus
+    ).toLowerCase();
     let message = "";
     let typeOfNotification = "success";
     try {
@@ -614,9 +617,13 @@ const actions = {
         records: newRecords,
         persistBackend: true,
       });
-      message = `${$t("datasets.oneRecordCouldntBeSetAsNot")}${currentStatus}`;
+      message = `${$t(
+        "datasets.oneRecordCouldntBeSetAsNot"
+      )} ${currentStatusTranslated}`;
     } catch (err) {
-      message = `${$t("datasets.oneRecordCouldntBeSetAsNot")}${currentStatus}`;
+      message = `${$t(
+        "datasets.oneRecordCouldntBeSetAsNot"
+      )} ${currentStatusTranslated}`;
       typeOfNotification = "error";
     } finally {
       Notification.dispatch("notify", {
@@ -830,6 +837,39 @@ const actions = {
      * Fetch all observation datasets from backend
      */
     const { data } = await this.$axios.get("/datasets/");
+    if (data.length) {
+      const promises = data.map(async (dataset) => {
+        const { response } = await ObservationDataset.api().post(
+          `/datasets/${dataset.name}/${dataset.task}:search?limit=0&from=0&workspace=${dataset.workspace}`,
+          {
+            query: {},
+            sort: [],
+          },
+          {
+            save: false,
+          }
+        );
+        dataset.metrics = response.data;
+        if (dataset.metrics.aggregations) {
+          const { status, total } = dataset.metrics.aggregations;
+          const statusKeys = Object.keys(status);
+          dataset.is_completed = false;
+          if (statusKeys.length === 1 && statusKeys.includes("Default")) {
+            dataset.is_completed = false;
+          } else if (statusKeys.length > 1 && statusKeys.includes("Default")) {
+            let totalOther = 0;
+            statusKeys
+              .filter((key) => key !== "Default")
+              .forEach((key) => {
+                totalOther += status[key];
+              });
+            dataset.is_completed = totalOther === total;
+          }
+        }
+        return response.data;
+      });
+      await Promise.all(promises);
+    }
 
     return data;
   },

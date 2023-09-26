@@ -141,10 +141,13 @@ export default {
       "Twoje zmiany zostaną utracone, jeśli przejdziesz na inną stronę",
   },
   status: {
+    default: "Domyślny",
     pending: " Oczekujące",
     edited: "Edytowane",
     discarded: " Odrzucone",
     submitted: " Przesłane",
     validated: " Zatwierdzone",
+    negative: " Negatywne",
+    positive: " Pozytywne",
   },
 };

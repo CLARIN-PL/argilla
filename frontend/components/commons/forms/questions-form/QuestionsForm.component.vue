@@ -95,14 +95,14 @@
           type="button"
           class="primary outline"
           @on-click="onDiscard"
-          :disabled="record.isDiscarded"
+          :disabled="record.isDiscarded || isDiscardButtonDisabled"
         >
           <span v-text="$t('common.discard')" />
         </BaseButton>
         <BaseButton
           type="submit"
           class="primary"
-          :disabled="isSubmitButtonDisabled"
+          :disabled="isSubmitButtonDisabled || isSubmitButtonLoading"
         >
           <span v-text="$t('common.submit')" />
         </BaseButton>
@@ -131,6 +131,8 @@ export default {
   data() {
     return {
       originalRecord: null,
+      isDiscardButtonDisabled: false,
+      isSubmitButtonLoading: false,
     };
   },
   setup() {
@@ -186,22 +188,21 @@ export default {
       }
     },
     async onDiscard() {
+      this.isDiscardButtonDisabled = true;
       await this.discard(this.record);
-
       this.$emit("on-discard-responses");
-
       this.onReset();
+      this.isDiscardButtonDisabled = false;
     },
     async onSubmit() {
       if (!this.questionAreCompletedCorrectly) {
         return;
       }
-
+      this.isSubmitButtonLoading = true;
       await this.submit(this.record);
-
       this.$emit("on-submit-responses");
-
       this.onReset();
+      this.isSubmitButtonLoading = false;
     },
     async onClear() {
       await this.clear(this.record);

@@ -1,7 +1,9 @@
 import { type NuxtAxiosInstance } from "@nuxtjs/axios";
 import { Store } from "vuex";
+import _, { sortBy } from "lodash";
 import { Dataset } from "@/v1/domain/entities/Dataset";
 import { IDatasetRepository } from "@/v1/domain/services/IDatasetRepository";
+import { GeneralSettings } from "~/models/GeneralSettings";
 
 export const DATASET_API_ERRORS = {
   ERROR_FETCHING_FEEDBACK_DATASETS: "ERROR_FETCHING_FEEDBACK_DATASETS",
@@ -30,7 +32,8 @@ export class DatasetRepository implements IDatasetRepository {
       workspace,
       {},
       dataset.inserted_at,
-      dataset.updated_at
+      dataset.updated_at,
+      dataset.is_completed
     );
   }
 
@@ -48,7 +51,8 @@ export class DatasetRepository implements IDatasetRepository {
         dataset.workspace,
         dataset.tags,
         dataset.created_at,
-        dataset.last_updated
+        dataset.last_updated,
+        dataset.is_completed
       );
     });
 
@@ -64,12 +68,43 @@ export class DatasetRepository implements IDatasetRepository {
           datasetFromBackend.workspace_name,
           {},
           datasetFromBackend.inserted_at,
-          datasetFromBackend.updated_at
+          datasetFromBackend.updated_at,
+          datasetFromBackend.is_completed
         );
       }
     );
 
-    return [...otherDatasets, ...feedbackDatasets];
+    const datasets = [...otherDatasets, ...feedbackDatasets].map((dataset) => {
+      return {
+        ...dataset,
+        createdAt: dataset.createdAt || dataset.insertedAt,
+      };
+    });
+    const orderedDatasets = sortBy(
+      datasets,
+      [(dataset) => new Date(dataset.createdAt)],
+      ["asc"]
+    );
+    let filteredDatasets = _.cloneDeep(orderedDatasets);
+    const allowedRoles: any[] = ["admin", "owner"];
+    if (!allowedRoles.includes(this.store.$auth.$state.user.role)) {
+      const completedDatasets = filteredDatasets.filter(
+        (dataset) => !dataset.isCompleted
+      );
+      filteredDatasets = completedDatasets.splice(0, 1);
+
+      if (filteredDatasets.length) {
+        GeneralSettings.update({
+          where: this.store.$auth.$state.user.id,
+          data: {
+            current_dataset_id: filteredDatasets[0].id,
+            current_dataset_name: filteredDatasets[0].name,
+          },
+        });
+      }
+    }
+
+    return filteredDatasets;
   }
 
   private async getDatasetById(datasetId: string) {
@@ -103,6 +138,18 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
+      if (data.items && data.items.length) {
+        const promises = data.items.map((item) => {
+          const apiLink = `/v1/me/datasets/${item.id}/metrics`;
+          return axios.get(apiLink).then((response) => {
+            item.metrics = response.data;
+            item.is_completed =
+              item.metrics.records.count === item.metrics.responses.count;
+            return item;
+          });
+        });
+        await Promise.all(promises);
+      }
 
       return data;
     } catch (err) {

@@ -55,6 +55,8 @@ import { useDatasetsViewModel } from "./useDatasetsViewModel";
 
 export default {
   layout: "app",
+  name: "DatasetsIndex",
+  middleware: ["route-guard"],
   methods: {
     onBreadcrumbAction(e) {
       if (e === "clearFilters") {

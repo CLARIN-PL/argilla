@@ -72,5 +72,11 @@ export const useDatasetViewModel = () => {
     }
   };
 
-  return { dataset, datasetId, isLoadingDataset, loadDataset, breadcrumbs };
+  return {
+    dataset,
+    datasetId,
+    isLoadingDataset,
+    loadDataset,
+    breadcrumbs,
+  };
 };

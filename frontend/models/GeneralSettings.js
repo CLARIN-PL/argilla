@@ -15,26 +15,20 @@
  * limitations under the License.
  */
 
-import { Context } from "@nuxt/types";
-import { GeneralSettings } from "~/models/GeneralSettings";
+import { Model } from "@vuex-orm/core";
 
-export default ({ $auth, route, redirect }: Context) => {
-  if ($auth && $auth.user) {
-    GeneralSettings.insertOrUpdate({
-      data: {
-        id: $auth.user.id,
-        agent: $auth.user.username,
-      },
-    });
+class GeneralSettings extends Model {
+  static entity = "general_settings";
+
+  static fields() {
+    return {
+      id: this.attr(null),
+      agent: this.attr(null),
+      show_discard_button: this.boolean(false),
+      current_dataset_id: this.attr(null),
+      current_dataset_name: this.attr(null),
+    };
   }
-  switch (route.name) {
-    case "login":
-      break;
-    default:
-      if (!$auth.loggedIn) {
-        const REDIRECT_URL =
-          "/login?redirect=" + encodeURIComponent(route.fullPath);
-        redirect(REDIRECT_URL);
-      }
-  }
-};
+}
+
+export { GeneralSettings };

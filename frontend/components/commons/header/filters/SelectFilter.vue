@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import commonEn from "@/i18n/en/common/";
 export default {
   props: {
     filter: {
@@ -142,7 +143,9 @@ export default {
       return filtered;
     },
     optionName(option) {
-      return option[0];
+      return commonEn["status"][option[0].toLowerCase()]
+        ? this.$t(`common.status.${option[0].toLowerCase()}`)
+        : option[0];
     },
     optionCounter(option) {
       return option[1];

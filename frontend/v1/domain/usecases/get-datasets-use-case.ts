@@ -10,6 +10,7 @@ export class GetDatasetsUseCase {
   async execute() {
     const datasets = await this.datasetRepository.getAll();
 
+    this.datasetStorage.save([]);
     this.datasetStorage.save(datasets);
   }
 }
