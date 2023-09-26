@@ -66,6 +66,7 @@ import { indexOf, length } from "stringz";
 import { mapActions } from "vuex";
 import { getTokenClassificationDatasetById } from "@/models/tokenClassification.queries";
 import { getAllLabelsByDatasetId } from "@/models/globalLabel.queries";
+import { GeneralSettings } from "@/models/GeneralSettings";
 
 export default {
   props: {
@@ -169,24 +170,28 @@ export default {
         {
           id: "validate",
           name: this.$t("common.validate"),
+          show: true,
           allow: true,
           active: this.record.status === "Validated",
         },
         {
           id: "discard",
           name: this.$t("common.discard"),
+          show: GeneralSettings.find(this.$auth.user.id)?.show_discard_button,
           allow: true,
           active: this.record.status === "Discarded",
         },
         {
           id: "clear",
           name: this.$t("common.clear"),
+          show: true,
           allow: true,
           disable: !this.record.annotatedEntities?.length || false,
         },
         {
           id: "reset",
           name: this.$t("common.reset"),
+          show: true,
           allow: true,
           disable: this.record.status !== "Edited",
         },
@@ -229,6 +234,14 @@ export default {
         this.onDiscard();
       }
     },
+    updateQuery() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          record: this.record.id,
+        },
+      });
+    },
     async onValidate() {
       await this.validate({
         // TODO: Move this as part of token classification dataset logic
@@ -245,6 +258,7 @@ export default {
           },
         ],
       });
+      this.updateQuery();
     },
     async onChangeStatusToDefault() {
       const currentRecordAndDataset = {

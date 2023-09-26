@@ -17,19 +17,25 @@
 
 import { Model } from "@vuex-orm/core";
 
-class GeneralSettings extends Model {
-  static entity = "general_settings";
+class Users extends Model {
+  static entity = "users";
 
   static fields() {
     return {
       uid: this.uid(),
-      id: this.attr(null),
-      agent: this.attr(null),
-      show_discard_button: this.boolean(false),
-      current_dataset_id: this.attr(null),
-      current_dataset_name: this.attr(null),
+      api_key: this.string(null),
+      first_name: this.string(null),
+      full_name: this.string(null),
+      id: this.string(null),
+      inserted_at: this.string(null),
+      last_name: this.string(null),
+      role: this.string(null),
+      updated_at: this.string(null),
+      username: this.string(null),
+      workspaces: this.attr([]),
+      show_discard_button: this.boolean(true),
     };
   }
 }
 
-export { GeneralSettings };
+export { Users };

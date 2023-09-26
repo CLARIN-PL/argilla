@@ -293,6 +293,7 @@ class User(DatabaseModel):
     username: Mapped[str] = mapped_column(unique=True, index=True)
     role: Mapped[UserRole] = mapped_column(UserRoleEnum, default=UserRole.annotator, index=True)
     api_key: Mapped[str] = mapped_column(Text, unique=True, index=True, default=generate_user_api_key)
+    show_discard_button: Mapped[bool] = mapped_column(default=True)
     password_hash: Mapped[str] = mapped_column(Text)
 
     workspaces: Mapped[List["Workspace"]] = relationship(

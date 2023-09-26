@@ -30,7 +30,7 @@ export default async ({ $auth, route, redirect }: Context) => {
       },
     });
     const userId: any = $auth.user.id || "";
-    let settings: any = GeneralSettings.find(userId);
+    let settings: any = userId ? GeneralSettings.find(userId) : null;
     const allowedRoles: any[] = ["admin", "owner"];
     if (!allowedRoles.includes($auth.user.role) && settings) {
       if (!settings.current_dataset_name) {

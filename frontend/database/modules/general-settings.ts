@@ -15,21 +15,10 @@
  * limitations under the License.
  */
 
-import { Model } from "@vuex-orm/core";
+const getters = {};
+const actions = {};
 
-class GeneralSettings extends Model {
-  static entity = "general_settings";
-
-  static fields() {
-    return {
-      uid: this.uid(),
-      id: this.attr(null),
-      agent: this.attr(null),
-      show_discard_button: this.boolean(false),
-      current_dataset_id: this.attr(null),
-      current_dataset_name: this.attr(null),
-    };
-  }
-}
-
-export { GeneralSettings };
+export default {
+  getters,
+  actions,
+};

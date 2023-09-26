@@ -59,6 +59,7 @@
       </base-button>
       <base-button
         class="clear validate-discard-actions__button"
+        v-if="showDiscardButton"
         @click="onDiscard"
         :data-title="$t('common.discard')"
       >
@@ -101,6 +102,7 @@ import "assets/icons/clear";
 import "assets/icons/reset";
 import { getDatasetFromORM } from "@/models/dataset.utilities";
 import { mapActions } from "vuex";
+import { GeneralSettings } from "~/models/GeneralSettings";
 
 export default {
   props: {
@@ -133,6 +135,10 @@ export default {
   computed: {
     dataset() {
       return getDatasetFromORM(this.datasetId, this.datasetTask);
+    },
+    showDiscardButton() {
+      const settings = GeneralSettings.find(this.$auth.user.id);
+      return settings?.show_discard_button;
     },
     selectedRecords() {
       // TODO: when record will be in own ORM table, replace next line by query ORM

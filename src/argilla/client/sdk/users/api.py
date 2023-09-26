@@ -80,7 +80,6 @@ def list_users(client: httpx.Client) -> Response[Union[List[UserModel], ErrorMes
     url = "/api/users"
 
     response = client.get(url=url)
-
     if response.status_code == 200:
         parsed_response = [UserModel(**user) for user in response.json()]
         return Response(

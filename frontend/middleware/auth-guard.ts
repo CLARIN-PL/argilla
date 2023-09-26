@@ -17,13 +17,18 @@
 
 import { Context } from "@nuxt/types";
 import { GeneralSettings } from "~/models/GeneralSettings";
+import { getUserDataWithAxios } from "~/database/modules/users";
 
-export default ({ $auth, route, redirect }: Context) => {
-  if ($auth && $auth.user) {
+export default async ({ $auth, $axios, route, redirect }: Context) => {
+  let isLoading = true;
+  const { isLoadingUserData, userData } = await getUserDataWithAxios($axios);
+  isLoading = isLoadingUserData;
+  if ($auth && $auth.user && !isLoading) {
     GeneralSettings.insertOrUpdate({
       data: {
         id: $auth.user.id,
         agent: $auth.user.username,
+        show_discard_button: userData.show_discard_button,
       },
     });
   }

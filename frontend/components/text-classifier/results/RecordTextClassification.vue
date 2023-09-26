@@ -69,6 +69,7 @@ import { mapActions } from "vuex";
 import { TextClassificationRecord } from "@/models/TextClassification";
 import { getTextClassificationDatasetById } from "@/models/textClassification.queries";
 import { getAllLabelsTextByDatasetId } from "@/models/globalLabel.queries";
+import { GeneralSettings } from "~/models/GeneralSettings";
 
 export default {
   props: {
@@ -135,24 +136,28 @@ export default {
         {
           id: "validate",
           name: this.$t("common.validate"),
+          show: true,
           allow: this.isMultiLabel,
           active: !this.allowValidate,
         },
         {
           id: "discard",
           name: this.$t("common.discard"),
+          show: GeneralSettings.find(this.$auth.user.id)?.show_discard_button,
           allow: true,
           active: this.record.status === "Discarded",
         },
         {
           id: "clear",
           name: this.$t("common.clear"),
+          show: true,
           allow: this.isMultiLabel,
           disable: !this.record.currentAnnotation?.labels?.length || false,
         },
         {
           id: "reset",
           name: this.$t("common.reset"),
+          show: true,
           allow: this.isMultiLabel,
           disable: this.record.status !== "Edited",
         },
@@ -226,6 +231,15 @@ export default {
             },
           },
         ],
+      });
+      this.updateQuery();
+    },
+    updateQuery() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          record: this.record.id,
+        },
       });
     },
     async onChangeStatusToDefault() {

@@ -56,6 +56,7 @@ class UserCreate(BaseModel):
     last_name: Optional[constr(min_length=1, strip_whitespace=True)]
     username: constr(regex=USER_USERNAME_REGEX, min_length=1)
     role: Optional[UserRole]
+    show_discard_button: Optional[bool]
     password: constr(min_length=USER_PASSWORD_MIN_LENGTH, max_length=USER_PASSWORD_MAX_LENGTH)
     workspaces: Optional[List[str]]
 
@@ -81,6 +82,7 @@ class User(BaseModel):
     role: UserRole
     workspaces: Optional[List[str]]
     api_key: str
+    show_discard_button: Optional[bool]
     inserted_at: datetime
     updated_at: datetime
 

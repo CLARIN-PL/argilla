@@ -21,6 +21,13 @@
         <NuxtLink class="user__link" :to="{ name: 'user-settings' }">
           {{ $t("userSettings.mySettings") }}
         </NuxtLink>
+        <NuxtLink
+          v-if="isAdminOrOwner"
+          class="user__link"
+          :to="{ name: 'general-settings' }"
+        >
+          {{ $t("userSettings.generalSettings") }}
+        </NuxtLink>
         <a
           class="user__link"
           :href="$config.documentationSite"
@@ -53,6 +60,9 @@ export default {
     };
   },
   computed: {
+    isAdminOrOwner() {
+      return ["admin", "owner"].includes(this.user.role);
+    },
     user() {
       return this.$auth.user;
     },

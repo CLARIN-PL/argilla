@@ -1,7 +1,11 @@
 <template>
   <div class="record__actions-buttons">
-    <span v-for="{ id, name, active, disable } in allowedActions" :key="id">
+    <span
+      v-for="{ id, name, active, disable, show } in allowedActions"
+      :key="id"
+    >
       <base-button
+        v-if="show"
         :class="`record__actions-button--${id}`"
         @click="onAction(id)"
         :disabled="disable"

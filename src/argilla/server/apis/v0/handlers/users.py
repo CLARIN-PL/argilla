@@ -25,6 +25,7 @@ from argilla.server.contexts import accounts
 from argilla.server.database import get_async_db
 from argilla.server.errors import EntityAlreadyExistsError, EntityNotFoundError
 from argilla.server.policies import UserPolicy, authorize
+from argilla.server.schemas.v0.users import UpdateUserRequest
 from argilla.server.security import auth
 from argilla.server.security.model import User, UserCreate
 from argilla.utils import telemetry
@@ -102,6 +103,26 @@ async def create_user(
 
     await user.awaitable_attrs.workspaces
     return User.from_orm(user)
+
+
+@router.patch("/users/update_discard", operation_id="update_user", response_model=User, response_model_exclude_none=True)
+async def update_user(
+    *,
+    db: AsyncSession = Depends(get_async_db),
+    current_user: models.User = Security(auth.get_current_user),
+    request: UpdateUserRequest,
+) -> User:
+    
+    await authorize(current_user, UserPolicy.update)
+
+    users = await accounts.list_users(db)
+    all_users = parse_obj_as(List[User], users)
+    for user in all_users:
+        user_to_update = await accounts.get_user_by_id(db, user.id)
+        await accounts.update_user(db, user_to_update, request)
+        await db.refresh(user_to_update, attribute_names=["show_discard_button"])
+        
+    return User.from_orm(current_user) 
 
 
 @router.delete("/users/{user_id}", response_model=User, response_model_exclude_none=True)

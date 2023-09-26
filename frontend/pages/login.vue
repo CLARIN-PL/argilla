@@ -167,6 +167,7 @@ export default {
         data: {
           id: this.$auth.user.id,
           agent: this.$auth.user.username,
+          show_discard_button: this.$auth.user.show_discard_button,
         },
       });
 

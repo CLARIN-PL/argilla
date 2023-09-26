@@ -24,6 +24,7 @@ from argilla.server.security.model import UserCreate, WorkspaceCreate, Workspace
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
+    from argilla.server.schemas.v0.users import UpdateUserRequest
 
 _CRYPT_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -132,6 +133,13 @@ async def create_user(db: "AsyncSession", user_create: UserCreate) -> User:
                     autocommit=False,
                 )
 
+    return user
+
+
+async def update_user(db: "AsyncSession", user: User, request: "UpdateUserRequest") -> User:
+    params = request.dict(exclude_unset=True)
+    await user.update(db, **params)
+    await db.refresh(user, attribute_names=["show_discard_button"])
     return user
 
 

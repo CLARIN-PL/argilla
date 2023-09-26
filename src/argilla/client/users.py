@@ -73,6 +73,7 @@ class User:
     full_name: Optional[str]
     role: UserRole
     api_key: str
+    show_discard_button: Optional[bool]
     inserted_at: datetime
     updated_at: datetime
 
@@ -126,6 +127,7 @@ class User:
             f"User(id={self.id}, username={self.username}, role={self.role},"
             f" api_key={self.api_key}, first_name={self.first_name},"
             f" last_name={self.last_name}, inserted_at={self.inserted_at},"
+            f" show_discard_button={self.show_discard_button}),"
             f" updated_at={self.updated_at})"
         )
 
