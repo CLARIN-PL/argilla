@@ -73,7 +73,7 @@ export default {
     recordInfo() {
       const metadataInfo =
         Object.keys(this.record.metadata).map((key) => ({
-          name: `Metadata.${key}`,
+          name: `${this.$t("common.metadata")}.${key}`,
           id: `metadata.${key}`,
           value: this.record.metadata[key],
         })) || [];
@@ -81,17 +81,25 @@ export default {
       const recordInfo = [
         { name: "Id", id: "id", value: this.record.id },
         {
-          name: "Event_timestamp",
+          name: this.$t("common.eventTimestamp"),
           id: "event_tiemstamp",
           value: this.record.event_timestamp,
         },
         {
-          name: "Last_updated",
+          name: this.$t("common.lastUpdated"),
           id: "last_updated",
           value: this.record.last_updated,
         },
-        { name: "Prediction", id: "prediction", value: this.record.prediction },
-        { name: "Status", id: "status", value: this.record.status },
+        {
+          name: this.$t("common.prediction"),
+          id: "prediction",
+          value: this.record.prediction,
+        },
+        {
+          name: this.$t("common.statusLabel"),
+          id: "status",
+          value: this.record.status,
+        },
       ];
       return [...recordInfo, ...metadataInfo];
     },
@@ -110,7 +118,7 @@ export default {
       }
     },
     textToCopy(info) {
-      if (info.name.startsWith("Metadata.")) {
+      if (info.name.startsWith(this.$t("common.metadata") + ".")) {
         return `${info.name}: ${info.value}`;
       } else if (typeof info.value === "object") {
         return JSON.stringify(info.value);

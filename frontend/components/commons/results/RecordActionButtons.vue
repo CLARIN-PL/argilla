@@ -57,6 +57,11 @@ $recordActions: (
     gap: $base-space;
     align-items: center;
     margin-top: $base-space * 4;
+
+    @include media("<=tablet") {
+      flex-wrap: wrap;
+      margin-top: $base-space * 10;
+    }
   }
   @each $action, $color in $recordActions {
     &__actions-button--#{$action} {

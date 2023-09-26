@@ -88,6 +88,10 @@ export default {
     }
   },
   computed: {
+    isMobile() {
+      const mobileViews = ["sm", "mm"];
+      return mobileViews.includes(this.$mq);
+    },
     actions() {
       return [
         {
@@ -122,7 +126,7 @@ export default {
       return getViewSettingsByDatasetName(this.datasetName);
     },
     tableColumns() {
-      return [
+      const columns = [
         {
           name: this.$t("datasets.query"),
           field: "query",
@@ -178,6 +182,24 @@ export default {
           type: "date",
         },
       ];
+
+      const mobileColumnNames = ["query", "labels", "coverage"];
+      const tabletColumnNames = mobileColumnNames.join([
+        "coverage_annotated",
+        "correct",
+        "incorrect",
+      ]);
+      const mobileColumns = columns.filter((col) =>
+        mobileColumnNames.includes(col.field)
+      );
+      const tabletColumns = columns.filter((col) =>
+        tabletColumnNames.includes(col.field)
+      );
+      return this.$mq === "sm"
+        ? mobileColumns
+        : this.$mq === "mm"
+        ? tabletColumns
+        : columns;
     },
     rules() {
       return this.dataset.labelingRules;
@@ -298,6 +320,11 @@ export default {
   overflow: auto;
   height: 100vh;
   @extend %hide-scrollbar;
+
+  @include media("<=tablet") {
+    padding-left: 2em;
+  }
+
   &__header {
     display: flex;
     align-items: center;
@@ -306,9 +333,17 @@ export default {
     @include font-size(22px);
     font-weight: 600;
     margin-top: 0;
+    @include media("<=tablet") {
+      @include font-size(20px);
+    }
+
     span {
       @include font-size(16px);
       font-weight: normal;
+
+      @include media("<=tablet") {
+        @include font-size(14px);
+      }
     }
   }
   &__button {

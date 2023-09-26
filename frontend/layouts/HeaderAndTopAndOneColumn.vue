@@ -59,6 +59,10 @@ $gap-width: $base-space * 7;
       grid-template-columns: $gap-width 1fr calc($gap-width / 2) $sidebarWidth;
       transition: 0.4s ease-out;
     }
+
+    @include media("<=tablet") {
+      grid-template-columns: $gap-width / 2 1fr calc($gap-width / 2) $sidebarWidth;
+    }
   }
 }
 

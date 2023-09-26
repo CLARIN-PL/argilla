@@ -1,5 +1,6 @@
 export default {
   findSimilar: "Znajdź podobne",
+  similar: "Podobne",
   selectVector: "Wybierz wektor:",
   viewRecordInfo: "Wyświetl informacje o rekordzie",
   copyText: "Kopiuj tekst",

@@ -138,6 +138,10 @@ export default {
 }
 .dataset-name {
   @include font-size(16px);
+
+  @include media("<=tablet") {
+    @include font-size(14px);
+  }
 }
 .dataset-task {
   color: $black-54;

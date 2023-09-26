@@ -213,6 +213,10 @@ export default {
   @include font-size(16px);
   font-weight: 600;
   margin-top: 0;
+
+  @include media("<=tablet") {
+    @include font-size(14px);
+  }
 }
 
 .modal-enter,

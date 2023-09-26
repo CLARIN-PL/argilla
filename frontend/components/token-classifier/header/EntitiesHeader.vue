@@ -68,7 +68,7 @@ export default {
     },
     buttonText() {
       return this.showExpandedList
-        ? `Show less`
+        ? this.$t("common.showLess")
         : `+ ${this.numberOfLabels - this.MAX_LABELS_NUMBER}`;
     },
   },

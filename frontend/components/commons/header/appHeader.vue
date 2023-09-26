@@ -31,7 +31,7 @@
         <BaseButton
           class="header__button small"
           @on-click="onClickTrain"
-          v-if="isAdminOrOwnerRole"
+          v-if="isAdminOrOwnerRole && isDesktop"
         >
           <svgicon name="code" width="20" height="20" />{{ $t("common.train") }}
         </BaseButton>
@@ -106,6 +106,10 @@ export default {
     },
   },
   computed: {
+    isDesktop() {
+      const mobileViews = ["sm", "mm"];
+      return !mobileViews.includes(this.$mq);
+    },
     dataset() {
       //TODO - when refactor of filter part from header, remove this computed/and get only what is necessary as props
       return this.datasetId && this.datasetTask

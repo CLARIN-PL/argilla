@@ -346,6 +346,11 @@ $number-size: 18px;
       padding: 20px 20px 10px 20px;
       border-radius: $border-radius;
       z-index: 2;
+      @include media("<=tablet") {
+        left: 0.5em;
+        width: 350px;
+      }
+
       @include media(">desktop") {
         left: 0;
         right: 0;
@@ -372,10 +377,17 @@ $number-size: 18px;
       @include font-size(14px);
       white-space: nowrap;
       font-weight: 500;
+
       @include media(">desktop") {
         padding: 0.8em 1em;
         margin-right: $base-space * 2;
       }
+
+      @include media("<=phoneLarge") {
+        @include font-size(12px);
+        padding: 0.6em;
+      }
+
       &:hover {
         background: $black-4;
       }

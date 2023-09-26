@@ -122,12 +122,20 @@ export default {
     margin-right: 0.5em;
     text-transform: uppercase;
     @include font-size(16px);
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
   }
   &__item {
     margin-right: 1em;
     display: block;
     @include font-size(16px);
     line-height: 1.6em;
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
   }
   &--email {
     display: block;

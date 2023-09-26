@@ -181,10 +181,20 @@ export default {
     @include font-size(16px);
     margin: 0 -1.5px;
     padding: 0 1.5px;
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+      @include line-height(21px);
+    }
   }
   &__whitespace {
     @include font-size(16px);
     cursor: default !important;
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+      @include line-height(21px);
+    }
   }
 }
 

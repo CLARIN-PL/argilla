@@ -42,6 +42,10 @@ export default {
     min-height: 40px;
     @include font-size(16px);
     line-height: 20px;
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
   }
   &__tooltip {
     cursor: default;
@@ -55,6 +59,10 @@ export default {
     font-weight: 600;
     min-width: 80px;
     @include font-size(16px);
+
+    @include media("<=tablet") {
+      @include font-size(14px);
+    }
     .prediction & {
       margin-top: 0.5em;
     }

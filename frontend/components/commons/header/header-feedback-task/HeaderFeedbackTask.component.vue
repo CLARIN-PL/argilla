@@ -11,7 +11,7 @@
         ref="trainButtonRef"
         class="header__button small"
         @on-click="onClickTrain"
-        v-if="isAdminOrOwnerRole && showTrainButton"
+        v-if="isAdminOrOwnerRole && showTrainButton && isDesktop"
       >
         <svgicon name="code" width="20" height="20" /> {{ $t("common.train") }}
       </BaseButton>
@@ -51,6 +51,10 @@ export default {
     };
   },
   computed: {
+    isDesktop() {
+      const mobileViews = ["sm", "mm"];
+      return !mobileViews.includes(this.$mq);
+    },
     isAdminOrOwnerRole() {
       const role = this.$auth.user.role;
       return role === "admin" || role === "owner";

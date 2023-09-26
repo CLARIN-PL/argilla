@@ -106,6 +106,8 @@ const config: NuxtConfig = {
       {
         breakpoints: {
           sm: 450,
+          mm: 768,
+          mp: 1024,
           md: 1901,
           lg: Infinity,
         },

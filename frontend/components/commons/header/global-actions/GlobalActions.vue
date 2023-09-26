@@ -105,6 +105,10 @@ export default {
   padding-bottom: 0;
   padding-left: 4em;
   @extend %collapsable-if-metrics !optional;
+
+  @include media("<=tablet") {
+    padding-left: 2em;
+  }
 }
 .global-actions {
   display: flex;

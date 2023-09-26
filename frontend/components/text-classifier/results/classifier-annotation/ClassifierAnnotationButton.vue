@@ -98,6 +98,11 @@ $annotation-button-size: 20px;
   margin: $base-space * 2 $base-space $base-space * 2 0;
   display: inline-flex;
   position: relative;
+
+  @include media("<=tablet") {
+    @include font-size(12px);
+  }
+
   .annotation-button-container {
     display: none;
   }
@@ -107,6 +112,10 @@ $annotation-button-size: 20px;
     padding: 0;
     transition: all 0.3s ease;
     max-width: 238px;
+
+    @include media("<=tablet") {
+      @include font-size(12px);
+    }
     .button {
       outline: none;
       cursor: pointer;
@@ -123,6 +132,11 @@ $annotation-button-size: 20px;
       color: palette(purple, 200);
       box-shadow: 0;
       transition: all 0.2s ease-in-out;
+
+      @include media("<=tablet") {
+        padding-left: $base-space;
+        padding-right: $base-space;
+      }
     }
     &.predicted-label {
       .button {
@@ -166,6 +180,10 @@ $annotation-button-size: 20px;
         white-space: nowrap;
         vertical-align: top;
         margin: auto;
+
+        @include media("<=tablet") {
+          @include font-size(12px);
+        }
       }
       &__info {
         margin-right: 0;

@@ -121,6 +121,13 @@ export default {
   padding: 12px 24px;
   transition: all 0.4s $cb-normal;
   cursor: pointer;
+
+  @include media("<=tablet") {
+    @include font-size(13px);
+    @include line-height(18px);
+    padding: 8px 16px;
+  }
+
   &:focus {
     outline: 0;
   }
@@ -198,6 +205,7 @@ export default {
 .secondary {
   background-color: palette(grey, 600);
   color: palette(grey, 200);
+
   .svg-icon {
     fill: palette(grey, 200);
   }
@@ -229,6 +237,11 @@ export default {
     padding-right: 0;
     background: none;
     color: $black-54;
+
+    @include media("<=tablet") {
+      white-space: pre-wrap;
+    }
+
     &:hover {
       background: none;
       color: $black-87;

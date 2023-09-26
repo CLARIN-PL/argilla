@@ -80,10 +80,19 @@
 %container {
     margin: 0 auto;
     padding: 4em;
+
+  @include media("<=tablet") {
+    padding-left: 2em;
+  }
+
 }
 %collapsable-if-metrics {
   padding-right: calc($sidebarMenuWidth + 56px);
   transition: padding 0.25s linear 0.2s;
+
+  @include media("<=tablet") {
+    padding-right: calc($sidebarMenuWidth + 28px);
+  }
   .--metrics & {
     @include media(">desktop") {
       padding-right: calc($sidebarWidth + 25px);

@@ -103,6 +103,10 @@ export default {
       font-weight: 600;
       margin-top: 0;
       @include font-size(16px);
+
+      @include media("<=tablet") {
+        @include font-size(14px);
+      }
     }
   }
 }

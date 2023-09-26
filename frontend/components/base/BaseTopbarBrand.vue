@@ -41,6 +41,11 @@ export default {
   padding-bottom: 0;
   padding-right: 1.2em;
   padding-left: 4em;
+
+  @include media("<=tablet") {
+    padding-left: 2em;
+  }
+
   a {
     text-decoration: none;
   }

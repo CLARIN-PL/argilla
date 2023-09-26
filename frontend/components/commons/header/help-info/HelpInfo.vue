@@ -104,6 +104,12 @@ export default {
   &__action-button {
     padding: 0;
     color: $primary-color;
+
+    @include media("<=phoneLarge") {
+      @include font-size(12px);
+      padding: 0.6em;
+    }
+
     &:hover,
     &.--active {
       color: darken($primary-color, 15%);

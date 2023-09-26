@@ -81,13 +81,23 @@ export default {
     },
     sortBy: "gold",
     sortByDir: "desc",
-    sortOptions: [
-      { filter: "annotated_as", text: "Annotated as", range: ["A", "Z"] },
-      { filter: "predicted_as", text: "Predicted as", range: ["A", "Z"] },
-      { filter: "score", text: "Score", range: ["0", "1"] },
-    ],
   }),
   computed: {
+    sortOptions() {
+      return [
+        {
+          filter: "annotated_as",
+          text: this.$t("common.annotatedAs"),
+          range: ["A", "Z"],
+        },
+        {
+          filter: "predicted_as",
+          text: this.$t("common.predictedAs"),
+          range: ["A", "Z"],
+        },
+        { filter: "score", text: this.$t("common.score"), range: ["0", "1"] },
+      ];
+    },
     viewMode() {
       return this.dataset.viewSettings.viewMode;
     },
@@ -170,6 +180,12 @@ export default {
     display: flex;
     align-items: center;
     width: calc(100% - 300px);
+
+    @include media("<=tablet") {
+      flex-direction: column;
+      align-items: flex-start;
+      width: auto;
+    }
   }
   &__searchbar {
     margin-right: $base-space;

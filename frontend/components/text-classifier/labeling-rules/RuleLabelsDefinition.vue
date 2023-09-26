@@ -305,6 +305,10 @@ export default {
 .feedback-interactions {
   .list__item--selectable & {
     padding-right: 200px;
+
+    @include media("<=tablet") {
+      padding-right: 20px;
+    }
   }
   &__more {
     margin: 3.5px;
