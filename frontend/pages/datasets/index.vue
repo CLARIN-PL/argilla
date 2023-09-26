@@ -82,6 +82,7 @@ export default {
     datasetsOriginal() {
       return this.datasets.datasets.map((dataset) => {
         dataset.link = this.getDatasetLink(dataset);
+        dataset.workspace = dataset.workspace || dataset.workspaceName;
         return dataset;
       });
     },
@@ -125,9 +126,10 @@ export default {
         "Text2Text",
       ].includes(task);
     },
-    getDatasetLink({ task, name, workspace, id }) {
+    getDatasetLink(dataset) {
+      const { task, workspace, id, name, workspaceName } = dataset
       return this.isOldTask(task)
-        ? `/datasets/${workspace}/${name}`
+        ? `/datasets/${workspace || workspaceName}/${name}`
         : `/dataset/${id}/annotation-mode`;
     },
   },

@@ -13,9 +13,10 @@ export const useRoutes = () => {
     );
   };
 
-  const getDatasetLink = ({ task, name, workspace, id }: Dataset): string => {
+  const getDatasetLink = (dataset: Dataset): string => {
+    const { task, name, workspace, id, workspaceName } = dataset;
     return isOldTask(task)
-      ? `/datasets/${workspace}/${name}`
+      ? `/datasets/${workspace || workspaceName}/${name}`
       : `/dataset/${id}/annotation-mode`;
   };
 
