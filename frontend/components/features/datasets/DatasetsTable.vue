@@ -13,6 +13,7 @@
         search-on="name"
         :global-actions="false"
         :data="datasets"
+        :original-data="originalDatasets"
         :sorted-order="sortedOrder"
         :sorted-by-field="sortedByField"
         :actions="actions"
@@ -35,15 +36,14 @@ import { useRoutes } from "@/v1/infrastructure/services";
 
 export default {
   props: {
+    originalDatasets: {
+      type: Array,
+      default: () => [],
+    },
     datasets: {
       type: Array,
       required: true,
     },
-  },
-  created() {
-    this.datasets.forEach((dataset) => {
-      dataset.link = this.getDatasetLink(dataset);
-    });
   },
   data() {
     return {
@@ -109,8 +109,8 @@ export default {
         title: this.$t("datasets.noDatasetsFound"),
       },
       externalLinks: [],
-      sortedOrder: "desc",
-      sortedByField: "updatedAt",
+      sortedOrder: "asc",
+      sortedByField: "createdAt",
     };
   },
   computed: {
@@ -151,6 +151,7 @@ export default {
     },
     onSearch(event) {
       this.querySearch = event;
+      this.$emit("search", this.querySearch);
     },
     onSortColumns(by, order) {
       this.sortedByField = by;
