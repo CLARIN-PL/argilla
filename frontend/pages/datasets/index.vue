@@ -65,7 +65,6 @@
 
 <script>
 import { useDatasetsViewModel } from "./useDatasetsViewModel";
-import _ from "lodash";
 
 export default {
   layout: "app",
@@ -127,7 +126,7 @@ export default {
       ].includes(task);
     },
     getDatasetLink(dataset) {
-      const { task, workspace, id, name, workspaceName } = dataset
+      const { task, workspace, id, name, workspaceName } = dataset;
       return this.isOldTask(task)
         ? `/datasets/${workspace || workspaceName}/${name}`
         : `/dataset/${id}/annotation-mode`;
