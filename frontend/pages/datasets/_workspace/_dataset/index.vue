@@ -76,14 +76,7 @@ import { getViewSettingsByDatasetName } from "@/models/viewSettings.queries";
 export default {
   layout: "app",
   name: "WorkspaceDatasetIndex",
-<<<<<<< HEAD
-<<<<<<< HEAD
   middleware: ["route-guard"],
-=======
->>>>>>> eb262345 (feat: redirect fix)
-=======
-  middleware: ["route-guard"],
->>>>>>> ad93f47c (fix: guard feedback dataset page)
   async fetch() {
     // 1. Clean models before fetching data. Remaining model info could affect the generated query
     await this.cleanModels();
