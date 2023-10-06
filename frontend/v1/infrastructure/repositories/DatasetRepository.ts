@@ -133,17 +133,34 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
+      const API_COUNT_LIMIT = 10;
+      const responses = [];
       if (data.items && data.items.length) {
-        const promises = data.items.map((item) => {
-          const apiLink = `/v1/me/datasets/${item.id}/metrics`;
-          return axios.get(apiLink).then((response) => {
-            item.metrics = response.data;
-            item.is_completed =
-              item.metrics.records.count === item.metrics.responses.count;
-            return item;
-          });
-        });
-        await Promise.all(promises);
+        let START_INDEX = 0;
+        let END_INDEX = data.items.length;
+        const numberOfRequests = Math.ceil(data.items.length / API_COUNT_LIMIT);
+
+        if (data.items.length > numberOfRequests) {
+          for (let i = 0; i < numberOfRequests; i++) {
+            const promises = data.items
+              .slice(START_INDEX, END_INDEX)
+              .map((item) => {
+                const apiLink = `/v1/me/datasets/${item.id}/metrics`;
+                return axios.get(apiLink).then((response) => {
+                  item.metrics = response.data;
+                  item.is_completed =
+                    item.metrics.records.count === item.metrics.responses.count;
+                  return item;
+                });
+              });
+            const response = await Promise.all(promises);
+            responses.push(response);
+
+            START_INDEX = (i + 1) * API_COUNT_LIMIT;
+            END_INDEX = START_INDEX + API_COUNT_LIMIT;
+            setTimeout(() => {}, 1000);
+          }
+        }
       }
 
       return data;
