@@ -133,36 +133,38 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
-      const API_COUNT_LIMIT = 10;
-      const responses = [];
+      const API_COUNT_LIMIT = 100;
       if (data.items && data.items.length) {
-        let START_INDEX = 0;
-        let END_INDEX = data.items.length;
+        let startIndex = 0;
+        let endIndex = data.items.length;
         const numberOfRequests = Math.ceil(data.items.length / API_COUNT_LIMIT);
-
         if (data.items.length > numberOfRequests) {
-          for (let i = 0; i < numberOfRequests; i++) {
-            const promises = data.items
-              .slice(START_INDEX, END_INDEX)
-              .map((item) => {
-                const apiLink = `/v1/me/datasets/${item.id}/metrics`;
-                return axios.get(apiLink).then((response) => {
-                  item.metrics = response.data;
-                  item.is_completed =
-                    item.metrics.records.count === item.metrics.responses.count;
-                  return item;
-                });
-              });
-            const response = await Promise.all(promises);
-            responses.push(response);
+          startIndex = 0;
+          endIndex = API_COUNT_LIMIT;
+        }
 
-            START_INDEX = (i + 1) * API_COUNT_LIMIT;
-            END_INDEX = START_INDEX + API_COUNT_LIMIT;
-            setTimeout(() => {}, 1000);
+        for (let i = 0; i < numberOfRequests; i++) {
+          const promises = data.items
+            .slice(startIndex, endIndex)
+            .map((item) => {
+              const apiLink = `/v1/me/datasets/${item.id}/metrics`;
+              return axios.get(apiLink).then((response) => {
+                item.metrics = response.data;
+                item.is_completed =
+                  item.metrics.records.count === item.metrics.responses.count &&
+                  item.metrics.records.count !== 0;
+                return item;
+              });
+            });
+          await Promise.all(promises);
+          startIndex = (i + 1) * API_COUNT_LIMIT;
+          endIndex = endIndex + API_COUNT_LIMIT;
+          if (endIndex > data.items.length) {
+            endIndex = data.items.length;
           }
+          setTimeout(() => {}, 1000);
         }
       }
-
       return data;
     } catch (err) {
       throw {
