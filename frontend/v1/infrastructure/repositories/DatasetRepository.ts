@@ -134,7 +134,9 @@ export class DatasetRepository implements IDatasetRepository {
     try {
       const { data } = await axios.get("/v1/me/datasets");
       const API_COUNT_LIMIT = 100;
-      if (data.items && data.items.length) {
+      const allowedRoles: any[] = ["admin", "owner"];
+      const isUser = !allowedRoles.includes(this.store.$auth.$state.user.role);
+      if (data.items && data.items.length && isUser) {
         let startIndex = 0;
         let endIndex = data.items.length;
         const numberOfRequests = Math.ceil(data.items.length / API_COUNT_LIMIT);

@@ -838,7 +838,9 @@ const actions = {
      */
     const { data } = await this.$axios.get("/datasets/");
     const API_COUNT_LIMIT = 100;
-    if (data.length) {
+    const allowedRoles = ["admin", "owner"];
+    const isUser = !allowedRoles.includes(this.$auth.$state.user.role);
+    if (data.length && isUser) {
       let startIndex = 0;
       let endIndex = data.length;
       const numberOfRequests = Math.ceil(data.length / API_COUNT_LIMIT);
@@ -883,6 +885,7 @@ const actions = {
             return response.data;
           });
         await Promise.all(promises);
+
         startIndex = (i + 1) * API_COUNT_LIMIT;
         endIndex = endIndex + API_COUNT_LIMIT;
         if (endIndex > data.items.length) {
