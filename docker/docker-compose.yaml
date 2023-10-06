@@ -3,7 +3,7 @@ version: "3.9"
 services:
 
   argilla:
-    image: argilla/argilla-server:latest
+    image: haanh764/argilla-server-clarin:latest
     restart: unless-stopped
     ports:
       - "6900:6900"
@@ -32,7 +32,7 @@ services:
       - node.name=elasticsearch
       - cluster.name=es-argilla-local
       - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms5g -Xmx5g"
       - cluster.routing.allocation.disk.threshold_enabled=false
       - xpack.security.enabled=false
     ulimits:
