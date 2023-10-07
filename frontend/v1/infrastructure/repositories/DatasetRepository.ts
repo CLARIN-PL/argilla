@@ -133,19 +133,40 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
-      if (data.items && data.items.length) {
-        const promises = data.items.map((item) => {
-          const apiLink = `/v1/me/datasets/${item.id}/metrics`;
-          return axios.get(apiLink).then((response) => {
-            item.metrics = response.data;
-            item.is_completed =
-              item.metrics.records.count === item.metrics.responses.count;
-            return item;
-          });
-        });
-        await Promise.all(promises);
-      }
+      const API_COUNT_LIMIT = 100;
+      const allowedRoles: any[] = ["admin", "owner"];
+      const isUser = !allowedRoles.includes(this.store.$auth.$state.user.role);
+      if (data.items && data.items.length && isUser) {
+        let startIndex = 0;
+        let endIndex = data.items.length;
+        const numberOfRequests = Math.ceil(data.items.length / API_COUNT_LIMIT);
+        if (data.items.length > numberOfRequests) {
+          startIndex = 0;
+          endIndex = API_COUNT_LIMIT;
+        }
 
+        for (let i = 0; i < numberOfRequests; i++) {
+          const promises = data.items
+            .slice(startIndex, endIndex)
+            .map((item) => {
+              const apiLink = `/v1/me/datasets/${item.id}/metrics`;
+              return axios.get(apiLink).then((response) => {
+                item.metrics = response.data;
+                item.is_completed =
+                  item.metrics.records.count === item.metrics.responses.count &&
+                  item.metrics.records.count !== 0;
+                return item;
+              });
+            });
+          await Promise.all(promises);
+          startIndex = (i + 1) * API_COUNT_LIMIT;
+          endIndex = endIndex + API_COUNT_LIMIT;
+          if (endIndex > data.items.length) {
+            endIndex = data.items.length;
+          }
+          setTimeout(() => {}, 1000);
+        }
+      }
       return data;
     } catch (err) {
       throw {
