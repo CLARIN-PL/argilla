@@ -33,7 +33,7 @@ services:
       - cluster.name=es-argilla-local
       - cluster.max_shards_per_node=10000
       - discovery.type=single-node
-      - "ES_JAVA_OPTS=-Xms5g -Xmx5g"
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
       - cluster.routing.allocation.disk.threshold_enabled=false
       - xpack.security.enabled=false
     ulimits:
