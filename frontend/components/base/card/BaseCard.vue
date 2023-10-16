@@ -1,36 +1,21 @@
 <template>
-  <div
-    class="card"
-    :class="[cardClasses]"
-  >
+  <div class="card" :class="[cardClasses]">
     <div class="card__content">
-      <h3
-        v-if="title"
-        class="--body1 --light card__title"
-        v-html="title"
-      />
-      <h4
-        v-if="subtitle"
-        class="--body2 --semibold card__subtitle"
-      >
+      <h3 v-if="title" class="--body1 --light card__title" v-html="title" />
+      <h4 v-if="subtitle" class="--body2 --semibold card__subtitle">
         {{ subtitle }}
       </h4>
-      <p
-        v-if="text"
-        class="--body1 card__text"
-      >
+      <p v-if="text" class="--body1 card__text">
         {{ text }}
       </p>
     </div>
-    <div
-      class="card__buttons"
-      v-if="buttonText"
-    >
+    <div class="card__buttons" v-if="buttonText">
       <base-button
         class="card__button outline small"
         :class="[cardClasses]"
         @click="action"
-      >{{ buttonText }}</base-button>
+        >{{ buttonText }}</base-button
+      >
     </div>
   </div>
 </template>

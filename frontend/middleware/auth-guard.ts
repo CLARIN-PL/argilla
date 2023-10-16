@@ -23,7 +23,7 @@ export default async ({ $auth, $axios, route, redirect }: Context) => {
   let isLoading = true;
   const { isLoadingUserData, userData } = await getUserDataWithAxios($axios);
   isLoading = isLoadingUserData;
-  if ($auth && $auth.user && !isLoading) {
+  if ($auth && $auth.user && userData && !isLoading) {
     GeneralSettings.insertOrUpdate({
       data: {
         id: $auth.user.id,

@@ -17,11 +17,8 @@
               params: { id: datasetId },
             }"
             target="_blank"
-          >{{ $t("commons.forms.annotationGuidelines") }}
-            <svgicon
-              name="external-link"
-              width="12"
-            />
+            >{{ $t("commons.forms.annotationGuidelines") }}
+            <svgicon name="external-link" width="12" />
           </NuxtLink>
         </p>
       </div>

@@ -2,15 +2,8 @@
   <div class="left-content">
     <div class="left-content-item dataset-description">
       <div class="item">
-        <p
-          class="dataset-name"
-          v-text="datasetName"
-        />
-        <p
-          class="dataset-task"
-          v-if="datasetTask"
-          v-html="datasetTask"
-        />
+        <p class="dataset-name" v-text="datasetName" />
+        <p class="dataset-task" v-if="datasetTask" v-html="datasetTask" />
       </div>
       <base-action-tooltip :tooltip="$t('common.copied')">
         <base-button
@@ -28,10 +21,7 @@
         :isColorLight="!settingsDescription"
       />
     </div>
-    <div
-      class="delete-dataset-component"
-      v-if="dataset && hasPermission"
-    >
+    <div class="delete-dataset-component" v-if="dataset && hasPermission">
       <DatasetDeleteFeedbackTaskComponent :dataset="dataset" />
     </div>
   </div>

@@ -1,16 +1,8 @@
 <template>
   <div class="top-content">
     <h1>{{ $t("userSettings.mySettings") }}</h1>
-    <BaseButton
-      :to="datasetsURL"
-      class="secondary text"
-    >
-      <svgicon
-        name="chevron-left"
-        width="10"
-        height="10"
-        color="#4C4EA3"
-      />
+    <BaseButton :to="datasetsURL" class="secondary text">
+      <svgicon name="chevron-left" width="10" height="10" color="#4C4EA3" />
       {{ $t("common.home") }}
     </BaseButton>
   </div>
