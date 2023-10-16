@@ -26,7 +26,10 @@ export default {
   },
   methods: {
     cleanMarkdown(markdown) {
-      return markdown.replace(/[^\S\r\n]+$/gm, "");
+      const markdowns = markdown.replace(/[^\S\r\n]+$/gm, "").split(/[0-9][\/.]/g)
+      return markdowns.length < 2 ? 
+        markdowns.join("") : 
+        markdowns.map((x, i) => `${i+0}. ${x}`).slice(1, markdowns.length).join("\n\n")
     },
   },
   computed: {
@@ -48,6 +51,13 @@ export default {
   white-space: normal;
   word-break: break-word;
   :deep() {
+
+    p {
+      &:contains("0.") {
+        display: none;
+      }
+    }
+   
     hr {
       width: 100%;
     }
@@ -86,6 +96,7 @@ export default {
       margin-bottom: $base-space;
     }
   }
+
 }
 :deep() {
   .hljs {
