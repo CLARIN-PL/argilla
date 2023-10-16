@@ -80,7 +80,6 @@ export default {
   },
   computed: {
     finishedDatasetCount() {
-      console.log(this.datasetsOriginal);
       return this.datasetsOriginal.filter((dataset) => dataset.isCompleted)
         .length;
     },
