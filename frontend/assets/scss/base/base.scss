@@ -42,9 +42,12 @@ body {
   line-height: $base-line-height;
   background: $bg;
   min-height: 100vh;
-  // max-height: 100vh;
-  // overflow: hidden;
   color: $black-87;
+
+  @include media(">desktopSmall") {
+    max-height: 100vh;
+    overflow: hidden;
+  }
 }
 
 a,

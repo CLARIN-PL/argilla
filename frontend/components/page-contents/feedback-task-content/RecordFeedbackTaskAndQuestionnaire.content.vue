@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!$fetchState.pending && !$fetchState.error" class="wrapper">
+  <div
+    v-if="!$fetchState.pending && !$fetchState.error"
+    class="wrapper"
+  >
     <template v-if="!!record">
       <RecordFeedbackTaskComponent
         :recordStatus="record.status"
@@ -17,7 +20,10 @@
       />
     </template>
 
-    <div v-else class="wrapper--empty">
+    <div
+      v-else
+      class="wrapper--empty"
+    >
       <p
         v-if="!records.hasRecordsToAnnotate"
         class="wrapper__text --heading3"
@@ -331,9 +337,9 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: $base-space * 2;
-  height: 100%;
 
   @include media("<=desktopSmall") {
+    height: 100%;
     flex-wrap: nowrap;
     flex-direction: column;
     height: auto;

@@ -148,7 +148,12 @@ export default {
   &__main {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
+
+    @include media("<=desktopSmall") {
+      height: unset;
+      min-height: 100vh;
+    }
   }
 
   &__sidebar.sidebar {
