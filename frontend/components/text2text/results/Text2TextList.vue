@@ -23,7 +23,10 @@
         !annotationEnabled ? 'content--exploration-mode' : 'content--selectable'
       "
     >
-      <div class="--editable" :class="isFocused ? '--focused' : null">
+      <div
+        class="--editable"
+        :class="isFocused ? '--focused' : null"
+      >
         <Text2TextContentEditable
           v-if="!annotations && !predictions"
           :annotation-enabled="annotationEnabled"
@@ -45,8 +48,7 @@
               v-for="(prediction, index) in predictions"
               :key="index"
               :data-title="$t('common.score')"
-              >{{ prediction.score | percent }}</base-button
-            >
+            >{{ prediction.score | percent }}</base-button>
           </div>
           <Text2TextContentEditable
             :key="refresh"

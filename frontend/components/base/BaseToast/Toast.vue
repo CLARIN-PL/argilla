@@ -29,14 +29,20 @@
       @mouseleave="toggleTimer(false)"
     >
       <div class="toast-icon"></div>
-      <p class="toast-text" v-html="message"></p>
+      <p
+        class="toast-text"
+        v-html="message"
+      ></p>
       <base-button
         v-if="buttonText"
         class="primary small toast__button"
         @click="whenClicked"
-        >{{ buttonText }}
+      >{{ buttonText }}
       </base-button>
-      <span class="toast__close" @click="whenClosed"></span>
+      <span
+        class="toast__close"
+        @click="whenClosed"
+      ></span>
     </div>
   </transition>
 </template>

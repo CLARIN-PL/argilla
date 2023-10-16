@@ -1,19 +1,24 @@
 <template>
-  <div v-if="isVisible" class="rules-management">
+  <div
+    v-if="isVisible"
+    class="rules-management"
+  >
     <base-loading v-if="$fetchState.pending" />
     <div v-else-if="!$fetchState.error">
       <div class="rules-management__header">
         <p class="rules-management__title">
           {{ $t("dataset.rules") }}
-          <span v-if="formattedRules.length"
-            >({{ formattedRules.length }})</span
-          >
+          <span v-if="formattedRules.length">({{ formattedRules.length }})</span>
         </p>
         <base-button
           class="rules-management__button primary outline small"
           @click="hideList"
         >
-          <svgicon name="chevron-left" width="12" height="12"></svgicon>
+          <svgicon
+            name="chevron-left"
+            width="12"
+            height="12"
+          ></svgicon>
           {{ $t("dataset.backTo") }}
         </base-button>
       </div>

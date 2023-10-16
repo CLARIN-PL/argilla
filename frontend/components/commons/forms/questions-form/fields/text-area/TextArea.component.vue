@@ -7,7 +7,10 @@
       :tooltipMessage="description"
     />
 
-    <div class="container" :class="isFocused ? '--focused' : null">
+    <div
+      class="container"
+      :class="isFocused ? '--focused' : null"
+    >
       <RenderMarkdownBaseComponent
         v-if="useMarkdown && !isFocused"
         class="textarea--markdown"
@@ -16,6 +19,7 @@
       />
       <ContentEditableFeedbackTask
         v-else
+        ref="contentEditableFeedbackTask"
         class="textarea"
         :value="value"
         :placeholder="placeholder"

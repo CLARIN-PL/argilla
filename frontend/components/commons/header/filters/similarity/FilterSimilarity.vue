@@ -11,7 +11,11 @@
         class="filter__similarity__button"
         @click="removeSimilarityFilter"
       >
-        <svgicon width="14" height="14" name="close"></svgicon>
+        <svgicon
+          width="14"
+          height="14"
+          name="close"
+        ></svgicon>
       </base-button>
       <svgicon
         class="filter__similarity__icon"
@@ -20,7 +24,10 @@
         name="similarity"
       ></svgicon>
     </div>
-    <div v-else class="filter__similarity__content">
+    <div
+      v-else
+      class="filter__similarity__content"
+    >
       <div :data-title="$t('datasets.ifYouHaveVectors')">
         <svgicon
           class="filter__similarity__icon"
@@ -30,7 +37,10 @@
         ></svgicon>
       </div>
       <div>
-        <span class="filter__similarity__new" style="text-style: capitalize">
+        <span
+          class="filter__similarity__new"
+          style="text-style: capitalize"
+        >
           {{ $t("common.new") }}
         </span>
       </div>

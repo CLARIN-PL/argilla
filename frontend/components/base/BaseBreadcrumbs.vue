@@ -18,19 +18,21 @@
 <template>
   <div class="breadcrumbs">
     <ul>
-      <li v-for="breadcrumb in filteredBreadcrumbs" :key="breadcrumb.name">
+      <li
+        v-for="breadcrumb in filteredBreadcrumbs"
+        :key="breadcrumb.name"
+      >
         <nuxt-link
           class="breadcrumbs__item"
           v-if="breadcrumb.link"
           :to="breadcrumb.link"
-          >{{ breadcrumb.name }}
+        >{{ breadcrumb.name }}
         </nuxt-link>
         <span
           class="breadcrumbs__item --action"
           v-else
           @click="$emit('breadcrumb-action', breadcrumb.action)"
-          >{{ breadcrumb.name }}</span
-        >
+        >{{ breadcrumb.name }}</span>
       </li>
     </ul>
     <base-action-tooltip :tooltip="$t('common.copied')">
@@ -44,7 +46,11 @@
           )
         "
       >
-        <svgicon name="copy" width="16" height="16" />
+        <svgicon
+          name="copy"
+          width="16"
+          height="16"
+        />
       </a>
     </base-action-tooltip>
   </div>
@@ -96,6 +102,7 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      margin: 0 0.5em 0;
 
       &:not(:last-child) {
         max-width: 100px;

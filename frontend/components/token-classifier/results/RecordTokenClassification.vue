@@ -17,8 +17,14 @@
 
 <template>
   <div class="record">
-    <div class="record--image-area" v-if="isRecordContainsImage">
-      <img :src="metadata._image_url" alt="image of the record" />
+    <div
+      class="record--image-area"
+      v-if="isRecordContainsImage"
+    >
+      <img
+        :src="metadata._image_url"
+        alt="image of the record"
+      />
     </div>
     <div class="content">
       <div class="origins">

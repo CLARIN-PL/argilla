@@ -17,7 +17,10 @@
 
 <template>
   <div class="topbar">
-    <brand-icon class="brand-icon" color="white" />
+    <brand-icon
+      class="brand-icon"
+      color="white"
+    />
     <slot />
   </div>
 </template>

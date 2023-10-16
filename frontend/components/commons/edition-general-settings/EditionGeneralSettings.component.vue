@@ -4,7 +4,10 @@
       <span v-circle="{ size: 'MEDIUM' }">
         {{ userInfo.username.slice(0, 2) }}
       </span>
-      <div class="bubble capitalized" v-text="userInfo.role" />
+      <div
+        class="bubble capitalized"
+        v-text="userInfo.role"
+      />
     </div>
 
     <div class="form-group general-discard">
@@ -12,9 +15,18 @@
         class="--heading5 --semibold description__title"
         v-text="$t('userSettings.showDiscardButtonInDatasets')"
       />
-      <select v-model="showDiscardButton" class="description__lang-selector">
-        <option :value="true" v-text="$t('common.yes')" />
-        <option :value="false" v-text="$t('common.no')" />
+      <select
+        v-model="showDiscardButton"
+        class="description__lang-selector"
+      >
+        <option
+          :value="true"
+          v-text="$t('common.yes')"
+        />
+        <option
+          :value="false"
+          v-text="$t('common.no')"
+        />
       </select>
     </div>
     <div class="form-group --actions">
@@ -33,8 +45,10 @@
 <script>
 import { GeneralSettings } from "@/models/GeneralSettings";
 import { setDiscardButtonAvailability } from "@/database/modules/users";
+import TooltipComponent from "@/components/base/tooltip/Tooltip.component.vue";
 
 export default {
+  components: { TooltipComponent },
   name: "EditionGeneralSettingsComponent",
   props: {
     userInfo: {

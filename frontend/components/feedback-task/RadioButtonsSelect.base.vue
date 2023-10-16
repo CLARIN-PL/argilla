@@ -17,9 +17,15 @@
 
 <template>
   <div v-if="options.length">
-    <BaseDropdown :visible="dropdownIsVisible" @visibility="onVisibility">
+    <BaseDropdown
+      :visible="dropdownIsVisible"
+      @visibility="onVisibility"
+    >
       <span slot="dropdown-header">
-        <BaseButton class="selected-option" :class="currentOptionId">
+        <BaseButton
+          class="selected-option"
+          :class="currentOptionId"
+        >
           {{ currentOptionName }}
           <svgicon name="chevron-down" />
         </BaseButton>
@@ -39,8 +45,7 @@
               :model="id"
               :value="selectedOption"
               @change="changeOption(id)"
-              >{{ name }}</BaseRadioButton
-            >
+            >{{ name }}</BaseRadioButton>
           </li>
         </ul>
       </span>
@@ -143,6 +148,11 @@ $selector-width: 160px;
   gap: 12px;
   padding: $base-space + 4px;
   background: palette(white);
+
+  @include media("<=tablet") {
+    padding: $base-space;
+  }
+
   &.discarded {
     color: #656363;
     border: 1px solid #b7b7b7;

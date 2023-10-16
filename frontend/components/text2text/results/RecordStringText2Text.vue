@@ -20,13 +20,16 @@
     ref="list"
     :class="isRecordTextExpanded ? 'record__expanded' : 'record__collapsed'"
   >
-    <span class="record__content" v-html="$highlightKeywords(text, keywords)">
+    <span
+      class="record__content"
+      v-html="$highlightKeywords(text, keywords)"
+    >
     </span>
     <base-button
       v-if="toggleCollapseRecordText"
       class="secondary text record__show-more"
       @click.prevent="showFullRecord = !showFullRecord"
-      >{{ !showFullRecord ? $t("common.fullRecord") : $t("common.showLess") }}
+    >{{ !showFullRecord ? $t("common.fullRecord") : $t("common.showLess") }}
     </base-button>
   </div>
 </template>

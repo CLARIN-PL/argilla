@@ -18,30 +18,53 @@
 <template>
   <div class="pagination__container">
     <template v-if="!onePage">
-      <div v-click-outside="closePageSizeSelector" class="pagination__selector">
+      <div
+        v-click-outside="closePageSizeSelector"
+        class="pagination__selector"
+      >
         <span class="pagination__selector__title">{{
           $t("datasets.recordsPerPage")
         }}</span>
         <div class="pagination__selector__content">
-          <a href="#" @click.prevent="showOptions = !showOptions">
+          <a
+            href="#"
+            @click.prevent="showOptions = !showOptions"
+          >
             {{ paginationSize }}
-            <svgicon name="chevron-up" width="12" height="12" />
+            <svgicon
+              name="chevron-up"
+              width="12"
+              height="12"
+            />
           </a>
           <ul v-if="showOptions">
-            <li v-for="item in availableItemsPerPage" :key="item">
-              <a href="#" @click.prevent="changePageSize(item)">{{ item }}</a>
+            <li
+              v-for="item in availableItemsPerPage"
+              :key="item"
+            >
+              <a
+                href="#"
+                @click.prevent="changePageSize(item)"
+              >{{ item }}</a>
             </li>
           </ul>
         </div>
       </div>
-      <div v-if="totalItems > paginationSize" class="pagination">
+      <div
+        v-if="totalItems > paginationSize"
+        class="pagination"
+      >
         <a
           href="#"
           class="pagination__arrow pagination__arrow--prev"
           :class="currentPage <= 1 ? 'is-disabled' : null"
           @click.prevent="prevPage"
         >
-          <svgicon name="chevron-left" width="8" height="8" />
+          <svgicon
+            name="chevron-left"
+            width="8"
+            height="8"
+          />
           {{ isMobile ? "" : $t("datasets.prev") }}
         </a>
         <ul class="pagination__numbers">
@@ -59,7 +82,10 @@
             ...
           </li>
           <template v-if="totalPages > 1">
-            <li v-for="i in pages" :key="i">
+            <li
+              v-for="i in pages"
+              :key="i"
+            >
               <a
                 href="#"
                 class="pagination__number"
@@ -89,7 +115,11 @@
           @click.prevent="nextPage"
         >
           {{ isMobile ? "" : $t("datasets.next") }}
-          <svgicon name="chevron-right" width="8" height="8" />
+          <svgicon
+            name="chevron-right"
+            width="8"
+            height="8"
+          />
         </a>
       </div>
     </template>
@@ -448,6 +478,10 @@ $pagination-size: 30px;
       .svg-icon {
         margin-left: 1em;
         margin-bottom: 2px;
+
+        @include media("<=tablet") {
+          margin-left: 0;
+        }
       }
     }
   }

@@ -11,10 +11,13 @@
         :disabled="disable"
         :active="active && !disable"
       >
-        <svgicon :name="id" width="14" height="14" />
+        <svgicon
+          :name="id"
+          width="14"
+          height="14"
+        />
         {{ name }}
-      </base-button></span
-    >
+      </base-button></span>
   </div>
 </template>
 

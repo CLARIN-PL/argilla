@@ -19,7 +19,10 @@
   <div v-if="dataset">
     <div class="content">
       <slot name="header" />
-      <div class="results-scroll" id="scroll">
+      <div
+        class="results-scroll"
+        id="scroll"
+      >
         <DynamicScroller
           page-mode
           class="scroller"

@@ -139,6 +139,7 @@ export default {
     thereWasAProblemOnAnnotation: "There was a problem on annotate records",
     yourChanges: "Your changes will be lost if you move to another page",
   },
+  pleaseFillRequiredFields: "Please fill required fields",
   status: {
     default: "Default",
     pending: "Pending",

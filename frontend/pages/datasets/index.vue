@@ -31,13 +31,14 @@
           where="workspace datasets"
           :error="$fetchState.error"
         />
-        <datasets-table
-          v-else
-          ref="table"
-          :original-datasets="datasetsOriginal"
-          :datasets="datasetsByPage"
-          @search="onSearchDatasetsTable"
-        />
+        <div v-else>
+          <datasets-table
+            ref="table"
+            :original-datasets="datasetsOriginal"
+            :datasets="datasetsByPage"
+            @search="onSearchDatasetsTable"
+          />
+        </div>
         <base-pagination
           :one-page="onePage"
           :total-items="datasetsOriginal.length"
@@ -78,6 +79,11 @@ export default {
     };
   },
   computed: {
+    finishedDatasetCount() {
+      console.log(this.datasetsOriginal);
+      return this.datasetsOriginal.filter((dataset) => dataset.isCompleted)
+        .length;
+    },
     datasetsOriginal() {
       return this.datasets.datasets.map((dataset) => {
         dataset.link = this.getDatasetLink(dataset);
@@ -143,7 +149,7 @@ export default {
   &__main {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
   }
 
   &__sidebar.sidebar {

@@ -1,5 +1,9 @@
 <template>
-  <div class="markdown-render" v-html="markdownToHtml" v-copy-code />
+  <div
+    class="markdown-render"
+    v-html="markdownToHtml"
+    v-copy-code
+  />
 </template>
 <script>
 import { marked } from "marked";
@@ -53,6 +57,10 @@ export default {
     }
     blockquote {
       font-style: italic;
+
+      @include media("<=tablet") {
+        margin: 1rem;
+      }
     }
     pre {
       white-space: pre-wrap;

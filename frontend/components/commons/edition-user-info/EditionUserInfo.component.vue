@@ -4,21 +4,30 @@
       <span v-circle="{ size: 'MEDIUM' }">
         {{ userInfo.username.slice(0, 2) }}
       </span>
-      <div class="bubble capitalized" v-text="userInfo.role" />
+      <div
+        class="bubble capitalized"
+        v-text="userInfo.role"
+      />
     </div>
 
     <div class="form-group user-first_name">
       <h2 class="--heading5 --semibold description__title">
         {{ $t("userSettings.username") }}
       </h2>
-      <p class="--body1 description__text" v-text="userInfo.username" />
+      <p
+        class="--body1 description__text"
+        v-text="userInfo.username"
+      />
     </div>
 
     <div class="form-group user-first_name">
       <h2 class="--heading5 --semibold description__title">
         {{ $t("userSettings.name") }}
       </h2>
-      <p class="--body1 description__text" v-text="userInfo.first_name" />
+      <p
+        class="--body1 description__text"
+        v-text="userInfo.first_name"
+      />
     </div>
 
     <div class="form-group user-last_name">
@@ -30,14 +39,20 @@
         v-if="userInfo.last_name"
         v-text="userInfo.last_name"
       />
-      <p class="--body1 description__text" v-else>-</p>
+      <p
+        class="--body1 description__text"
+        v-else
+      >-</p>
     </div>
 
     <div class="form-group">
       <h2 class="--heading5 --semibold description__title">
         {{ $t("userSettings.workspace") }}
       </h2>
-      <div class="workspaces" v-if="userInfo.workspaces.length">
+      <div
+        class="workspaces"
+        v-if="userInfo.workspaces.length"
+      >
         <div
           class="bubble clickable"
           v-for="(workspace, idx) in userInfo.workspaces"
@@ -46,7 +61,10 @@
           @click="goToWorkspace(workspace)"
         />
       </div>
-      <p v-else class="--body1 description__text">-</p>
+      <p
+        v-else
+        class="--body1 description__text"
+      >-</p>
     </div>
 
     <div class="form-group user-language">
@@ -54,7 +72,10 @@
         class="--heading5 --semibold description__title"
         v-text="$t('userSettings.language')"
       />
-      <select v-model="selectedLocale" class="description__lang-selector">
+      <select
+        v-model="selectedLocale"
+        class="description__lang-selector"
+      >
         <option
           v-for="(locale, idx) in $i18n.locales"
           :key="'option_' + idx"

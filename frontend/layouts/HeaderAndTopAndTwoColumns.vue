@@ -12,7 +12,10 @@
       <div class="left">
         <slot name="left">here is the left content</slot>
       </div>
-      <div class="right" v-if="!!this.$slots.right">
+      <div
+        class="right"
+        v-if="!!this.$slots.right"
+      >
         <slot name="right">here is the right content</slot>
       </div>
     </main>
@@ -36,8 +39,13 @@ export default {
   height: calc(100vh - $topbarHeight);
   background: palette(white);
 
+  @include media("<=desktopSmall") {
+    grid-template-columns: 36px 2fr 1fr 36px;
+    height: auto;
+  }
+
   @include media("<=tablet") {
-    grid-template-columns: 26px 2fr 1fr 26px;
+    grid-template-columns: 20px 2fr 1fr 20px;
   }
 }
 .header {

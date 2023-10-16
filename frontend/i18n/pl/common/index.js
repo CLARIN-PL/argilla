@@ -50,7 +50,7 @@ export default {
   progress: "Postęp",
   stats: " Statystyki",
   mentions: " Wzmianki",
-  readThe: " Czytaj",
+  readThe: "Wyświetl",
   predictedAs: " Przewidywane jako",
   predictedBy: " Przewidywane przez",
   annotatedAs: " Annotowane jako",
@@ -77,7 +77,7 @@ export default {
   annotations: "Anotacji",
   sort: " Sortuj",
   search: "Szukaj",
-  discard: "Odrzuć",
+  discard: "Pomiń",
   clear: "Wyczyść",
   metadata: "Metadane",
   and: " i",
@@ -140,6 +140,7 @@ export default {
     yourChanges:
       "Twoje zmiany zostaną utracone, jeśli przejdziesz na inną stronę",
   },
+  pleaseFillRequiredFields: "Proszę wypełnić wymagane pola",
   status: {
     default: "Domyślny",
     pending: " Oczekujące",

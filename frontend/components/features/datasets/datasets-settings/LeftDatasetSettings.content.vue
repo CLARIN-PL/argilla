@@ -2,8 +2,14 @@
   <div class="left-content">
     <div class="left-content-item dataset-description">
       <div class="item">
-        <p class="dataset-name" v-html="datasetName" />
-        <p class="dataset-task" v-html="datasetTask" />
+        <p
+          class="dataset-name"
+          v-html="datasetName"
+        />
+        <p
+          class="dataset-task"
+          v-html="datasetTask"
+        />
       </div>
       <base-action-tooltip :tooltip="$t('common.copied')">
         <base-button
@@ -29,7 +35,10 @@
         :isLoading="isLoading"
       />
     </div>
-    <div class="delete-dataset-component" v-if="datasetTask">
+    <div
+      class="delete-dataset-component"
+      v-if="datasetTask && hasPermission"
+    >
       <DatasetDeleteComponent
         :datasetId="datasetId"
         :datasetTask="datasetTask"
@@ -48,6 +57,10 @@ import {
 export default {
   name: "LeftDatasetSettingsContent",
   computed: {
+    hasPermission() {
+      const permissions = ["admin", "owner"];
+      return permissions.includes(this.$auth.user.role);
+    },
     datasetSettingsUrl() {
       const { fullPath } = this.$route;
       const datasetSettingsUrl = `${window.origin}${fullPath}`;
@@ -116,6 +129,13 @@ export default {
     display: flex;
     align-items: center;
     min-height: 5em;
+
+    @include media("<=tablet") {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1em 0;
+    }
+
     .item {
       flex: 1;
       display: flex;
@@ -139,7 +159,7 @@ export default {
 .dataset-name {
   @include font-size(16px);
 
-  @include media("<=tablet") {
+  @include media("<=desktopSmall") {
     @include font-size(14px);
   }
 }

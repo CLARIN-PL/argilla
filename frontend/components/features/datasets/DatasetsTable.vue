@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <datasets-empty v-if="!datasets.length" />
-    <div class="dataset__table" v-else>
+    <div
+      class="dataset__table"
+      v-else
+    >
       <div class="interactions">
         <base-search-bar
           @input="onSearch"

@@ -1,6 +1,10 @@
 <template>
   <div class="record">
-    <StatusTag class="record__status" :title="recordStatus" />
+    <StatusTag
+      class="record__status"
+      :title="recordStatus"
+      v-if="isDesktop"
+    />
     <div
       v-for="{ id, name, content, isTextType, settings } in fields"
       :key="id"
@@ -25,6 +29,12 @@ export default {
     fields: {
       type: Array,
       required: true,
+    },
+  },
+  computed: {
+    isDesktop() {
+      const mobileViews = ["sm", "mm"];
+      return !mobileViews.includes(this.$mq);
     },
   },
 };
