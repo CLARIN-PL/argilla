@@ -24,17 +24,8 @@
         {{ $t("error.dueToFollowing") }} <strong>{{ error.message }}</strong>
       </p>
     </div>
-    <base-button
-      v-if="link"
-      class="secondary outline"
-      :to="link"
-    >
-      <svgicon
-        name="chevron-left"
-        width="14"
-        height="14"
-        color="#4A4A4A"
-      />
+    <base-button v-if="link" class="secondary outline" :to="link">
+      <svgicon name="chevron-left" width="14" height="14" color="#4A4A4A" />
       {{ $t("error.back") }}
     </base-button>
   </div>

@@ -20,14 +20,15 @@
     @mouseenter="showTooltip = true"
     @mouseleave="showTooltip = false"
     :class="['highlight', span.origin, annotationEnabled ? 'editable' : null]"
-  ><span
+    ><span
       v-for="(token, i) in span.tokens"
       :key="i"
       class="highlight__content"
       @click="openTagSelector"
       @dblclick="removeEntity"
       v-html="visualizeToken(token, i)"
-    ></span><span class="whitespace">{{ charsBetweenTokens }}</span>
+    ></span
+    ><span class="whitespace">{{ charsBetweenTokens }}</span>
     <svgicon
       class="remove-button"
       @click="removeEntity"
@@ -36,10 +37,7 @@
       height="11"
       name="close"
     ></svgicon>
-    <lazy-text-span-tooltip
-      v-if="showTooltip"
-      :span="span"
-    />
+    <lazy-text-span-tooltip v-if="showTooltip" :span="span" />
   </span>
 </template>
 

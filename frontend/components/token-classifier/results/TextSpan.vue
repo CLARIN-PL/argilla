@@ -36,7 +36,8 @@
       v-for="(t, i) in token.tokens"
       :key="i"
       v-html="visualizeToken(t)"
-    ></span><lazy-entities-selector
+    ></span
+    ><lazy-entities-selector
       :datasetId="datasetId"
       :datasetLastSelectedEntity="datasetLastSelectedEntity"
       :suggestedLabel="suggestedLabel"

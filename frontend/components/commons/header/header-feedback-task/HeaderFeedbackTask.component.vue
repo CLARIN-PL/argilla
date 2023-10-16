@@ -13,11 +13,7 @@
         @on-click="onClickTrain"
         v-if="isAdminOrOwnerRole && showTrainButton && isDesktop"
       >
-        <svgicon
-          name="code"
-          width="20"
-          height="20"
-        /> {{ $t("common.train") }}
+        <svgicon name="code" width="20" height="20" /> {{ $t("common.train") }}
       </BaseButton>
       <NuxtLink
         v-if="isDesktop"

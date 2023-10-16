@@ -2,19 +2,18 @@
   <span class="highlight__label">
     <span class="highlight__tooltip__container">
       <span class="highlight__tooltip">
-        <span
-          class="highlight__tooltip__origin"
-          v-if="span.origin"
-        >{{
+        <span class="highlight__tooltip__origin" v-if="span.origin">{{
           span.origin === "prediction"
             ? $t("common.predictionAbbreviated")
             : $t("common.annotationAbbreviated")
         }}</span>
-        <span>{{ span.entity.label }}
+        <span
+          >{{ span.entity.label }}
           <span
             class="highlight__tooltip__score"
             v-if="score && span.origin === 'prediction'"
-          >{{ score | percent(0, 0) }}</span>
+            >{{ score | percent(0, 0) }}</span
+          >
         </span>
       </span>
     </span>

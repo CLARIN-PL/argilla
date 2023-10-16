@@ -31,16 +31,9 @@
           {{ $t("error.weCantSeemToFind") }}
         </h2>
         <div class="error__buttons">
-          <nuxt-link
-            class="error__button"
-            :to="`/`"
-          >
+          <nuxt-link class="error__button" :to="`/`">
             {{ $t("error.backToHomepage") }}
-            <svgicon
-              name="chevron-right"
-              width="20"
-              height="20"
-            ></svgicon>
+            <svgicon name="chevron-right" width="20" height="20"></svgicon>
           </nuxt-link>
         </div>
       </div>

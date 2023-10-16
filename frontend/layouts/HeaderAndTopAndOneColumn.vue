@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="layout"
-    :class="layoutClass"
-  >
+  <div class="layout" :class="layoutClass">
     <div class="header-area">
       <slot name="header">here is the header</slot>
     </div>

@@ -20,20 +20,11 @@
     class="annotation-button"
     :class="[classes, allowMultiple ? 'multiple' : 'single']"
   >
-    <label
-      :for="id"
-      class="button"
-      @click.prevent="toggleCheck"
-    >
-      <span
-        class="annotation-button-data__text"
-        :title="label.class"
-      >{{ label.class }}
+    <label :for="id" class="button" @click.prevent="toggleCheck">
+      <span class="annotation-button-data__text" :title="label.class"
+        >{{ label.class }}
       </span>
-      <div
-        v-if="label.score > 0"
-        class="annotation-button-data__info"
-      >
+      <div v-if="label.score > 0" class="annotation-button-data__info">
         <span>{{ label.score | percent }}</span>
       </div>
     </label>

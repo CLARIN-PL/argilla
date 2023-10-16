@@ -2,14 +2,8 @@
   <div class="left-content">
     <div class="left-content-item dataset-description">
       <div class="item">
-        <p
-          class="dataset-name"
-          v-html="datasetName"
-        />
-        <p
-          class="dataset-task"
-          v-html="datasetTask"
-        />
+        <p class="dataset-name" v-html="datasetName" />
+        <p class="dataset-task" v-html="datasetTask" />
       </div>
       <base-action-tooltip :tooltip="$t('common.copied')">
         <base-button
@@ -35,10 +29,7 @@
         :isLoading="isLoading"
       />
     </div>
-    <div
-      class="delete-dataset-component"
-      v-if="datasetTask && hasPermission"
-    >
+    <div class="delete-dataset-component" v-if="datasetTask && hasPermission">
       <DatasetDeleteComponent
         :datasetId="datasetId"
         :datasetTask="datasetTask"

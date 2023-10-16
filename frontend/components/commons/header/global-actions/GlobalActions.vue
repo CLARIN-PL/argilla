@@ -16,10 +16,7 @@
   -->
 
 <template>
-  <div
-    v-if="showGlobalActions"
-    class="container"
-  >
+  <div v-if="showGlobalActions" class="container">
     <div class="global-actions">
       <validate-discard-action
         :datasetId="datasetId"

@@ -24,23 +24,14 @@
     class="filters"
   >
     <div class="filters__list">
-      <div
-        v-for="group in groups"
-        :key="group"
-        class="filters__list__item"
-      >
+      <div v-for="group in groups" :key="group" class="filters__list__item">
         <p
           :class="{
             active: initialVisibleGroup === group || itemsAppliedOnGroup(group),
           }"
           @click="selectGroup(group)"
         >
-          <svgicon
-            v-if="group === 'Sort'"
-            name="sort"
-            width="18"
-            height="18"
-          />
+          <svgicon v-if="group === 'Sort'" name="sort" width="18" height="18" />
           {{ group }}
           <span v-if="itemsAppliedOnGroup(group)">
             ({{ itemsAppliedOnGroup(group) }})
@@ -54,11 +45,13 @@
             group === 'Sort' ? 'filters__list__content--sort' : null,
           ]"
         >
-          <div :class="
+          <div
+            :class="
               searchableFilterList.filter((f) => f.group === group).length > 6
                 ? 'filters--scrollable'
                 : ''
-            ">
+            "
+          >
             <span
               v-for="filter in searchableFilterList.filter(
                 (f) => f.group === group
@@ -99,7 +92,8 @@
             "
             class="filters__list__button secondary light small"
             @click="removeFiltersByGroup(group)"
-          >{{ $t("common.removeAllFilters") }}</base-button>
+            >{{ $t("common.removeAllFilters") }}</base-button
+          >
         </div>
       </div>
     </div>

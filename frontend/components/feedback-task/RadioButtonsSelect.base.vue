@@ -17,15 +17,9 @@
 
 <template>
   <div v-if="options.length">
-    <BaseDropdown
-      :visible="dropdownIsVisible"
-      @visibility="onVisibility"
-    >
+    <BaseDropdown :visible="dropdownIsVisible" @visibility="onVisibility">
       <span slot="dropdown-header">
-        <BaseButton
-          class="selected-option"
-          :class="currentOptionId"
-        >
+        <BaseButton class="selected-option" :class="currentOptionId">
           {{ currentOptionName }}
           <svgicon name="chevron-down" />
         </BaseButton>
@@ -45,7 +39,8 @@
               :model="id"
               :value="selectedOption"
               @change="changeOption(id)"
-            >{{ name }}</BaseRadioButton>
+              >{{ name }}</BaseRadioButton
+            >
           </li>
         </ul>
       </span>

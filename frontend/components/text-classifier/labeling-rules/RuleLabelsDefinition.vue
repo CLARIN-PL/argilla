@@ -35,10 +35,7 @@
         />
       </p>
     </div>
-    <div
-      class="rule__labels"
-      v-if="labels.length"
-    >
+    <div class="rule__labels" v-if="labels.length">
       <label-search
         v-if="labels.length > maxVisibleLabels"
         :search-text="searchText"
@@ -61,34 +58,26 @@
         v-if="visibleLabels.length < filteredLabels.length"
         class="feedback-interactions__more secondary text"
         @click="expandLabels"
-      >+{{ filteredLabels.length - visibleLabels.length }}</base-button>
+        >+{{ filteredLabels.length - visibleLabels.length }}</base-button
+      >
       <base-button
         v-else-if="visibleLabels.length > maxVisibleLabels"
         class="feedback-interactions__more secondary text"
         @click="collapseLabels"
-      >{{ $t("common.showLess") }}</base-button>
+        >{{ $t("common.showLess") }}</base-button
+      >
     </div>
-    <div
-      class="rule__no-label"
-      v-else
-    >
+    <div class="rule__no-label" v-else>
       <BaseFeedbackComponent
         :feedbackInput="inputForFeedbackComponent"
         @on-click="goToSettings"
         class="feedback-area"
       />
-      <p
-        class="--body1 help-message"
-        v-html="messageNotLabels"
-      />
+      <p class="--body1 help-message" v-html="messageNotLabels" />
     </div>
 
     <template v-if="ruleInfo">
-      <p
-        class="--body1 rule__info"
-        v-if="isSaved"
-        v-text="ruleInfo"
-      />
+      <p class="--body1 rule__info" v-if="isSaved" v-text="ruleInfo" />
 
       <BaseFeedbackComponent
         class="rule__info"
@@ -106,7 +95,8 @@
       class="feedback-interactions__button primary"
       @click="saveRule"
     >
-      {{ $t("dataset.saveRule") }}</base-button>
+      {{ $t("dataset.saveRule") }}</base-button
+    >
   </div>
 </template>
 <script>

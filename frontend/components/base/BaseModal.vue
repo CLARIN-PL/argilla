@@ -16,28 +16,15 @@
   -->
 
 <template>
-  <transition
-    v-if="modalVisible"
-    name="modal"
-    appear
-  >
-    <div
-      class="modal-mask"
-      :class="modalMaskClass"
-    >
-      <div
-        class="modal-wrapper"
-        :class="modalPosition"
-      >
+  <transition v-if="modalVisible" name="modal" appear>
+    <div class="modal-mask" :class="modalMaskClass">
+      <div class="modal-wrapper" :class="modalPosition">
         <div
           class="modal-container"
           :class="modalClass"
           v-click-outside="closeModal"
         >
-          <p
-            v-if="modalTitle"
-            class="modal__title"
-          >
+          <p v-if="modalTitle" class="modal__title">
             {{ modalTitle }}
           </p>
           <slot />
@@ -46,11 +33,7 @@
             @on-click="closeModal"
             v-if="allowClose"
           >
-            <svgicon
-              name="close"
-              width="20"
-              height="20"
-            />
+            <svgicon name="close" width="20" height="20" />
           </BaseButton>
         </div>
       </div>

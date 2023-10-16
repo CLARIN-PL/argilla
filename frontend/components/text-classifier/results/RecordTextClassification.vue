@@ -16,19 +16,10 @@
   -->
 
 <template>
-  <div
-    class="record"
-    v-if="record"
-  >
+  <div class="record" v-if="record">
     <div class="record--left">
-      <div
-        class="record--image-area"
-        v-if="isRecordContainsImage"
-      >
-        <img
-          :src="metadata._image_url"
-          alt="image of the record"
-        />
+      <div class="record--image-area" v-if="isRecordContainsImage">
+        <img :src="metadata._image_url" alt="image of the record" />
       </div>
       <record-inputs
         :record="record"
@@ -61,10 +52,7 @@
       />
     </div>
 
-    <div
-      v-if="!annotationEnabled"
-      class="record__labels"
-    >
+    <div v-if="!annotationEnabled" class="record__labels">
       <template v-if="record.annotation">
         <base-tag
           v-for="label in record.annotation.labels"

@@ -21,11 +21,7 @@
     :class="isRecordTextExpanded ? 'record__expanded' : 'record__collapsed'"
   >
     <div :class="!explanation ? 'record__content' : ''">
-      <span
-        v-for="(text, index) in data"
-        :key="index"
-        class="record"
-      >
+      <span v-for="(text, index) in data" :key="index" class="record">
         <span :class="['record__item', isHtml(text) ? 'record--email' : '']">
           <span class="record__key">{{ index }}:</span>
           <lazy-record-explain
@@ -33,11 +29,7 @@
             :record="record"
             :explain="explanation[index]"
           />
-          <lazy-record-string
-            v-else
-            :record="record"
-            :text="text"
-          />
+          <lazy-record-string v-else :record="record" :text="text" />
         </span>
       </span>
     </div>
@@ -45,7 +37,7 @@
       v-if="toggleCollapseRecordText"
       class="secondary text record__show-more"
       @click.prevent="showFullRecord = !showFullRecord"
-    >{{
+      >{{
         !showFullRecord
           ? this.$t("common.fullRecord")
           : this.$t("common.showLess")

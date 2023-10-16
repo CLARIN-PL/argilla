@@ -16,17 +16,11 @@
   -->
 
 <template>
-  <transition
-    appear
-    name="fade"
-  >
+  <transition appear name="fade">
     <div class="table-info">
       <div class="table-info__header">
         <slot name="columns">
-          <div
-            class="table-info__item"
-            :class="{ '--mobile': $mq <= 'md' }"
-          >
+          <div class="table-info__item" :class="{ '--mobile': $mq <= 'md' }">
             <div
               v-for="(column, key) in columns"
               :key="key"
@@ -46,35 +40,21 @@
                 :class="[sortOrder, { active: sortedBy === column.field }]"
                 @click="sort(column)"
               >
-                <svgicon
-                  width="18"
-                  height="18"
-                  color="#4D4D4D"
-                  name="sort"
-                />
+                <svgicon width="18" height="18" color="#4D4D4D" name="sort" />
                 <span>{{ column.name }}</span>
               </button>
-              <button
-                v-else
-                :data-title="column.tooltip"
-              >
+              <button v-else :data-title="column.tooltip">
                 <span>{{ column.name }}</span>
               </button>
             </div>
           </div>
         </slot>
       </div>
-      <results-empty
-        v-if="tableIsEmpty"
-        :title="emptySearchInfo.title"
-      />
+      <results-empty v-if="tableIsEmpty" :title="emptySearchInfo.title" />
       <template v-else>
         <div class="table-info__body">
           <ul>
-            <li
-              v-for="item in filteredResults"
-              :key="String(item.id)"
-            >
+            <li v-for="item in filteredResults" :key="String(item.id)">
               <div class="table-info__item">
                 <base-checkbox
                   v-if="globalActions"
@@ -94,13 +74,13 @@
                       v-if="column.type === 'action'"
                       href="#"
                       @click.prevent="onActionClicked(item.kind, item)"
-                    >{{ itemValue(item, column) }}
+                      >{{ itemValue(item, column) }}
                     </a>
                     <span v-else-if="column.type === 'link'">
                       <nuxt-link
                         v-if="itemLink(item, column.type)"
                         :to="itemLink(item, column.type)"
-                      >{{ itemValue(item, column) }}
+                        >{{ itemValue(item, column) }}
                       </nuxt-link>
                       <span v-else>{{ itemValue(item, column) }}</span>
                       <base-action-tooltip :tooltip="$t('common.copied')">
@@ -109,11 +89,7 @@
                           class="table-info__actions__button button-icon"
                           @click.prevent="onActionClicked('copy-name', item)"
                         >
-                          <svgicon
-                            name="copy"
-                            width="16"
-                            height="16"
-                          />
+                          <svgicon name="copy" width="16" height="16" />
                         </base-button>
                       </base-action-tooltip>
                     </span>
@@ -125,10 +101,12 @@
                     <span v-else-if="column.type === 'number'">
                       {{ itemValue(item, column) | formatNumber }}
                     </span>
-                    <span v-else-if="
+                    <span
+                      v-else-if="
                         !isNaN(itemValue(item, column)) &&
                         column.type === 'percentage'
-                      ">
+                      "
+                    >
                       {{ itemValue(item, column) | percent }}
                     </span>
                     <span v-else-if="column.type === 'array'">
@@ -160,10 +138,7 @@
                     <span v-else>{{ itemValue(item, column) }}</span>
                   </span>
                 </span>
-                <div
-                  v-if="visibleActions"
-                  class="table-info__actions"
-                >
+                <div v-if="visibleActions" class="table-info__actions">
                   <base-action-tooltip
                     v-for="action in filterActions"
                     :key="action.index"

@@ -22,17 +22,9 @@
       class="filter__remove-button"
       @click="onRemove()"
     >
-      <svgicon
-        title="remove field"
-        name="close"
-        width="14"
-        height="14"
-      />
+      <svgicon title="remove field" name="close" width="14" height="14" />
     </base-button>
-    <p
-      class="filter__label"
-      :title="filter.name"
-    >{{ filter.name }}:</p>
+    <p class="filter__label" :title="filter.name">{{ filter.name }}:</p>
     <filter-dropdown
       color-type="grey"
       :class="{ highlighted: visible || appliedFilters.length }"
@@ -54,10 +46,7 @@
           {{ filter.placeholder }}
         </span>
       </span>
-      <div
-        slot="dropdown-content"
-        v-if="visible"
-      >
+      <div slot="dropdown-content" v-if="visible">
         <select-options-search v-model="searchText" />
         <select-options
           ref="options"
@@ -69,16 +58,10 @@
           :option-value="optionName"
         />
         <div class="filter__buttons">
-          <base-button
-            class="primary outline"
-            @click="onCancel"
-          >
+          <base-button class="primary outline" @click="onCancel">
             {{ $t("common.cancel") }}
           </base-button>
-          <base-button
-            class="primary"
-            @click="onApply"
-          >
+          <base-button class="primary" @click="onApply">
             {{ $t("common.filter") }}
           </base-button>
         </div>
