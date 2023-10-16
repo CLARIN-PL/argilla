@@ -5,7 +5,12 @@
       :to="{ name: 'dataset-id-annotation-mode', params: { id: datasetId } }"
       class="secondary text"
     >
-      <svgicon name="chevron-left" width="10" height="10" color="#4C4EA3" />
+      <svgicon
+        name="chevron-left"
+        width="10"
+        height="10"
+        color="#4C4EA3"
+      />
       {{ $t("dataset.settings.seeYourDataset") }}
     </base-button>
   </div>
@@ -30,5 +35,10 @@ export default {
   align-items: center;
   height: 100%;
   border-bottom: 1px solid #e6e6e6;
+
+  @include media("<=phone") {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

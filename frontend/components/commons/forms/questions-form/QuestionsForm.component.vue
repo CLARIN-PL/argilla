@@ -17,8 +17,11 @@
               params: { id: datasetId },
             }"
             target="_blank"
-            >{{ $t("commons.forms.annotationGuidelines") }}
-            <svgicon name="external-link" width="12" />
+          >{{ $t("commons.forms.annotationGuidelines") }}
+            <svgicon
+              name="external-link"
+              width="12"
+            />
           </NuxtLink>
         </p>
       </div>
@@ -239,7 +242,9 @@ export default {
     },
     clearTextarea() {
       const textareaId = "contentId";
-      document.getElementById(textareaId).innerText = "";
+      if (document.getElementById(textareaId)) {
+        document.getElementById(textareaId).innerText = "";
+      }
     },
     onReset() {
       this.originalRecord = cloneDeep(this.record);

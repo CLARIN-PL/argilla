@@ -1,8 +1,16 @@
 <template>
   <div class="top-content">
     <h1 v-html="title" />
-    <base-button :to="datasetPage" class="secondary text">
-      <svgicon name="chevron-left" width="10" height="10" color="#4C4EA3" />
+    <base-button
+      :to="datasetPage"
+      class="secondary text"
+    >
+      <svgicon
+        name="chevron-left"
+        width="10"
+        height="10"
+        color="#4C4EA3"
+      />
       {{ goToDatasetPageLabel }}
     </base-button>
   </div>
@@ -45,5 +53,10 @@ export default {
   align-items: center;
   height: 100%;
   border-bottom: 1px solid #e6e6e6;
+
+  @include media("<=phone") {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>
