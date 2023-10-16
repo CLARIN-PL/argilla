@@ -3,7 +3,7 @@ version: "3.9"
 services:
 
   argilla:
-    image: haanh764/argilla-server-clarin:latest
+    image: artikandri/argilla-server-clarin:latest
     restart: unless-stopped
     ports:
       - "6900:6900"
