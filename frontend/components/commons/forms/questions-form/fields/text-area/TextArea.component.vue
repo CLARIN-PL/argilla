@@ -16,7 +16,6 @@
       />
       <ContentEditableFeedbackTask
         v-else
-        ref="contentEditableFeedbackTask"
         class="textarea"
         :value="value"
         :placeholder="placeholder"

@@ -52,10 +52,12 @@ $gap-width: $base-space * 7;
   grid-template-rows: auto auto minmax(0, 1fr) $base-space * 2 auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  min-height: 100vh;
+  height: 100vh;
   transition: 0.4s ease-in-out;
 
   @include media("<=desktopSmall") {
+    height: unset;
+    min-height: 100vh;
     grid-template-columns: 30px 1fr 30px $sidebarMenuWidth;
   }
 

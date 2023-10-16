@@ -79,10 +79,6 @@ export default {
     };
   },
   computed: {
-    finishedDatasetCount() {
-      return this.datasetsOriginal.filter((dataset) => dataset.isCompleted)
-        .length;
-    },
     datasetsOriginal() {
       return this.datasets.datasets.map((dataset) => {
         dataset.link = this.getDatasetLink(dataset);

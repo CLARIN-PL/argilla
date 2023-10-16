@@ -333,7 +333,6 @@ export default {
   gap: $base-space * 2;
 
   @include media("<=desktopSmall") {
-    height: 100%;
     flex-wrap: nowrap;
     flex-direction: column;
     height: auto;

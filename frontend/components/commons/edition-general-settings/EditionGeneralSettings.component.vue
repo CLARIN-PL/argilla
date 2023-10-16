@@ -33,10 +33,8 @@
 <script>
 import { GeneralSettings } from "@/models/GeneralSettings";
 import { setDiscardButtonAvailability } from "@/database/modules/users";
-import TooltipComponent from "@/components/base/tooltip/Tooltip.component.vue";
 
 export default {
-  components: { TooltipComponent },
   name: "EditionGeneralSettingsComponent",
   props: {
     userInfo: {
