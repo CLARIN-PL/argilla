@@ -17,15 +17,14 @@ Vue.directive("tooltip", {
     element.style.position = "relative";
     element.style.cursor = "pointer";
     let elementOffset = initElementOffset(element);
-    let {
+    const {
       content,
       backgroundColor,
       borderColor,
       color,
-      width = 208,
       tooltipPosition = TOOLTIP_DIRECTION.BOTTOM,
     } = binding.value;
-
+    let { width } = binding.value;
     width = content.length > 100 ? (content.length > 300 ? 500 : 400) : 208;
 
     if (content?.length) {
