@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <div class="component-header" v-if="showSearch || showCollapseButton">
+    <div
+      class="component-header"
+      v-if="showSearch || showCollapseButton"
+    >
       <div class="left-header">
         <SearchLabelComponent
           ref="searchComponentRef"
@@ -62,7 +65,10 @@
         />
       </div>
     </transition-group>
-    <i class="no-result" v-if="!filteredOptions.length" />
+    <i
+      class="no-result"
+      v-if="!filteredOptions.length"
+    />
   </div>
 </template>
 
@@ -236,7 +242,8 @@ export default {
   width: 100%;
   height: 32px;
   min-width: 50px;
-  max-width: 200px;
+  // max-width: 200px;
+  max-width: 250px;
   text-align: center;
   padding-inline: 12px;
   background: palette(purple, 800);
