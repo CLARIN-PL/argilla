@@ -17,8 +17,11 @@
               params: { id: datasetId },
             }"
             target="_blank"
-            >{{ $t("commons.forms.annotationGuidelines") }}
-            <svgicon name="external-link" width="12" />
+          >{{ $t("commons.forms.annotationGuidelines") }}
+            <svgicon
+              name="external-link"
+              width="12"
+            />
           </NuxtLink>
         </p>
       </div>
@@ -260,7 +263,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-basis: 37em;
-  height: 100%;
+  height: 70vh;
   min-width: 0;
   justify-content: space-between;
   border-radius: $border-radius-m;
