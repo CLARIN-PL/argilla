@@ -28,13 +28,15 @@ export default {
     cleanMarkdown(markdown) {
       const markdowns = markdown
         .replace(/[^\S\r\n]+$/gm, "")
-        .split(/[0-9][/.]/g);
-      return markdowns.length < 2
-        ? markdowns.join("")
-        : markdowns
-            .map((x) => `- ${x}`)
-            .slice(1, markdowns.length)
-            .join("\n\n");
+        .split(/[/ ]([1-9][0-9]?|100)[/.]/g);
+      const text =
+        markdowns.length < 2
+          ? markdowns.join("")
+          : markdowns
+              .map((x, i) => `${markdowns[i - 1] || i}. ${x}`)
+              .filter((x, i) => i === 0 || x.match(/^([0-9][0-9]?|100)[/.]/g))
+              .join("<br/><br/>");
+      return text.startsWith("0.") ? text.slice(2) : text;
     },
   },
   computed: {
