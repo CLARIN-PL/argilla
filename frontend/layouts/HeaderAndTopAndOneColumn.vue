@@ -54,14 +54,21 @@ $gap-width: $base-space * 7;
   grid-row-gap: 0px;
   height: 100vh;
   transition: 0.4s ease-in-out;
+
+  @include media("<=desktopSmall") {
+    height: unset;
+    min-height: 100vh;
+    grid-template-columns: 30px 1fr 30px $sidebarMenuWidth;
+  }
+
   &.--visible-metrics {
     @include media(">desktop") {
       grid-template-columns: $gap-width 1fr calc($gap-width / 2) $sidebarWidth;
       transition: 0.4s ease-out;
     }
 
-    @include media("<=tablet") {
-      grid-template-columns: $gap-width / 2 1fr calc($gap-width / 2) $sidebarWidth;
+    @include media("<=desktopSmall") {
+      grid-template-columns: calc($gap-width/2) 1fr calc($gap-width / 2) $sidebarWidth;
     }
   }
 }
@@ -77,6 +84,8 @@ $gap-width: $base-space * 7;
 }
 .sidebar-area {
   grid-area: 2 / 4 / 5 / 5;
+  background-color: #f5f5f5;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 .empty-content-right {
   grid-area: 2 / 3 / 4 / 4;

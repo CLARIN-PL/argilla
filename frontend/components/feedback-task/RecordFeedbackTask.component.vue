@@ -1,6 +1,6 @@
 <template>
   <div class="record">
-    <StatusTag class="record__status" :title="recordStatus" />
+    <StatusTag class="record__status" :title="recordStatus" v-if="isDesktop" />
     <div
       v-for="{ id, name, content, isTextType, settings } in fields"
       :key="id"
@@ -27,6 +27,12 @@ export default {
       required: true,
     },
   },
+  computed: {
+    isDesktop() {
+      const mobileViews = ["sm", "mm"];
+      return !mobileViews.includes(this.$mq);
+    },
+  },
 };
 </script>
 
@@ -42,6 +48,10 @@ export default {
   background: palette(white);
   border: 1px solid palette(grey, 600);
   border-radius: $border-radius-m;
+
+  @include media(">desktopSmall") {
+    height: 70vh;
+  }
 
   @include media("<=tablet") {
     height: 30vh;

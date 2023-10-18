@@ -53,6 +53,10 @@ export default {
     }
     blockquote {
       font-style: italic;
+
+      @include media("<=tablet") {
+        margin: 1rem;
+      }
     }
     pre {
       white-space: pre-wrap;

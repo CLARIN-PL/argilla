@@ -26,5 +26,10 @@ export default {
   align-items: center;
   height: 100%;
   border-bottom: 1px solid #e6e6e6;
+
+  @include media("<=phone") {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

@@ -7,7 +7,7 @@
       @breadcrumb-action="$emit('breadcrumb-action', $event)"
     />
     <DatasetSettingsIcon
-      v-if="datasetId && datasetName"
+      v-if="datasetId && datasetName && isDesktop"
       :datasetId="datasetId"
       @click-settings-icon="goToSettings()"
     />
@@ -26,6 +26,10 @@ export default {
     };
   },
   computed: {
+    isDesktop() {
+      const mobileViews = ["sm", "mm"];
+      return !mobileViews.includes(this.$mq);
+    },
     datasetId() {
       return getDatasetModelPrimaryKey({
         name: this.datasetName,

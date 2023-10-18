@@ -217,13 +217,21 @@ export default {
   width: 50vw;
   flex-flow: column;
 
-  @include media("<=tablet") {
+  @include media("<=desktopSmall") {
     width: 100%;
   }
 
   &__content {
     max-width: 300px;
     margin: auto;
+
+    @include media("<=desktopSmall") {
+      max-width: 600px;
+    }
+
+    @include media("<=tablet") {
+      max-width: 300px;
+    }
   }
   &__logo {
     text-align: left;
@@ -300,6 +308,11 @@ input:-webkit-autofill {
     flex-flow: column;
     position: relative;
     width: 50vw;
+
+    @include media("<=desktopSmall") {
+      display: none;
+    }
+
     svg {
       position: absolute;
       max-width: 380px;

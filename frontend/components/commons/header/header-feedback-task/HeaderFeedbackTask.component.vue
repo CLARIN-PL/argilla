@@ -16,6 +16,7 @@
         <svgicon name="code" width="20" height="20" /> {{ $t("common.train") }}
       </BaseButton>
       <NuxtLink
+        v-if="isDesktop"
         :to="{ name: 'dataset-id-settings', params: { id: this.datasetId } }"
       >
         <DatasetSettingsIconFeedbackTaskComponent

@@ -68,8 +68,18 @@ export default {
   padding: $base-space * 2;
   border: 1px solid $black-10;
   border-radius: $border-radius;
+
+  @include media("<=tablet") {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   &__buttons {
     margin-left: auto;
+
+    @include media("<=tablet") {
+      margin: 1rem 0;
+    }
   }
   &__title {
     margin-top: 0;

@@ -331,11 +331,11 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: $base-space * 2;
-  height: 100%;
 
-  @include media("<=tablet") {
+  @include media("<=desktopSmall") {
     flex-wrap: nowrap;
     flex-direction: column;
+    height: auto;
   }
 
   &__text {

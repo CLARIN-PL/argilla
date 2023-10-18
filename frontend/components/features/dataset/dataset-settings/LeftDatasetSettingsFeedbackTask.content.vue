@@ -21,7 +21,7 @@
         :isColorLight="!settingsDescription"
       />
     </div>
-    <div class="delete-dataset-component" v-if="dataset">
+    <div class="delete-dataset-component" v-if="dataset && hasPermission">
       <DatasetDeleteFeedbackTaskComponent :dataset="dataset" />
     </div>
   </div>
@@ -43,9 +43,16 @@ export default {
       datasetName: this.dataset.name,
       datasetTask: this.dataset.task,
       settingsDescription: this.dataset.guidelines,
-      settingsDescriptionText:
-        this.dataset.guidelines || this.$t("datasetSettings.noGuideline"),
     };
+  },
+  computed: {
+    hasPermission() {
+      const permissions = ["admin", "owner"];
+      return permissions.includes(this.$auth.user.role);
+    },
+    settingsDescriptionText() {
+      return this.dataset.guidelines || this.$t("datasetSettings.noGuideline");
+    },
   },
 };
 </script>
@@ -58,11 +65,27 @@ export default {
     display: flex;
     align-items: center;
     min-height: 5em;
+
+    @include media("<=tablet") {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1em 0;
+    }
     .item {
       flex: 1;
       display: flex;
       align-items: center;
       gap: $base-space * 2;
+
+      @include media("<=tablet") {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+
+        > p {
+          margin: 0.5rem 0;
+        }
+      }
     }
   }
 }

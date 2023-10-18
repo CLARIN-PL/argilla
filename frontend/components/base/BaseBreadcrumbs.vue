@@ -96,6 +96,7 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      margin: 0 0.5em 0;
 
       &:not(:last-child) {
         max-width: 100px;

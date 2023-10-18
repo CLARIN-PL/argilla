@@ -31,13 +31,14 @@
           where="workspace datasets"
           :error="$fetchState.error"
         />
-        <datasets-table
-          v-else
-          ref="table"
-          :original-datasets="datasetsOriginal"
-          :datasets="datasetsByPage"
-          @search="onSearchDatasetsTable"
-        />
+        <div v-else>
+          <datasets-table
+            ref="table"
+            :original-datasets="datasetsOriginal"
+            :datasets="datasetsByPage"
+            @search="onSearchDatasetsTable"
+          />
+        </div>
         <base-pagination
           :one-page="onePage"
           :total-items="datasetsOriginal.length"
@@ -144,6 +145,11 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100vh;
+
+    @include media("<=desktopSmall") {
+      height: unset;
+      min-height: 100vh;
+    }
   }
 
   &__sidebar.sidebar {

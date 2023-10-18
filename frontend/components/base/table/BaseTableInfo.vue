@@ -432,6 +432,14 @@ export default {
     min-height: 50px;
     position: relative;
     margin-top: $base-space * 2;
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      .table-info__item {
+        width: calc(100% - 16px);
+        border: 0;
+      }
+    }
+
     &__checkbox {
       margin: 0 !important;
     }

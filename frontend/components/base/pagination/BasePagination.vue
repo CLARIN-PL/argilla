@@ -36,13 +36,14 @@
       </div>
       <div v-if="totalItems > paginationSize" class="pagination">
         <a
+          v-if="!isMobile"
           href="#"
           class="pagination__arrow pagination__arrow--prev"
           :class="currentPage <= 1 ? 'is-disabled' : null"
           @click.prevent="prevPage"
         >
           <svgicon name="chevron-left" width="8" height="8" />
-          {{ isMobile ? "" : $t("datasets.prev") }}
+          {{ $t("datasets.prev") }}
         </a>
         <ul class="pagination__numbers">
           <li v-if="totalPages > 1 && !pages.includes(1)">
@@ -83,12 +84,13 @@
           </li>
         </ul>
         <a
+          v-if="!isMobile"
           href="#"
           class="pagination__arrow pagination__arrow--next"
           :class="currentPage >= totalPages ? 'is-disabled' : null"
           @click.prevent="nextPage"
         >
-          {{ isMobile ? "" : $t("datasets.next") }}
+          {{ $t("datasets.next") }}
           <svgicon name="chevron-right" width="8" height="8" />
         </a>
       </div>
@@ -374,6 +376,13 @@ $pagination-size: 30px;
       margin: auto 0.5em;
       outline: none;
       padding: 5px;
+
+      @include media("<=tablet") {
+        min-width: 18px;
+        height: 18px;
+        margin: 0;
+      }
+
       &:hover {
         transition: all 0.3s ease-in-out;
         background: $black-4;
@@ -448,6 +457,10 @@ $pagination-size: 30px;
       .svg-icon {
         margin-left: 1em;
         margin-bottom: 2px;
+
+        @include media("<=tablet") {
+          margin-left: 0;
+        }
       }
     }
   }

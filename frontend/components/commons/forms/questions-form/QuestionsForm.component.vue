@@ -28,6 +28,7 @@
         :key="question.id"
       >
         <TextAreaComponent
+          ref="textArea"
           v-if="question.isTextType"
           :title="question.title"
           v-model="question.answer.value"
@@ -100,13 +101,29 @@
         >
           <span v-text="$t('common.discard')" />
         </BaseButton>
-        <BaseButton
-          type="submit"
-          class="primary"
-          :disabled="isSubmitButtonDisabled || isSubmitButtonLoading"
-        >
-          <span v-text="$t('common.submit')" />
-        </BaseButton>
+        <div v-if="isSubmitButtonDisabled">
+          <tooltip-component
+            direction="top"
+            :message="$t('common.pleaseFillRequiredFields')"
+          >
+            <BaseButton
+              type="submit"
+              class="primary"
+              :disabled="isSubmitButtonDisabled || isSubmitButtonLoading"
+            >
+              <span v-text="$t('common.submit')" />
+            </BaseButton>
+          </tooltip-component>
+        </div>
+        <div v-else>
+          <BaseButton
+            type="submit"
+            class="primary"
+            :disabled="isSubmitButtonDisabled || isSubmitButtonLoading"
+          >
+            <span v-text="$t('common.submit')" />
+          </BaseButton>
+        </div>
       </div>
     </div>
   </form>
@@ -117,9 +134,13 @@ import "assets/icons/external-link";
 import { isEqual, cloneDeep } from "lodash";
 import { useQuestionFormViewModel } from "./useQuestionsFormViewModel";
 import { GeneralSettings } from "@/models/GeneralSettings";
+import TooltipComponent from "@/components/base/tooltip/Tooltip.component.vue";
 
 export default {
   name: "QuestionsFormComponent",
+  components: {
+    TooltipComponent,
+  },
   props: {
     datasetId: {
       type: String,
@@ -212,8 +233,15 @@ export default {
     },
     async onClear() {
       await this.clear(this.record);
+      this.clearTextarea();
 
       this.onReset();
+    },
+    clearTextarea() {
+      const textareaId = "contentId";
+      if (document.getElementById(textareaId)) {
+        document.getElementById(textareaId).innerText = "";
+      }
     },
     onReset() {
       this.originalRecord = cloneDeep(this.record);
@@ -232,7 +260,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-basis: 37em;
-  height: 100%;
+  height: 70vh;
   min-width: 0;
   justify-content: space-between;
   border-radius: $border-radius-m;
@@ -240,10 +268,7 @@ export default {
 
   @include media("<=desktopSmall") {
     flex-basis: 30em;
-  }
-
-  @include media("<=tablet") {
-    height: 40vh;
+    height: auto;
     flex-basis: 0;
   }
 

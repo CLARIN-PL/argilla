@@ -6,5 +6,5 @@ export default {
   language: "Język",
   mySettings: "Moje Ustawienia",
   generalSettings: "Główne Ustawienia",
-  showDiscardButtonInDatasets: "Pokaż przycisk Odrzuć w zbiorach danych",
+  showDiscardButtonInDatasets: "Pokaż przycisk 'Pomiń' w zbiorach danych",
 };

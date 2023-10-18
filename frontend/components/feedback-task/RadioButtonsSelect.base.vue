@@ -143,6 +143,11 @@ $selector-width: 160px;
   gap: 12px;
   padding: $base-space + 4px;
   background: palette(white);
+
+  @include media("<=tablet") {
+    padding: $base-space;
+  }
+
   &.discarded {
     color: #656363;
     border: 1px solid #b7b7b7;
