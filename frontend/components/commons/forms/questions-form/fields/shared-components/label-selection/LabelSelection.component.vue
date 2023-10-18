@@ -236,7 +236,7 @@ export default {
   width: 100%;
   height: 32px;
   min-width: 50px;
-  max-width: 200px;
+  max-width: 250px;
   text-align: center;
   padding-inline: 12px;
   background: palette(purple, 800);

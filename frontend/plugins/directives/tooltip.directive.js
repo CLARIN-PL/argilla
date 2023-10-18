@@ -22,9 +22,10 @@ Vue.directive("tooltip", {
       backgroundColor,
       borderColor,
       color,
-      width = 208,
       tooltipPosition = TOOLTIP_DIRECTION.BOTTOM,
     } = binding.value;
+    let { width } = binding.value;
+    width = content.length > 100 ? (content.length > 300 ? 500 : 400) : 208;
 
     if (content?.length) {
       // NOTE - init tooltip node
@@ -254,6 +255,8 @@ const initTextStyle = (textWrapper, color = "rgba(0, 0, 0, 0.87)") => {
   textWrapper.style.fontWeight = "300";
   textWrapper.style.lineHeight = "18px";
   textWrapper.style.whiteSpace = "pre-wrap";
+  textWrapper.style.maxHeight = "200px";
+  textWrapper.style.overflowY = "scroll";
   textWrapper.style.color = `${color}`;
   return textWrapper;
 };
