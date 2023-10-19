@@ -26,6 +26,10 @@ Vue.directive("tooltip", {
     } = binding.value;
     let { width } = binding.value;
     width = content.length > 100 ? (content.length > 300 ? 500 : 400) : 208;
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      width = "308";
+    }
 
     if (content?.length) {
       // NOTE - init tooltip node
@@ -257,6 +261,7 @@ const initTextStyle = (textWrapper, color = "rgba(0, 0, 0, 0.87)") => {
   textWrapper.style.whiteSpace = "pre-wrap";
   textWrapper.style.maxHeight = "200px";
   textWrapper.style.overflowY = "scroll";
+  textWrapper.style.maxWidth = "60vw";
   textWrapper.style.color = `${color}`;
   return textWrapper;
 };

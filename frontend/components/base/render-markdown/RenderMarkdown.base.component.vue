@@ -28,15 +28,28 @@ export default {
     cleanMarkdown(markdown) {
       const markdowns = markdown
         .replace(/[^\S\r\n]+$/gm, "")
-        .split(/[/ ]([1-9][0-9]?|100)[/.]/g);
-      const text =
+        .split(/([1-9][0-9]?|100)[/.]/g);
+
+      let text =
         markdowns.length < 2
           ? markdowns.join("")
           : markdowns
               .map((x, i) => `${markdowns[i - 1] || i}. ${x}`)
-              .filter((x, i) => i === 0 || x.match(/^([0-9][0-9]?|100)[/.]/g))
-              .join("<br/><br/>");
-      return text.startsWith("0.") ? text.slice(2) : text;
+              .filter(
+                (x, i) =>
+                  (i === 0
+                    ? x.includes(":") || x.includes("**Wiadomość**")
+                    : false) || x.match(/^([0-9][0-9]?|100)[/.]/g)
+              )
+              .join("<br/><br/>")
+              .trim();
+      const startsWiths = ["0.", "1. 1", " <br/><br/>1. 1<br/>"];
+      startsWiths.forEach((x) => {
+        if (text.startsWith(x)) {
+          text = text.slice(x.length);
+        }
+      });
+      return text;
     },
   },
   computed: {
