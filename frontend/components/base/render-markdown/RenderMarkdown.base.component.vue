@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="markdown-render"
-    v-html="markdownToHtml"
-    v-copy-code
-  />
+  <div class="markdown-render" v-html="markdownToHtml" v-copy-code />
 </template>
 <script>
 import { marked } from "marked";
