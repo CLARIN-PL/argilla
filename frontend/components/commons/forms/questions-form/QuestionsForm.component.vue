@@ -17,8 +17,11 @@
               params: { id: datasetId },
             }"
             target="_blank"
-            >{{ $t("commons.forms.annotationGuidelines") }}
-            <svgicon name="external-link" width="12" />
+          >{{ $t("commons.forms.annotationGuidelines") }}
+            <svgicon
+              name="external-link"
+              width="12"
+            />
           </NuxtLink>
         </p>
       </div>
@@ -207,10 +210,11 @@ export default {
           if (shiftKey) this.onClear();
           break;
         }
-        case "Backspace": {
-          this.onDiscard();
-          break;
-        }
+        // 29.10.2023: Disabled by request
+        // case "Backspace": {
+        //   this.onDiscard();
+        //   break;
+        // }
         default:
       }
     },
