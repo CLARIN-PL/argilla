@@ -9,7 +9,7 @@ export default {
   },
   username: "Nazwa użytkownika",
   password: "Hasło",
-  enter: "Wprowadź",
+  enter: "Zaloguj",
   guides: {
     youAreUsingQuickstartVersion: "Używasz wersji Argilla Quickstart. Sprawdź",
     thisGuide: "ten przewodnik",

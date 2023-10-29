@@ -2,7 +2,6 @@ import { Users } from "~/models/Users";
 
 export async function setDiscardButtonAvailability(discard_button) {
   try {
-    console.log(discard_button);
     const { response } = await Users.api().patch("/users/update_discard", {
       show_discard_button: discard_button,
     });
