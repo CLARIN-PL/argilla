@@ -18,16 +18,10 @@
 <template>
   <div class="container">
     <BaseLoading v-if="hasAuthToken" />
-    <form
-      class="form"
-      @submit.prevent="onLoginUser"
-    >
+    <form class="form" @submit.prevent="onLoginUser">
       <div class="form__header">
         <brand-logo class="form__logo" />
-        <select
-          v-model="selectedLocale"
-          class="form__lang-selector"
-        >
+        <select v-model="selectedLocale" class="form__lang-selector">
           <option
             v-for="(locale, idx) in $i18n.locales"
             :key="'option_' + idx"
@@ -42,10 +36,7 @@
         <p class="form__text">
           {{ $t("login.messages.pleaseEnterYourDetails") }}
         </p>
-        <div
-          class="form__input"
-          :class="{ active: login.username }"
-        >
+        <div class="form__input" :class="{ active: login.username }">
           <label class="form__label">{{ $t("login.username") }}</label>
           <input
             v-model="login.username"
@@ -53,10 +44,7 @@
             :placeholder="$t('login.guides.enterUsername')"
           />
         </div>
-        <div
-          class="form__input"
-          :class="{ active: login.password }"
-        >
+        <div class="form__input" :class="{ active: login.password }">
           <label class="form__label">{{ $t("login.password") }}</label>
           <input
             v-model="login.password"
@@ -69,7 +57,8 @@
           <a
             href="https://docs.argilla.io/en/latest/getting_started/quickstart.html"
             target="_blank"
-          >{{ $t("login.guides.thisGuide") }}</a>
+            >{{ $t("login.guides.thisGuide") }}</a
+          >
           {{ $t("login.guides.toLearnMore") }}
         </p>
         <base-button
@@ -80,10 +69,7 @@
         >
           {{ $t("login.enter") }}
         </base-button>
-        <p
-          class="form__error"
-          v-if="error"
-        >{{ formattedError }}</p>
+        <p class="form__error" v-if="error">{{ formattedError }}</p>
       </div>
     </form>
     <div class="login--right">
@@ -94,7 +80,8 @@
         <a
           href="https://join.slack.com/t/rubrixworkspace/shared_invite/zt-whigkyjn-a3IUJLD7gDbTZ0rKlvcJ5g"
           target="_blank"
-        >Slack</a>
+          >Slack</a
+        >
       </p>
     </div>
   </div>
