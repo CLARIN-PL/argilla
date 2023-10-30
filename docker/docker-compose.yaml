@@ -36,7 +36,7 @@ services:
       - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
       - cluster.routing.allocation.disk.threshold_enabled=false
       - xpack.security.enabled=false
-      - path.repo=/usr/share/elasticsearch/backups # reference volume mount for backups
+      - path.repo=/usr/share/elasticsearch/backups 
     ulimits:
       memlock:
         soft: -1
