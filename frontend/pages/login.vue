@@ -61,7 +61,12 @@
           >
           {{ $t("login.guides.toLearnMore") }}
         </p>
-        <base-button type="submit" class="form__button primary">
+        <base-button
+          type="submit"
+          class="form__button primary"
+          :loading="loading"
+          :disabled="disabled"
+        >
           {{ $t("login.enter") }}
         </base-button>
         <p class="form__error" v-if="error">{{ formattedError }}</p>
@@ -93,6 +98,8 @@ export default {
         username: "",
         password: "",
       },
+      loading: false,
+      disabled: false,
       deployment: false,
       hasAuthToken: false,
     };
@@ -104,7 +111,6 @@ export default {
 
     try {
       const [username, password] = atob(rawAuthToken).split(":");
-
       if (username && password) {
         this.hasAuthToken = true;
 
@@ -170,14 +176,23 @@ export default {
           show_discard_button: this.$auth.user.show_discard_button,
         },
       });
-
       this.nextRedirect();
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.loading = false;
+          this.disabled = false;
+        }, 5000);
+      });
     },
     async onLoginUser() {
       try {
+        this.loading = true;
+        this.disabled = true;
         await this.loginUser(this.login);
       } catch (err) {
         this.error = err;
+        this.loading = false;
+        this.disabled = false;
       }
     },
     encodedLoginData({ username, password }) {

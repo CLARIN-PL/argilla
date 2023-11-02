@@ -28,7 +28,7 @@ export default {
     cleanMarkdown(markdown) {
       const markdowns = markdown
         .replace(/[^\S\r\n]+$/gm, "")
-        .split(/([1-9][0-9]?|100)[/.]/g);
+        .split(/(?<!dzień )([1-9][0-9]?|100)[/.][/ ]/g);
 
       let text =
         markdowns.length < 2
