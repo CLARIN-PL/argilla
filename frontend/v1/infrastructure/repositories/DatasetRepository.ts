@@ -158,10 +158,10 @@ export class DatasetRepository implements IDatasetRepository {
                 return item;
               });
             });
-          await Promise.all(promises).then((values) => { 
+          await Promise.all(promises).then((values) => {
             canBreak = values.some((item) => item.is_completed === false);
-          })
-          if(canBreak) {
+          });
+          if (canBreak) {
             break;
           } else {
             startIndex = (i + 1) * API_COUNT_LIMIT;
@@ -171,7 +171,6 @@ export class DatasetRepository implements IDatasetRepository {
             }
             setTimeout(() => {}, 1000);
           }
-
         }
       }
       return data;

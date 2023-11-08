@@ -16,19 +16,10 @@
  */
 
 import { Context } from "@nuxt/types";
-import { useResolve } from "ts-injecty";
 import { GeneralSettings } from "~/models/GeneralSettings";
-import { GetDatasetsUseCase } from "@/v1/domain/usecases/get-datasets-use-case";
 
-export default async ({ $auth, route, redirect }: Context) => {
+export default ({ $auth, route, redirect }: Context) => {
   if ($auth && $auth.user) {
-    const getDatasetsUseCase = useResolve(GetDatasetsUseCase);
-    GeneralSettings.insertOrUpdate({
-      data: {
-        id: $auth.user.id,
-        agent: $auth.user.username,
-      },
-    });
     const userId: any = $auth.user.id || "";
     let settings: any = userId ? GeneralSettings.find(userId) : null;
     const allowedRoles: any[] = ["admin", "owner"];
