@@ -99,7 +99,7 @@ export default {
         page: this.currentPage,
         size: this.paginationSize,
         pageSizeOptions: [5, 10, 20, 50, 100],
-        maxRecordsLimit: 10000,
+        maxRecordsLimit: 20000,
         disabledShortCutPagination: false,
       };
     },

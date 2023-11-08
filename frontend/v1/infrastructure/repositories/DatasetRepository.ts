@@ -83,10 +83,10 @@ export class DatasetRepository implements IDatasetRepository {
     let filteredDatasets = _.cloneDeep(datasets);
     const allowedRoles: any[] = ["admin", "owner"];
     if (!allowedRoles.includes(this.store.$auth.$state.user.role)) {
-      const completedDatasets = filteredDatasets.filter(
+      const incompleteDatasets = filteredDatasets.filter(
         (dataset) => !dataset.isCompleted
       );
-      filteredDatasets = completedDatasets.splice(0, 1);
+      filteredDatasets = incompleteDatasets.slice(0, 1);
 
       if (filteredDatasets.length) {
         GeneralSettings.update({
@@ -133,7 +133,7 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
-      const API_COUNT_LIMIT = 100;
+      const API_COUNT_LIMIT = 5;
       const allowedRoles: any[] = ["admin", "owner"];
       const isUser = !allowedRoles.includes(this.store.$auth.$state.user.role);
       if (data.items && data.items.length && isUser) {
@@ -144,7 +144,7 @@ export class DatasetRepository implements IDatasetRepository {
           startIndex = 0;
           endIndex = API_COUNT_LIMIT;
         }
-
+        let canBreak = false;
         for (let i = 0; i < numberOfRequests; i++) {
           const promises = data.items
             .slice(startIndex, endIndex)
@@ -158,13 +158,20 @@ export class DatasetRepository implements IDatasetRepository {
                 return item;
               });
             });
-          await Promise.all(promises);
-          startIndex = (i + 1) * API_COUNT_LIMIT;
-          endIndex = endIndex + API_COUNT_LIMIT;
-          if (endIndex > data.items.length) {
-            endIndex = data.items.length;
+          await Promise.all(promises).then((values) => { 
+            canBreak = values.some((item) => item.is_completed === false);
+          })
+          if(canBreak) {
+            break;
+          } else {
+            startIndex = (i + 1) * API_COUNT_LIMIT;
+            endIndex = endIndex + API_COUNT_LIMIT;
+            if (endIndex > data.items.length) {
+              endIndex = data.items.length;
+            }
+            setTimeout(() => {}, 1000);
           }
-          setTimeout(() => {}, 1000);
+
         }
       }
       return data;

@@ -33,9 +33,6 @@ export default async ({ $auth, route, redirect }: Context) => {
     let settings: any = userId ? GeneralSettings.find(userId) : null;
     const allowedRoles: any[] = ["admin", "owner"];
     if (!allowedRoles.includes($auth.user.role) && settings) {
-      if (!settings.current_dataset_name) {
-        await getDatasetsUseCase.execute();
-      }
       settings = GeneralSettings.find(userId);
       const isNotOnCorrectDataset =
         route.name.startsWith("datasets-") &&
