@@ -17,7 +17,7 @@
 
 <template>
   <div class="home">
-    <base-loading v-if="isLoadingDatasets" />
+    <base-loading v-if="isLoadingDatasets" :text="loadingProgressText" />
     <div v-else>
       <div class="home__main">
         <app-header
@@ -66,6 +66,7 @@
 
 <script>
 import { useDatasetsViewModel } from "./useDatasetsViewModel";
+import { GeneralSettings } from "~/models/GeneralSettings";
 
 export default {
   layout: "app",
@@ -79,6 +80,17 @@ export default {
     };
   },
   computed: {
+    loadingProgressText() {
+      let text = "";
+      if (this.$auth.user.id) {
+        const { current_progress_observation, current_progress_feedback } =
+          GeneralSettings.find(this.$auth.user.id);
+        const avg =
+          (current_progress_observation + current_progress_feedback) / 2;
+        text = `Loading ${avg.toFixed(2)}%...`;
+      }
+      return text;
+    },
     datasetsOriginal() {
       return this.datasets.datasets.map((dataset) => {
         dataset.link = this.getDatasetLink(dataset);

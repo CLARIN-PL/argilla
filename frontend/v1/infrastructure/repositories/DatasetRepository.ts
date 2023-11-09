@@ -3,7 +3,7 @@ import { Store } from "vuex";
 import _ from "lodash";
 import { Dataset } from "@/v1/domain/entities/Dataset";
 import { IDatasetRepository } from "@/v1/domain/services/IDatasetRepository";
-import { GeneralSettings } from "~/models/GeneralSettings";
+import { updateGeneralSettings } from "~/models/generalSettings.utilities";
 
 export const DATASET_API_ERRORS = {
   ERROR_FETCHING_FEEDBACK_DATASETS: "ERROR_FETCHING_FEEDBACK_DATASETS",
@@ -89,12 +89,9 @@ export class DatasetRepository implements IDatasetRepository {
       filteredDatasets = incompleteDatasets.slice(0, 1);
 
       if (filteredDatasets.length) {
-        GeneralSettings.update({
-          where: this.store.$auth.$state.user.id,
-          data: {
-            current_dataset_id: filteredDatasets[0].id,
-            current_dataset_name: filteredDatasets[0].name,
-          },
+        updateGeneralSettings(this.store.$auth.$state.user.id, {
+          current_dataset_id: filteredDatasets[0].id,
+          current_dataset_name: filteredDatasets[0].name,
         });
       }
     }
@@ -145,6 +142,7 @@ export class DatasetRepository implements IDatasetRepository {
           endIndex = API_COUNT_LIMIT;
         }
         let canBreak = false;
+        let currentProgress = 0;
         for (let i = 0; i < numberOfRequests; i++) {
           const promises = data.items
             .slice(startIndex, endIndex)
@@ -162,6 +160,10 @@ export class DatasetRepository implements IDatasetRepository {
             canBreak = values.some((item) => item.is_completed === false);
           });
           if (canBreak) {
+            currentProgress = 100;
+            updateGeneralSettings(this.store.$auth.$state.user.id, {
+              current_progress_feedback: currentProgress,
+            });
             break;
           } else {
             startIndex = (i + 1) * API_COUNT_LIMIT;
@@ -169,6 +171,10 @@ export class DatasetRepository implements IDatasetRepository {
             if (endIndex > data.items.length) {
               endIndex = data.items.length;
             }
+            currentProgress = (i / numberOfRequests) * 100;
+            updateGeneralSettings(this.store.$auth.$state.user.id, {
+              current_progress_feedback: currentProgress,
+            });
             setTimeout(() => {}, 1000);
           }
         }
