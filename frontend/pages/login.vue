@@ -143,7 +143,7 @@ export default {
           GeneralSettings.find(this.$auth.user.id);
         const avg =
           (current_progress_observation + current_progress_feedback) / 2;
-        text = `Loading ${avg.toFixed(2)}%...`;
+        text = `Loading ${parseInt(avg)}%...`;
       }
       return text;
     },
@@ -187,7 +187,7 @@ export default {
           show_discard_button: this.$auth.user.show_discard_button,
         },
       });
-      this.showLoadingText = true;
+      this.showLoadingText = this.$auth.user.role === "annotator";
       this.nextRedirect();
       this.$nextTick(() => {
         setTimeout(() => {

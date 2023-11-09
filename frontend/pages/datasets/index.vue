@@ -82,12 +82,12 @@ export default {
   computed: {
     loadingProgressText() {
       let text = "";
-      if (this.$auth.user.id) {
+      if (this.$auth.user.id && this.$auth.user.role === "annotator") {
         const { current_progress_observation, current_progress_feedback } =
           GeneralSettings.find(this.$auth.user.id);
         const avg =
           (current_progress_observation + current_progress_feedback) / 2;
-        text = `Loading ${avg.toFixed(2)}%...`;
+        text = `Loading ${parseInt(avg)}%...`;
       }
       return text;
     },
