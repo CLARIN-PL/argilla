@@ -28,6 +28,8 @@ class GeneralSettings extends Model {
       show_discard_button: this.boolean(false),
       current_dataset_id: this.attr(null),
       current_dataset_name: this.attr(null),
+      current_progress_feedback: this.number(0),
+      current_progress_observation: this.number(0),
     };
   }
 }

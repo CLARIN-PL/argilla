@@ -67,7 +67,7 @@
           :loading="loading"
           :disabled="disabled"
         >
-          {{ $t("login.enter") }}
+          {{ showLoadingText ? loadingProgressText : $t("login.enter") }}
         </base-button>
         <p class="form__error" v-if="error">{{ formattedError }}</p>
       </div>
@@ -102,6 +102,7 @@ export default {
       disabled: false,
       deployment: false,
       hasAuthToken: false,
+      showLoadingText: false,
     };
   },
   async created() {
@@ -113,7 +114,6 @@ export default {
       const [username, password] = atob(rawAuthToken).split(":");
       if (username && password) {
         this.hasAuthToken = true;
-
         try {
           await this.loginUser({ username, password });
         } catch {
@@ -136,6 +136,17 @@ export default {
     }
   },
   computed: {
+    loadingProgressText() {
+      let text = "";
+      if (this.$auth.user.id) {
+        const { current_progress_observation, current_progress_feedback } =
+          GeneralSettings.find(this.$auth.user.id);
+        const avg =
+          (current_progress_observation + current_progress_feedback) / 2;
+        text = `Loading ${parseInt(avg)}%...`;
+      }
+      return text;
+    },
     selectedLocale: {
       get() {
         const locales = this.$i18n.locales || [];
@@ -176,6 +187,7 @@ export default {
           show_discard_button: this.$auth.user.show_discard_button,
         },
       });
+      this.showLoadingText = this.$auth.user.role === "annotator";
       this.nextRedirect();
       this.$nextTick(() => {
         setTimeout(() => {

@@ -34,6 +34,7 @@ import {
   isLabelTextExistInGlobalLabelAndSavedInBack,
 } from "@/models/globalLabel.queries";
 import { getDatasetFromORM } from "@/models/dataset.utilities";
+import { updateGeneralSettings } from "~/models/generalSettings.utilities";
 import Vue from "vue";
 
 const isObject = (obj) => obj && typeof obj === "object";
@@ -843,6 +844,8 @@ const actions = {
     if (data.length && isUser) {
       let startIndex = 0;
       let endIndex = data.length;
+      let canBreak = false;
+      let currentProgress = 0;
       const numberOfRequests = Math.ceil(data.length / API_COUNT_LIMIT);
 
       if (data.length > API_COUNT_LIMIT) {
@@ -884,14 +887,27 @@ const actions = {
             }
             return response.data;
           });
-        await Promise.all(promises);
-
-        startIndex = (i + 1) * API_COUNT_LIMIT;
-        endIndex = endIndex + API_COUNT_LIMIT;
-        if (endIndex > data.items.length) {
-          endIndex = data.items.length;
+        await Promise.all(promises).then((values) => {
+          canBreak = values.some((item) => item.is_completed === false);
+        });
+        if (canBreak) {
+          currentProgress = 100;
+          updateGeneralSettings(this.store.$auth.$state.user.id, {
+            current_progress_observation: currentProgress,
+          });
+          break;
+        } else {
+          startIndex = (i + 1) * API_COUNT_LIMIT;
+          endIndex = endIndex + API_COUNT_LIMIT;
+          if (endIndex > data.items.length) {
+            endIndex = data.items.length;
+          }
+          currentProgress = (i / numberOfRequests) * 100;
+          updateGeneralSettings(this.store.$auth.$state.user.id, {
+            current_progress_observation: currentProgress,
+          });
+          setTimeout(() => {}, 1000);
         }
-        setTimeout(() => {}, 1000);
       }
     }
 

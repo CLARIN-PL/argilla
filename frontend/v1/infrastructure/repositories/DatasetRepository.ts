@@ -3,7 +3,7 @@ import { Store } from "vuex";
 import _ from "lodash";
 import { Dataset } from "@/v1/domain/entities/Dataset";
 import { IDatasetRepository } from "@/v1/domain/services/IDatasetRepository";
-import { GeneralSettings } from "~/models/GeneralSettings";
+import { updateGeneralSettings } from "~/models/generalSettings.utilities";
 
 export const DATASET_API_ERRORS = {
   ERROR_FETCHING_FEEDBACK_DATASETS: "ERROR_FETCHING_FEEDBACK_DATASETS",
@@ -83,18 +83,15 @@ export class DatasetRepository implements IDatasetRepository {
     let filteredDatasets = _.cloneDeep(datasets);
     const allowedRoles: any[] = ["admin", "owner"];
     if (!allowedRoles.includes(this.store.$auth.$state.user.role)) {
-      const completedDatasets = filteredDatasets.filter(
+      const incompleteDatasets = filteredDatasets.filter(
         (dataset) => !dataset.isCompleted
       );
-      filteredDatasets = completedDatasets.splice(0, 1);
+      filteredDatasets = incompleteDatasets.slice(0, 1);
 
       if (filteredDatasets.length) {
-        GeneralSettings.update({
-          where: this.store.$auth.$state.user.id,
-          data: {
-            current_dataset_id: filteredDatasets[0].id,
-            current_dataset_name: filteredDatasets[0].name,
-          },
+        updateGeneralSettings(this.store.$auth.$state.user.id, {
+          current_dataset_id: filteredDatasets[0].id,
+          current_dataset_name: filteredDatasets[0].name,
         });
       }
     }
@@ -133,7 +130,7 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
-      const API_COUNT_LIMIT = 100;
+      const API_COUNT_LIMIT = 5;
       const allowedRoles: any[] = ["admin", "owner"];
       const isUser = !allowedRoles.includes(this.store.$auth.$state.user.role);
       if (data.items && data.items.length && isUser) {
@@ -144,7 +141,8 @@ export class DatasetRepository implements IDatasetRepository {
           startIndex = 0;
           endIndex = API_COUNT_LIMIT;
         }
-
+        let canBreak = false;
+        let currentProgress = 0;
         for (let i = 0; i < numberOfRequests; i++) {
           const promises = data.items
             .slice(startIndex, endIndex)
@@ -158,13 +156,27 @@ export class DatasetRepository implements IDatasetRepository {
                 return item;
               });
             });
-          await Promise.all(promises);
-          startIndex = (i + 1) * API_COUNT_LIMIT;
-          endIndex = endIndex + API_COUNT_LIMIT;
-          if (endIndex > data.items.length) {
-            endIndex = data.items.length;
+          await Promise.all(promises).then((values) => {
+            canBreak = values.some((item) => item.is_completed === false);
+          });
+          if (canBreak) {
+            currentProgress = 100;
+            updateGeneralSettings(this.store.$auth.$state.user.id, {
+              current_progress_feedback: currentProgress,
+            });
+            break;
+          } else {
+            startIndex = (i + 1) * API_COUNT_LIMIT;
+            endIndex = endIndex + API_COUNT_LIMIT;
+            if (endIndex > data.items.length) {
+              endIndex = data.items.length;
+            }
+            currentProgress = (i / numberOfRequests) * 100;
+            updateGeneralSettings(this.store.$auth.$state.user.id, {
+              current_progress_feedback: currentProgress,
+            });
+            setTimeout(() => {}, 1000);
           }
-          setTimeout(() => {}, 1000);
         }
       }
       return data;
