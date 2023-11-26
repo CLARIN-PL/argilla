@@ -92,11 +92,12 @@ export default {
       return text;
     },
     datasetsOriginal() {
-      return this.datasets.datasets.map((dataset) => {
+      const datasets = this.datasets.datasets.map((dataset) => {
         dataset.link = this.getDatasetLink(dataset);
         dataset.workspace = dataset.workspace || dataset.workspaceName;
         return dataset;
       });
+      return datasets;
     },
     datasetsByPage() {
       const currentIndex =

@@ -80,7 +80,18 @@ export class DatasetRepository implements IDatasetRepository {
         createdAt: dataset.createdAt || dataset.insertedAt,
       };
     });
-    let filteredDatasets = _.cloneDeep(datasets);
+    let filteredDatasets = _.cloneDeep(datasets)
+      .map((dataset) => {
+        dataset.workspace = dataset.workspace || dataset.workspaceName || "";
+        return dataset;
+      })
+      .sort((a, b) => {
+        return (
+          a.workspace.length - b.workspace.length ||
+          a.workspace.localeCompare(b.workspace) ||
+          a.updatedAt.localeCompare(b.updatedAt)
+        );
+      });
     const allowedRoles: any[] = ["admin", "owner"];
     if (!allowedRoles.includes(this.store.$auth.$state.user.role)) {
       const incompleteDatasets = filteredDatasets.filter(
