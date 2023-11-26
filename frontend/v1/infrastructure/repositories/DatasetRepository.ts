@@ -80,18 +80,7 @@ export class DatasetRepository implements IDatasetRepository {
         createdAt: dataset.createdAt || dataset.insertedAt,
       };
     });
-    let filteredDatasets = _.cloneDeep(datasets)
-      .map((dataset) => {
-        dataset.workspace = dataset.workspace || dataset.workspaceName || "";
-        return dataset;
-      })
-      .sort((a, b) => {
-        return (
-          a.workspace.length - b.workspace.length ||
-          a.workspace.localeCompare(b.workspace) ||
-          a.updatedAt.localeCompare(b.updatedAt)
-        );
-      });
+    let filteredDatasets = _.cloneDeep(datasets);
     const allowedRoles: any[] = ["admin", "owner"];
     if (!allowedRoles.includes(this.store.$auth.$state.user.role)) {
       const incompleteDatasets = filteredDatasets.filter(
@@ -141,6 +130,21 @@ export class DatasetRepository implements IDatasetRepository {
   private fetchFeedbackDatasets = async (axios) => {
     try {
       const { data } = await axios.get("/v1/me/datasets");
+      const workspaces = await this.fetchWorkspaces(axios);
+      const dataItemsWithWorkspaces =
+        this.factoryFeedbackDatasetsWithCorrespondingWorkspaceName(
+          data.items,
+          workspaces
+        ).sort((a, b) => {
+          return (
+            a.workspace_name.length - b.workspace_name.length ||
+            a.workspace_name.localeCompare(b.workspace_name) ||
+            a.updated_at.localeCompare(b.updated_at)
+          );
+        });
+      data.items = data.items.map((item, index) => {
+        return { ...item, ...dataItemsWithWorkspaces[index] };
+      });
       const API_COUNT_LIMIT = 5;
       const allowedRoles: any[] = ["admin", "owner"];
       const isUser = !allowedRoles.includes(this.store.$auth.$state.user.role);
