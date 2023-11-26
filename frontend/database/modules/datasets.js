@@ -887,9 +887,11 @@ const actions = {
             }
             return response.data;
           });
+
         await Promise.all(promises).then((values) => {
           canBreak = values.some((item) => item.is_completed === false);
         });
+
         if (canBreak) {
           currentProgress = 100;
           updateGeneralSettings(this.store.$auth.$state.user.id, {
